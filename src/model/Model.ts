@@ -70,6 +70,21 @@ export class Model implements IModel {
     return this.modelName;
   }
 
+  /** OpenRouter model id and optional reasoning config (for *-thinking aliases). */
+  private resolveModelRequest(): {
+    model: string;
+    reasoning?: { effort: string };
+  } {
+    const thinkingSuffix = "-thinking";
+    if (this.modelName.endsWith(thinkingSuffix)) {
+      return {
+        model: this.modelName.slice(0, -thinkingSuffix.length),
+        reasoning: { effort: "high" },
+      };
+    }
+    return { model: this.modelName };
+  }
+
   public getTemperature(): number {
     if (this.instanceOptions.temperature === undefined) {
       return defaultPostOptions.temperature;
@@ -107,13 +122,15 @@ export class Model implements IModel {
       `templates/${this.metaInfo.systemPrompt}`,
       "utf8"
     );
+    const { model, reasoning } = this.resolveModelRequest();
     let body = {
-      model: this.getModelName(),
+      model,
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: prompt },
       ],
       ...options,
+      ...(reasoning ? { reasoning } : {}),
     };
     if (Model.LLMORPHEUS_LLM_PROVIDER) {
       const provider = Model.LLMORPHEUS_LLM_PROVIDER;

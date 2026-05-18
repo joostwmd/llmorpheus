@@ -4,8 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       packages:
-        description: "JSON file that specifies packages to generate mutants for"
-        default: "benchmarks.json"
+        description: "Benchmark list under .github/ (thesis-six = 6 thesis packages; benchmarks.json = full legacy set)"
+        type: choice
+        options:
+          - "thesis-six.json"
+          - "benchmarks.json"
+          - "countries-and-timezones.json"
+          - "Complex.js.json"
+          - "delta.json"
+          - "node-jsonfile.json"
+          - "pull-stream.json"
+          - "zip-a-folder.json"
+        default: "thesis-six.json"
       template:
         description: "Template to use for generating mutants"
         default: "template-full"
@@ -67,7 +77,7 @@ jobs:
         run: |
           packages=$(node \
                      .github/find_benchmarks.js " \
-                     .github/${{ github.event.inputs.packages || 'benchmarks.json' }}")
+                     .github/${{ github.event.inputs.packages || 'thesis-six.json' }}")
           packages=$(echo $packages | tr '\n' ' ')
           echo "packages=$packages" >> $GITHUB_OUTPUT
 
