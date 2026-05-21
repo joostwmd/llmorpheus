@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Download artifacts for all thesis models across all replications.
+# Download artifacts for all thesis models across all replications, then
+# flatten them into the structure expected by the benchmark/ analysis scripts.
 #
 # Usage:
 #   .github/download-all-runs.sh [packages] [max_rep]
@@ -8,8 +9,9 @@
 #   .github/download-all-runs.sh                        # thesis-six.json, reps 1-5
 #   .github/download-all-runs.sh thesis-six.json 3      # reps 1-3 only
 #
-# Artifacts are saved to:
-#   artifacts/<model_with_slashes_replaced>/rep<N>/
+# Raw artifacts are saved to:  artifacts/<model_dir>/rep<N>/
+# Organized output is written: organized/<model_dir>/run<N>/<pkg>/
+#   (summary.json, mutants.json, LLMorpheusOutput.txt, StrykerInfo.json all flat)
 #
 # At the end, a summary is printed showing which runs are missing or failed.
 
@@ -98,3 +100,10 @@ fi
 
 echo ""
 echo "Artifacts saved under ./artifacts/"
+
+echo ""
+echo "========================================"
+echo "  Organizing into ./organized/ ..."
+echo "========================================"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+bash "$SCRIPT_DIR/organize-artifacts.sh" ./artifacts ./organized

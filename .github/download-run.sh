@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Download artifacts for a single model + replication run.
+# Download artifacts for a single model + replication run, then flatten them
+# into the structure expected by the benchmark/ analysis scripts.
 #
 # Usage:
 #   .github/download-run.sh <model> <rep> [packages]
@@ -8,8 +9,8 @@
 #   .github/download-run.sh "openai/gpt-4o-mini" 3
 #   .github/download-run.sh "anthropic/claude-sonnet-4.5" 1 "thesis-six.json"
 #
-# Artifacts are saved to:
-#   artifacts/<model_with_slashes_replaced>/<rep>/
+# Raw artifacts are saved to:  artifacts/<model_with_slashes_replaced>/rep<N>/
+# Organized output is written: organized/<model_with_slashes_replaced>/run<N>/
 
 set -euo pipefail
 
@@ -42,4 +43,9 @@ fi
 echo "Found run $RUN_ID — downloading to $OUT_DIR"
 mkdir -p "$OUT_DIR"
 gh run download "$RUN_ID" --dir "$OUT_DIR"
-echo "Done: $OUT_DIR"
+echo "Downloaded: $OUT_DIR"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "Organizing into organized/${MODEL_DIR}/run${REP}/ ..."
+bash "$SCRIPT_DIR/organize-artifacts.sh" ./artifacts ./organized
+echo "Done."
