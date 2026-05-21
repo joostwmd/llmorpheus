@@ -148,6 +148,7 @@ export class Model implements IModel {
           this.rateLimiter.next(() =>
             axios.post(Model.LLMORPHEUS_LLM_API_ENDPOINT, body, {
               headers: Model.LLMORPHEUS_LLM_AUTH_HEADERS,
+              timeout: 120_000,
             })
           ),
         this.metaInfo.nrAttempts,
