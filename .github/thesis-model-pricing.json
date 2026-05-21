@@ -1,0 +1,62 @@
+[
+  {
+    "name": "OpenAI: GPT-4o-mini",
+    "slug": "openai/gpt-4o-mini",
+    "input_usd_per_million": 0.15,
+    "output_usd_per_million": 0.6
+  },
+  {
+    "name": "OpenAI: o4 Mini",
+    "slug": "openai/o4-mini",
+    "input_usd_per_million": 1.1,
+    "output_usd_per_million": 4.4
+  },
+  {
+    "name": "Anthropic: Claude Sonnet 4.5",
+    "slug": "anthropic/claude-sonnet-4.5",
+    "input_usd_per_million": 3,
+    "output_usd_per_million": 15
+  },
+  {
+    "name": "Anthropic: Claude Sonnet 4.5",
+    "slug": "anthropic/claude-sonnet-4.5-thinking",
+    "input_usd_per_million": 3,
+    "output_usd_per_million": 15
+  },
+  {
+    "name": "Google: Gemini 2.5 Flash",
+    "slug": "google/gemini-2.5-flash",
+    "input_usd_per_million": 0.3,
+    "output_usd_per_million": 2.5
+  },
+  {
+    "name": "Google: Gemini 2.5 Flash",
+    "slug": "google/gemini-2.5-flash-thinking",
+    "input_usd_per_million": 0.3,
+    "output_usd_per_million": 2.5
+  },
+  {
+    "name": "DeepSeek: DeepSeek V3",
+    "slug": "deepseek/deepseek-chat",
+    "input_usd_per_million": 0.32,
+    "output_usd_per_million": 0.89
+  },
+  {
+    "name": "DeepSeek: R1",
+    "slug": "deepseek/deepseek-r1",
+    "input_usd_per_million": 0.7,
+    "output_usd_per_million": 2.5
+  },
+  {
+    "name": "Meta: Llama 3.3 70B Instruct",
+    "slug": "meta-llama/llama-3.3-70b-instruct",
+    "input_usd_per_million": 0.1,
+    "output_usd_per_million": 0.32
+  },
+  {
+    "name": "Meta: Llama 4 Maverick",
+    "slug": "meta-llama/llama-4-maverick",
+    "input_usd_per_million": 0.15,
+    "output_usd_per_million": 0.6
+  }
+]

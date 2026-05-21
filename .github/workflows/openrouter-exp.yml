@@ -1,8 +1,14 @@
 name: Mutation Testing Experiment (OpenRouter)
 
+run-name: "${{ github.event.inputs.model }} | rep ${{ github.event.inputs.replication }} | ${{ github.event.inputs.packages }}"
+
 on:
   workflow_dispatch:
     inputs:
+      replication:
+        description: "Replication number (1–5) — used to label this run and its artifacts"
+        type: number
+        default: 1
       packages:
         description: "Benchmark list under .github/ (thesis-six = 6 thesis packages; benchmarks.json = full legacy set)"
         type: choice
@@ -326,11 +332,13 @@ jobs:
            cd llm-mutation-testing
            npm run build
            # if stryker options are specified, include them in the title
-           STRYKER_OPTIONS="${{ needs.setup.outputs.strykerOptions }}" 
+           STRYKER_OPTIONS="${{ needs.setup.outputs.strykerOptions }}"
+           MODEL="${{ github.event.inputs.model }}"
+           REP="${{ github.event.inputs.replication }}"
            if [ -n "$STRYKER_OPTIONS" ]; then
-             title="Report (Precomputed mutators $STRYKER_OPTIONS)"
+             title="Report — ${MODEL} rep${REP} (Precomputed mutators $STRYKER_OPTIONS)"
            else
-             title="Report (Precomputed mutators)"
+             title="Report — ${MODEL} rep${REP} (Precomputed mutators)"
            fi
            node .github/generateReport.js "$title" ../results ../mutants > report.md
            more report.md > $GITHUB_STEP_SUMMARY
