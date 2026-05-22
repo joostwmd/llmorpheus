@@ -61,8 +61,8 @@ on:
           default: 2000
       maxTokensInCompletion:
           type: number
-          description: "maximum number of tokens in a completion"
-          default: 250
+          description: "maximum number of tokens in a completion (use ≥4000 for reasoning models: R1, o4-mini, and -thinking variants)"
+          default: 8000
       strykerOptions:
         description: "stryker options (e.g., --concurrency 1) to pass to stryker"
         default: "--concurrency 1"
