@@ -1,0 +1,32 @@
+\begin{table*}
+\centering
+{\scriptsize
+\begin{tabular}{l|l|c|c|c|c|c}
+\textbf{LLM A} & \textbf{LLM B} & \textbf{Mean A} & \textbf{Mean B} & \textbf{$p$ (Bonf.)} & \textbf{Cohen's $d$} & \textbf{$n$} \\
+\hline\hline
+\textit{anthropic/claude-sonnet-} & \textit{deepseek/deepseek-chat-v} & 21.0\% & 24.0\% & 1.0000 & -0.145 & 6/6 \\
+\textit{anthropic/claude-sonnet-} & \textit{google/gemini-2.5-flash} & 21.0\% & 19.3\% & 1.0000 & 0.083 & 6/6 \\
+\textit{anthropic/claude-sonnet-} & \textit{google/gemini-2.5-flash-} & 21.0\% & 22.6\% & 1.0000 & -0.085 & 6/6 \\
+\textit{anthropic/claude-sonnet-} & \textit{meta-llama/llama-3.3-70b} & 21.0\% & 22.0\% & 1.0000 & -0.052 & 6/6 \\
+\textit{anthropic/claude-sonnet-} & \textit{meta-llama/llama-4-maver} & 21.0\% & 21.4\% & 1.0000 & -0.022 & 6/6 \\
+\textit{anthropic/claude-sonnet-} & \textit{openai/gpt-4o-mini} & 21.0\% & 23.3\% & 1.0000 & -0.100 & 6/6 \\
+\textit{deepseek/deepseek-chat-v} & \textit{google/gemini-2.5-flash} & 24.0\% & 19.3\% & 1.0000 & 0.213 & 6/6 \\
+\textit{deepseek/deepseek-chat-v} & \textit{google/gemini-2.5-flash-} & 24.0\% & 22.6\% & 1.0000 & 0.063 & 6/6 \\
+\textit{deepseek/deepseek-chat-v} & \textit{meta-llama/llama-3.3-70b} & 24.0\% & 22.0\% & 1.0000 & 0.091 & 6/6 \\
+\textit{deepseek/deepseek-chat-v} & \textit{meta-llama/llama-4-maver} & 24.0\% & 21.4\% & 1.0000 & 0.116 & 6/6 \\
+\textit{deepseek/deepseek-chat-v} & \textit{openai/gpt-4o-mini} & 24.0\% & 23.3\% & 1.0000 & 0.029 & 6/6 \\
+\textit{google/gemini-2.5-flash} & \textit{google/gemini-2.5-flash-} & 19.3\% & 22.6\% & 1.0000 & -0.160 & 6/6 \\
+\textit{google/gemini-2.5-flash} & \textit{meta-llama/llama-3.3-70b} & 19.3\% & 22.0\% & 1.0000 & -0.127 & 6/6 \\
+\textit{google/gemini-2.5-flash} & \textit{meta-llama/llama-4-maver} & 19.3\% & 21.4\% & 1.0000 & -0.098 & 6/6 \\
+\textit{google/gemini-2.5-flash} & \textit{openai/gpt-4o-mini} & 19.3\% & 23.3\% & 1.0000 & -0.164 & 6/6 \\
+\textit{google/gemini-2.5-flash-} & \textit{meta-llama/llama-3.3-70b} & 22.6\% & 22.0\% & 1.0000 & 0.031 & 6/6 \\
+\textit{google/gemini-2.5-flash-} & \textit{meta-llama/llama-4-maver} & 22.6\% & 21.4\% & 1.0000 & 0.058 & 6/6 \\
+\textit{google/gemini-2.5-flash-} & \textit{openai/gpt-4o-mini} & 22.6\% & 23.3\% & 1.0000 & -0.027 & 6/6 \\
+\textit{meta-llama/llama-3.3-70b} & \textit{meta-llama/llama-4-maver} & 22.0\% & 21.4\% & 1.0000 & 0.027 & 6/6 \\
+\textit{meta-llama/llama-3.3-70b} & \textit{openai/gpt-4o-mini} & 22.0\% & 23.3\% & 1.0000 & -0.053 & 6/6 \\
+\textit{meta-llama/llama-4-maver} & \textit{openai/gpt-4o-mini} & 21.4\% & 23.3\% & 1.0000 & -0.076 & 6/6 \\
+\end{tabular}
+}
+\caption{Pairwise comparisons of equivalent mutant rates between LLMs (Welch's $t$-test with Bonferroni correction over all pairs).}
+\label{tab:llm-equiv-stats}
+\end{table*}

@@ -1,0 +1,8 @@
+llm,n_observations,total_surviving,predicted_equivalent,mean_equiv_rate_pct,std_equiv_rate_pct,min_equiv_rate_pct,max_equiv_rate_pct,range_equiv_rate_pct,coeff_of_variation_pct,weighted_equiv_rate_pct,ci_low_pct,ci_high_pct,rank
+google_gemini-2.5-flash,6,797,85,19.3051,20.8382,0.0,50.0,0.0%-50.0%,107.9415,10.665,8.6575,12.798,1
+anthropic_claude-sonnet-4.5,6,704,84,20.9542,18.6298,0.0,41.1765,0.0%-41.2%,88.9071,11.9318,9.6591,14.3466,2
+meta-llama_llama-4-maverick,6,513,48,21.4014,21.8732,0.0,54.5455,0.0%-54.5%,102.2044,9.3567,6.8226,12.0858,3
+meta-llama_llama-3.3-70b-instruct,6,844,94,21.9886,21.3451,0.0,50.0,0.0%-50.0%,97.0737,11.1374,9.1232,13.2701,4
+google_gemini-2.5-flash-thinking,6,283,35,22.6339,20.8216,0.0,50.0,0.0%-50.0%,91.9931,12.3675,8.8339,16.2544,5
+openai_gpt-4o-mini,6,742,70,23.2925,27.3438,0.0,64.2857,0.0%-64.3%,117.3933,9.434,7.4124,11.5903,6
+deepseek_deepseek-chat-v3.1,6,933,119,24.0363,23.5874,0.0,54.2857,0.0%-54.3%,98.1321,12.7546,10.7181,14.8982,7

@@ -1,0 +1,7 @@
+package,n_observations,total_surviving,predicted_equivalent,mean_equiv_rate_pct,std_equiv_rate_pct,min_equiv_rate_pct,max_equiv_rate_pct,range_equiv_rate_pct,coeff_of_variation_pct,weighted_equiv_rate_pct,ci_low_pct,ci_high_pct
+Complex.js,7,2660,281,10.7656,3.3139,6.3725,14.9701,6.4%-15.0%,30.7826,10.5639,9.3985,11.7293
+countries-and-timezones,7,220,108,47.5382,9.9662,37.5,64.2857,37.5%-64.3%,20.9646,49.0909,42.7273,55.4545
+node-jsonfile,7,216,54,25.5676,8.0463,11.7647,33.3333,11.8%-33.3%,31.4707,25.0,18.9815,31.0185
+pull-stream,7,1549,24,1.4381,1.0476,0.0,3.3708,0.0%-3.4%,72.8493,1.5494,0.9684,2.195
+spacl-core,7,145,68,46.358,6.5663,35.2941,54.2857,35.3%-54.3%,14.1644,46.8966,38.6207,55.1724
+zip-a-folder,7,26,0,0.0,0.0,0.0,0.0,0.0%-0.0%,0.0,0.0,0.0,0.0

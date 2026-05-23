@@ -1,0 +1,14 @@
+2026-05-23 16:31:37,165 INFO Starting step: convert-mutants
+2026-05-23 16:31:37,165 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python convert_mutants.py --source /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/organized
+2026-05-23 16:31:37,289 INFO Completed step: convert-mutants
+2026-05-23 16:31:37,289 INFO Starting step: analyze-results
+2026-05-23 16:31:37,289 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python analyze_results.py --source /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/organized
+2026-05-23 16:31:38,452 INFO Completed step: analyze-results
+2026-05-23 16:31:38,452 INFO Starting step: generate-tables
+2026-05-23 16:31:38,453 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python generate_tables.py
+2026-05-23 16:31:38,713 INFO Completed step: generate-tables
+2026-05-23 16:31:38,713 INFO Starting step: generate-plots
+2026-05-23 16:31:38,714 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python generate_plots.py
+2026-05-23 16:31:40,770 INFO Completed step: generate-plots
+2026-05-23 16:31:40,770 INFO Pipeline complete. Outputs in /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/output
+2026-05-23 16:31:40,771 INFO Log file: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/logs/analysis_20260523-143137Z.log

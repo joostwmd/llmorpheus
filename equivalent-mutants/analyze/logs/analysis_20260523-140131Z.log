@@ -1,0 +1,11 @@
+2026-05-23 16:01:31,306 INFO Starting step: convert-mutants
+2026-05-23 16:01:31,306 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python convert_mutants.py --source /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/organized
+2026-05-23 16:01:31,444 INFO Completed step: convert-mutants
+2026-05-23 16:01:31,444 INFO Starting step: analyze-results
+2026-05-23 16:01:31,445 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python analyze_results.py --source /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/organized
+2026-05-23 16:01:37,748 INFO Completed step: analyze-results
+2026-05-23 16:01:37,750 INFO Starting step: generate-tables
+2026-05-23 16:01:37,750 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python generate_tables.py
+2026-05-23 16:01:38,117 INFO Completed step: generate-tables
+2026-05-23 16:01:38,118 INFO Starting step: generate-plots
+2026-05-23 16:01:38,118 INFO Command: /Users/joostwindmoller/Desktop/everything/bachelor/mutation-testing/llmorpheus/analysis/.venv/bin/python generate_plots.py

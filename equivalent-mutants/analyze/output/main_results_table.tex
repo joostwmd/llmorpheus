@@ -1,0 +1,21 @@
+\begin{table*}
+\centering
+{\scriptsize
+\begin{tabular}{l||c|c|c|c||c}
+\textbf{LLM} & \textbf{Mean} & \textbf{Std Dev} & \textbf{Range} & \textbf{CoV} & \textbf{Rank} \\
+\hline\hline
+\textit{google/gemini-2.5-flash} & 19.3\% & 20.8\% & 0.0\%-50.0\% & 107.9\% & 1 \\
+\textit{anthropic/claude-sonnet-4.5} & 21.0\% & 18.6\% & 0.0\%-41.2\% & 88.9\% & 2 \\
+\textit{meta-llama/llama-4-maverick} & 21.4\% & 21.9\% & 0.0\%-54.5\% & 102.2\% & 3 \\
+\textit{meta-llama/llama-3.3-70b-instruct} & 22.0\% & 21.3\% & 0.0\%-50.0\% & 97.1\% & 4 \\
+\textit{google/gemini-2.5-flash-thinking} & 22.6\% & 20.8\% & 0.0\%-50.0\% & 92.0\% & 5 \\
+\textit{openai/gpt-4o-mini} & 23.3\% & 27.3\% & 0.0\%-64.3\% & 117.4\% & 6 \\
+\textit{deepseek/deepseek-chat-v3.1} & 24.0\% & 23.6\% & 0.0\%-54.3\% & 98.1\% & 7 \\
+\hline
+\textit{LLMorpheus baseline} & 20.2\% & - & - & - & - \\
+\textit{StrykerJS baseline} & 4.7\% & - & - & - & - \\
+\end{tabular}
+}
+\caption{Equivalent mutant rates among surviving mutants predicted by the UniXCoder classifier across LLMs (threshold $\theta=0.8$). Mean and standard deviation are computed over package/run observations; weighted rate uses all surviving mutants pooled.}
+\label{tab:llm-equiv-main}
+\end{table*}
