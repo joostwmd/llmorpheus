@@ -1,0 +1,8 @@
+model,displayName,meanJaccardOverlap,medianCvMutationScore,medianCvSurvivors,medianCvAbsLevenshtein
+anthropic_claude-sonnet-4.5,Claude Sonnet 4.5,1,0,0,0
+deepseek_deepseek-chat-v3.1,DeepSeek Chat v3.1,1,0,0,0
+google_gemini-2.5-flash-thinking,Gemini 2.5 Flash (thinking),1,0,0,0
+google_gemini-2.5-flash,Gemini 2.5 Flash,1,0,0,0
+meta-llama_llama-3.3-70b-instruct,Llama 3.3 70B,1,0,0,0
+meta-llama_llama-4-maverick,Llama 4 Maverick,1,0,0,0
+openai_gpt-4o-mini,GPT-4o-mini,1,0,0,0

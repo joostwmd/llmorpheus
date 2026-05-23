@@ -1,0 +1,24 @@
+{
+  "name": "llmorpheus-thesis-code",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Thesis analysis pipelines for LLMorpheus research questions",
+  "type": "module",
+  "scripts": {
+    "organize": "node shared/organizeArtifacts.cli.js",
+    "rq1": "node rq1/index.js",
+    "rq2": "node rq2/index.js",
+    "rq3": "node rq3/index.js",
+    "rq4": "node rq4/index.js",
+    "rq5": "node rq5/index.js",
+    "rq6": "node rq6/index.js",
+    "all": "node run-all.js"
+  },
+  "dependencies": {
+    "canvas": "^3.1.0",
+    "csv-stringify": "^6.5.2",
+    "glob": "^11.0.2",
+    "simple-statistics": "^7.8.8",
+    "yargs": "^17.7.2"
+  }
+}

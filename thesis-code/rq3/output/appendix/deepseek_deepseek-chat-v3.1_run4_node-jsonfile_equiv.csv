@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+deepseek_deepseek-chat-v3.1,node-jsonfile,run4,4,33,9,24,27.2727,12.1212,42.4242,"(12.1%, 42.4%)"

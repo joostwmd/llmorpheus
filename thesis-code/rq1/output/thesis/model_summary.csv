@@ -1,0 +1,8 @@
+model,displayName,nPackages,nRuns,medianCandidates,medianValidityRatePct,medianMutationScore,medianSurvived,medianAbsLevenshtein,medianNormLevenshtein
+anthropic_claude-sonnet-4.5,Claude Sonnet 4.5,6,5,319.5,82.84799590216417,79.06,41,5,0.44696969696969696
+deepseek_deepseek-chat-v3.1,DeepSeek Chat v3.1,6,5,334.5,83.90154498954952,81.47,42,6,0.5413851351351351
+google_gemini-2.5-flash,Gemini 2.5 Flash,6,5,337,83.99154036128981,85.21,29.5,6,0.6036036036036037
+google_gemini-2.5-flash-thinking,Gemini 2.5 Flash (thinking),6,5,117.5,90.2920403830322,87.045,10,5.5,0.5128472222222222
+meta-llama_llama-3.3-70b-instruct,Llama 3.3 70B,6,5,348.5,80.00122394935076,78.38,43,7.5,0.5798319327731092
+meta-llama_llama-4-maverick,Llama 4 Maverick,6,5,238.5,69.87940630797773,84.33,20,7,0.6174034299034299
+openai_gpt-4o-mini,GPT-4o-mini,6,5,348.5,73.16996318712174,81.66,35,6.5,0.5634920634920635

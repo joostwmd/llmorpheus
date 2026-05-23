@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+anthropic_claude-sonnet-4.5,Complex.js,run4,4,361,45,316,12.4654,9.1413,16.0665,"(9.1%, 16.1%)"

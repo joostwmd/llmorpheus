@@ -1,0 +1,4 @@
+category,nModels,nObservations,medianMutationScore,medianSurvivors,medianEquivRate,medianCostPerSurvivor
+open-weight,2,60,83.785,35.5,17.4053,0.0006242972526412495
+api-only,4,120,81.955,31,13.95825,0.0043595854166666665
+hybrid,1,30,81.47,42,19.99645,0

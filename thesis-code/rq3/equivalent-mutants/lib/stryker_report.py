@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 def _parse_script_path() -> Path:
-    return Path(__file__).resolve().parent / "parse_stryker_report.js"
+    return Path(__file__).resolve().parent / "parse_stryker_report.cjs"
 
 
 def _extract_report_json(mutation_html: Path) -> dict:

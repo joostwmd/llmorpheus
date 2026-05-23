@@ -14,6 +14,7 @@ test-*
 
 artifacts/
 organized/
-equivalent-mutants/classify/data
-equivalent-mutants/classify/results
-equivalent-mutants/classify/runs
+thesis-code/node_modules/
+thesis-code/rq3/equivalent-mutants/classify/data
+thesis-code/rq3/equivalent-mutants/classify/results
+thesis-code/rq3/equivalent-mutants/classify/runs

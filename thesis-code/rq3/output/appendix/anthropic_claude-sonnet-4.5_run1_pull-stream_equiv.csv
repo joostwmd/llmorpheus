@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+anthropic_claude-sonnet-4.5,pull-stream,run1,1,240,3,237,1.25,0.0,2.9167,"(0.0%, 2.9%)"

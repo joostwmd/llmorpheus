@@ -1,0 +1,2 @@
+provider,meanDeltaMutationScore,meanDeltaSurvivors,meanDeltaEquivRate,meanDeltaCostPerSurvivor,meanDeltaNormLevenshtein,nPackages
+Google,1.5650000000000048,-19.5,0,0.005774351460784313,-0.06193693693693697,6

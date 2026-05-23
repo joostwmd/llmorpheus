@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+\centering
+{\small
+\begin{tabular}{l|rrrrrr}
+\hline
+\textbf{Model} & \textbf{Candidates} & \textbf{Validity} & \textbf{Mutation score} & \textbf{Survived} & \textbf{Abs. Levenshtein} & \textbf{Norm. Levenshtein} \\
+\hline
+Claude Sonnet 4.5 & 320 & 82.85\% & 79.06\% & 41 & 5.00 & 0.447 \\
+DeepSeek Chat v3.1 & 335 & 83.90\% & 81.47\% & 42 & 6.00 & 0.541 \\
+Gemini 2.5 Flash & 337 & 83.99\% & 85.21\% & 30 & 6.00 & 0.604 \\
+Gemini 2.5 Flash (thinking) & 118 & 90.29\% & 87.05\% & 10 & 5.50 & 0.513 \\
+Llama 3.3 70B & 349 & 80.00\% & 78.38\% & 43 & 7.50 & 0.580 \\
+Llama 4 Maverick & 239 & 69.88\% & 84.33\% & 20 & 7.00 & 0.617 \\
+GPT-4o-mini & 349 & 73.17\% & 81.66\% & 35 & 6.50 & 0.563 \\
+\hline
+\end{tabular}
+}
+\caption{RQ1: Mutant volume and quality metrics per model (median across packages and runs)}
+\label{tab:rq1-volume}
+\end{table}

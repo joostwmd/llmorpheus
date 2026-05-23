@@ -1,5 +1,5 @@
 classifier:
-  model_path: "equivalent-mutants/classify/runs/ensemble-20260517-130830Z-window-w0-ep18-k5-s3-isplitdiff-pclsmm-focal2-bs-ck-tfeq-ls5-eqw175-ml512-bs8-lr2e-4-equiv-push-v1"
+  model_path: "classify/runs/ensemble-20260517-130830Z-window-w0-ep18-k5-s3-isplitdiff-pclsmm-focal2-bs-ck-tfeq-ls5-eqw175-ml512-bs8-lr2e-4-equiv-push-v1"
   threshold: 0.8
 
 data:

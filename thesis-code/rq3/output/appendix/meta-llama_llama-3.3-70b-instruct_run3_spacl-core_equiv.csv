@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-3.3-70b-instruct,spacl-core,run3,3,32,14,18,43.75,28.125,62.5,"(28.1%, 62.5%)"

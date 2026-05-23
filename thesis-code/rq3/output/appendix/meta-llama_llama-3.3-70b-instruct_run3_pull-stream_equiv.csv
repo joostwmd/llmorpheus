@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-3.3-70b-instruct,pull-stream,run3,3,267,9,258,3.3708,1.4981,5.618,"(1.5%, 5.6%)"

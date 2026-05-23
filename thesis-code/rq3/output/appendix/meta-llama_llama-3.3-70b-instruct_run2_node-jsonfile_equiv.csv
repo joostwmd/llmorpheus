@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-3.3-70b-instruct,node-jsonfile,run2,2,50,13,37,26.0,14.0,38.0,"(14.0%, 38.0%)"

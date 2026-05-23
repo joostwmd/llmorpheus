@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+deepseek_deepseek-chat-v3.1,countries-and-timezones,run3,3,47,23,24,48.9362,34.0426,63.8298,"(34.0%, 63.8%)"

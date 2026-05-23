@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-4-maverick,spacl-core,run5,5,17,6,11,35.2941,11.7647,58.8235,"(11.8%, 58.8%)"

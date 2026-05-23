@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+openai_gpt-4o-mini,countries-and-timezones,run3,3,42,27,15,64.2857,50.0,78.5714,"(50.0%, 78.6%)"

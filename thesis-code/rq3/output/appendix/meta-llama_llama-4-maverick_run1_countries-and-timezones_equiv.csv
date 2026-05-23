@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-4-maverick,countries-and-timezones,run1,1,22,12,10,54.5455,31.8182,72.7273,"(31.8%, 72.7%)"

@@ -1,0 +1,7 @@
+metric,label,groupA,groupB,medianA,medianB,nA,nB,pValue,effectSize
+mutationScore,Mutation score,open-weight,api-only,83.785,81.955,60,120,0.32403114451442105,0.09027777777777779
+nrSurvived,Survivors,open-weight,api-only,35.5,31,60,120,0.47109991786248084,0.06597222222222221
+equivRatePct,Equivalent rate (%),open-weight,api-only,17.4053,13.95825,60,120,0.7906109570951618,0.02430555555555558
+costPerSurvivor,Cost per survivor,open-weight,api-only,0.0006242972526412495,0.0043595854166666665,60,120,5.10658182406587e-12,0.6319444444444444
+costPerNonEquivSurvivor,Cost per non-equiv survivor,open-weight,api-only,0.0009533692063492065,0.006358859166666666,60,120,5.10658182406587e-12,0.6319444444444444
+meanJaccardOverlap,Jaccard overlap,open-weight,api-only,1,1,60,120,0.9999999989999999,0

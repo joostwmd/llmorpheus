@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+openai_gpt-4o-mini,spacl-core,run2,2,18,9,9,50.0,27.7778,72.2222,"(27.8%, 72.2%)"

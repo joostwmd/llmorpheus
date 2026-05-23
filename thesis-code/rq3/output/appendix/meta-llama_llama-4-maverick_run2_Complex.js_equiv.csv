@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-4-maverick,Complex.js,run2,2,311,22,289,7.074,4.5016,9.9678,"(4.5%, 10.0%)"

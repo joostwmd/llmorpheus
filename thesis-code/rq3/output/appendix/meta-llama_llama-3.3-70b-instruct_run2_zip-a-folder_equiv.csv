@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-3.3-70b-instruct,zip-a-folder,run2,2,5,0,5,0.0,0.0,0.0,"(0.0%, 0.0%)"

@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+google_gemini-2.5-flash,pull-stream,run2,2,268,3,265,1.1194,0.0,2.6119,"(0.0%, 2.6%)"
