@@ -1,41 +1,48 @@
 # Thesis Model Selection
 
-This document defines the **8-model thesis set**, pricing, estimated LLM costs, and guidance on which existing artifact runs to keep or discard.
+This document defines the **10-model thesis set** with tier comparisons, pricing, estimated LLM costs, and run strategy based on cost-feasibility.
 
 **Last updated:** May 2026 · Pricing from [OpenRouter `/api/v1/models`](https://openrouter.ai/api/v1/models) (stored in `.github/thesis-model-pricing.json`).
 
-**Excluded from the study:** all reasoning / thinking variants (`*-thinking`, o-series, R1, etc.) — too expensive and prone to CI timeouts.
+**Study design:** Variable runs per model based on cost-feasibility - expensive models (€15+/run) get single runs for comparison, affordable models get multiple runs for stability analysis.
 
 ---
 
 ## Design rationale
 
-The lineup is built in three layers:
+**Updated strategy:** Complete tier comparisons for each major API provider, enabling direct cost-effectiveness analysis within providers while maintaining budget feasibility through variable run strategies.
 
-| Layer | Models | Purpose |
-|-------|--------|---------|
-| **Cheap API (Big 3)** | GPT-4o-mini, Gemini 3.5 Flash, Claude Haiku 4.5 | What practitioners use by default; cross-vendor comparison at low cost |
-| **Premium API** | Claude Sonnet 4.5 | Quality ceiling + **Haiku vs Sonnet** tier comparison (Anthropic only) |
-| **Open-weight + hybrid** | Llama 3.3 70B, Llama 3.1 8B, Qwen Coder 32B, DeepSeek v3.1 | RQ5 depth: 70B baseline, small/local tier, non-Meta coder, cost-efficiency anchor |
+| Provider | Cheap Model | Expensive Model | Purpose |
+|----------|-------------|-----------------|---------|
+| **OpenAI** | GPT-4o-mini (€2-5/run) | GPT-4o (€20-40/run) | Complete OpenAI tier comparison |
+| **Google** | Gemini 3.5 Flash 8B (€1-3/run) | Gemini 3.5 Flash (€20+/run) | Complete Google tier comparison |
+| **Anthropic** | Claude Haiku 4.5 (€4/run) | Claude Sonnet 4.5 (€15-25/run) | Complete Anthropic tier comparison |
+| **Open-weight** | Llama 3.3 70B, Llama 3.1 8B, Qwen Coder 32B | N/A | Self-hostable alternatives |
+| **Hybrid** | DeepSeek Chat v3.1 | N/A | API access to open weights |
+
+**Run strategy:** Expensive models (€15+/run) get single runs for comparison, affordable models get multiple runs for stability analysis (RQ2).
 
 We deliberately **do not** add premium pairs for OpenAI (GPT-4o) or Google (Gemini Pro) — Anthropic Haiku/Sonnet already covers the “cheap vs premium API” story without tripling CI cost.
 
 ---
 
-## Final model list (8 models)
+## Final model list (10 models)
 
 | # | Display name | OpenRouter slug | Category | Role |
 |---|--------------|-----------------|----------|------|
-| 1 | GPT-4o-mini | `openai/gpt-4o-mini` | API-only | Cheap OpenAI; original paper model |
-| 2 | Gemini 3.5 Flash | `google/gemini-3.5-flash` | API-only | Cheap Google (latest Flash tier) |
-| 3 | Claude Haiku 4.5 | `anthropic/claude-haiku-4.5` | API-only | Cheap Anthropic |
-| 4 | Claude Sonnet 4.5 | `anthropic/claude-sonnet-4.5` | API-only | Premium Anthropic (pair with Haiku) |
-| 5 | Llama 3.3 70B Instruct | `meta-llama/llama-3.3-70b-instruct` | Open-weight | Canonical 70B; original paper model |
-| 6 | Llama 3.1 8B Instruct | `meta-llama/llama-3.1-8b-instruct` | Open-weight | Small / local-deployment tier |
-| 7 | Qwen 2.5 Coder 32B | `qwen/qwen-2.5-coder-32b-instruct` | Open-weight | Code-specialist; non-Meta family |
-| 8 | DeepSeek Chat v3.1 | `deepseek/deepseek-chat-v3.1` | Hybrid | Strong cost-efficiency (API access to open weights) |
+| 1 | GPT-4o-mini | `openai/gpt-4o-mini` | API-only (Cheap) | Cheap OpenAI; original paper model |
+| 2 | **GPT-4o** | `openai/gpt-4o` | API-only (Expensive) | **Premium OpenAI (tier comparison with 4o-mini)** |
+| 3 | Gemini 3.5 Flash 8B | `google/gemini-3.5-flash-8b` | API-only (Cheap) | **Cheap Google alternative** |
+| 4 | Gemini 3.5 Flash | `google/gemini-3.5-flash` | API-only (Expensive) | Premium Google (tier comparison with 8B) |
+| 5 | Claude Haiku 4.5 | `anthropic/claude-haiku-4.5` | API-only (Cheap) | Cheap Anthropic |
+| 6 | Claude Sonnet 4.5 | `anthropic/claude-sonnet-4.5` | API-only (Expensive) | Premium Anthropic (tier comparison with Haiku) |
+| 7 | Llama 3.3 70B Instruct | `meta-llama/llama-3.3-70b-instruct` | Open-weight | Canonical 70B; original paper model |
+| 8 | Llama 3.1 8B Instruct | `meta-llama/llama-3.1-8b-instruct` | Open-weight | Small / local-deployment tier |
+| 9 | Qwen 2.5 Coder 32B | `qwen/qwen-2.5-coder-32b-instruct` | Open-weight | Code-specialist; non-Meta family |
+| 10 | DeepSeek Chat v3.1 | `deepseek/deepseek-chat-v3.1` | Hybrid | Strong cost-efficiency (API access to open weights) |
 
-**RQ5 grouping:** 3 open-weight · 4 API-only · 1 hybrid.
+**Run strategy:** 3 expensive models (single run) · 7 affordable models (multiple runs)  
+**RQ5 grouping:** 3 open-weight · 6 API-only · 1 hybrid.
 
 ---
 
