@@ -1,51 +1,9 @@
 [
   {
-    "name": "OpenAI: GPT-4o-mini",
-    "slug": "openai/gpt-4o-mini",
-    "input_usd_per_million": 0.15,
-    "output_usd_per_million": 0.6
-  },
-  {
-    "name": "OpenAI: o4 Mini",
-    "slug": "openai/o4-mini",
-    "input_usd_per_million": 1.1,
-    "output_usd_per_million": 4.4
-  },
-  {
-    "name": "Anthropic: Claude Sonnet 4.5",
-    "slug": "anthropic/claude-sonnet-4.5",
-    "input_usd_per_million": 3,
-    "output_usd_per_million": 15
-  },
-  {
-    "name": "Anthropic: Claude Sonnet 4.5",
-    "slug": "anthropic/claude-sonnet-4.5-thinking",
-    "input_usd_per_million": 3,
-    "output_usd_per_million": 15
-  },
-  {
-    "name": "Google: Gemini 2.5 Flash",
-    "slug": "google/gemini-2.5-flash",
-    "input_usd_per_million": 0.3,
-    "output_usd_per_million": 2.5
-  },
-  {
-    "name": "Google: Gemini 2.5 Flash",
-    "slug": "google/gemini-2.5-flash-thinking",
-    "input_usd_per_million": 0.3,
-    "output_usd_per_million": 2.5
-  },
-  {
-    "name": "DeepSeek: DeepSeek V3",
-    "slug": "deepseek/deepseek-chat",
-    "input_usd_per_million": 0.32,
-    "output_usd_per_million": 0.89
-  },
-  {
-    "name": "DeepSeek: R1",
-    "slug": "deepseek/deepseek-r1",
-    "input_usd_per_million": 0.7,
-    "output_usd_per_million": 2.5
+    "name": "Meta: Llama 3.1 8B Instruct",
+    "slug": "meta-llama/llama-3.1-8b-instruct",
+    "input_usd_per_million": 0.02,
+    "output_usd_per_million": 0.05
   },
   {
     "name": "Meta: Llama 3.3 70B Instruct",
@@ -54,9 +12,39 @@
     "output_usd_per_million": 0.32
   },
   {
-    "name": "Meta: Llama 4 Maverick",
-    "slug": "meta-llama/llama-4-maverick",
+    "name": "OpenAI: GPT-4o-mini",
+    "slug": "openai/gpt-4o-mini",
     "input_usd_per_million": 0.15,
     "output_usd_per_million": 0.6
+  },
+  {
+    "name": "DeepSeek: DeepSeek Chat v3.1",
+    "slug": "deepseek/deepseek-chat-v3.1",
+    "input_usd_per_million": 0.21,
+    "output_usd_per_million": 0.79
+  },
+  {
+    "name": "Qwen: Qwen 2.5 Coder 32B Instruct",
+    "slug": "qwen/qwen-2.5-coder-32b-instruct",
+    "input_usd_per_million": 0.66,
+    "output_usd_per_million": 1.0
+  },
+  {
+    "name": "Anthropic: Claude Haiku 4.5",
+    "slug": "anthropic/claude-haiku-4.5",
+    "input_usd_per_million": 1.0,
+    "output_usd_per_million": 5.0
+  },
+  {
+    "name": "Google: Gemini 3.5 Flash",
+    "slug": "google/gemini-3.5-flash",
+    "input_usd_per_million": 1.5,
+    "output_usd_per_million": 9.0
+  },
+  {
+    "name": "Anthropic: Claude Sonnet 4.5",
+    "slug": "anthropic/claude-sonnet-4.5",
+    "input_usd_per_million": 3.0,
+    "output_usd_per_million": 15.0
   }
 ]

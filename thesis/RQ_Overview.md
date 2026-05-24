@@ -1,3 +1,12 @@
+RQ0 — Does our pipeline replicate the original LLMorpheus study?
+Table
+
+Aspect Detail
+Input Recorded runs from neu-se/mutation-testing-data (replay) and/or one live run of codellama-34b-instruct on thesis-six
+Output Per-package validation that mutant generation and Stryker results match the original paper (6-package subset); working CI artifact layout
+Aggregation Compare 6 thesis packages against paper Table 3 rows for codellama-34b-instruct at T=0
+Expected result Replay reproduces identical volume metrics; live run is qualitatively similar; pipeline ready for RQ1–RQ5
+See thesis/RQ0_Replication.md for step-by-step instructions.
 RQ1 — How many mutants do different models produce and what are they?
 Table
 
@@ -13,7 +22,7 @@ Aspect Detail
 Input mutants.json (3 runs per model × package), Stryker outputs (3 runs per model × package)
 Output Per model × package: Jaccard overlap of mutant sets across runs, SD of mutation score across runs, SD of #survived across runs, SD of absolute Levenshtein across runs
 Aggregation Per package first, then across 6 packages per model
-Expected result Models vary significantly in stability even at T=0; reasoning models may be less stable due to more complex generation behavior; open-weight models may differ from API models in consistency
+Expected result Models vary significantly in stability even at T=0; open-weight models may differ from API models in consistency
 RQ3 — How likely are different models to generate equivalent mutants?
 Table
 
@@ -38,11 +47,3 @@ Input All outputs from RQ1–RQ4, model category labels (open-weight vs API-only
 Output Per category: distributions of mutation score, #survived, equivalence rate, stability metrics, cost per non-equivalent survivor
 Aggregation Group models by category, report median/IQR per group
 Expected result Open-weight models may offer better cost-efficiency but potentially lower consistency; API-only models may be more stable but more expensive; differences may be smaller than expected since category alone is not a strong predictor
-RQ6 — How do reasoning vs non-reasoning models compare?
-Table
-
-Aspect Detail
-Input All outputs from RQ1–RQ4, explicit reasoning pairs (OpenAI, Anthropic, Google, DeepSeek)
-Output Per pair: delta (reasoning − non-reasoning) for mutation score, #survived, equivalence rate, stability metrics, cost per non-equivalent survivor; per-package deltas to show consistency of effect
-Aggregation Paired deltas per package, then summarized across 6 packages per pair
-Expected result Reasoning models do not consistently improve mutation testing effectiveness; they likely increase cost and may reduce format compliance (higher invalid rates); any gains may be in mutation subtlety (lower normalized Levenshtein) rather than raw volume

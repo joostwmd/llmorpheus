@@ -23,15 +23,13 @@ WORKFLOW="openrouter-exp.yml"
 
 MODELS=(
   "openai/gpt-4o-mini"
-  "openai/o4-mini"
+  "google/gemini-3.5-flash"
+  "anthropic/claude-haiku-4.5"
   "anthropic/claude-sonnet-4.5"
-  "anthropic/claude-sonnet-4.5-thinking"
-  "google/gemini-2.5-flash"
-  "google/gemini-2.5-flash-thinking"
-  "deepseek/deepseek-chat-v3.1"
-  "deepseek/deepseek-r1"
   "meta-llama/llama-3.3-70b-instruct"
-  "meta-llama/llama-4-maverick"
+  "meta-llama/llama-3.1-8b-instruct"
+  "qwen/qwen-2.5-coder-32b-instruct"
+  "deepseek/deepseek-chat-v3.1"
 )
 
 echo "Fetching run list from GitHub..."

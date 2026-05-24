@@ -33,19 +33,17 @@ on:
         description: "Sampling temperature to try when obtaining completions"
         default: 0.0
       model:
-        description: "OpenRouter model id (thesis replication set; *-thinking enables reasoning via OpenRouter)"
+        description: "OpenRouter model id (thesis set — 8 non-reasoning models, see thesis/Model_Choices.md)"
         type: choice
         options:
           - "openai/gpt-4o-mini"
-          - "openai/o4-mini"
+          - "google/gemini-3.5-flash"
+          - "anthropic/claude-haiku-4.5"
           - "anthropic/claude-sonnet-4.5"
-          - "anthropic/claude-sonnet-4.5-thinking"
-          - "google/gemini-2.5-flash"
-          - "google/gemini-2.5-flash-thinking"
-          - "deepseek/deepseek-chat-v3.1"
-          - "deepseek/deepseek-r1"
           - "meta-llama/llama-3.3-70b-instruct"
-          - "meta-llama/llama-4-maverick"
+          - "meta-llama/llama-3.1-8b-instruct"
+          - "qwen/qwen-2.5-coder-32b-instruct"
+          - "deepseek/deepseek-chat-v3.1"
         default: "openai/gpt-4o-mini"
       # rateLimit:
       #     description: "number of milliseconds between requests sent to the LLM"
@@ -61,7 +59,7 @@ on:
           default: 2000
       maxTokensInCompletion:
           type: number
-          description: "maximum number of tokens in a completion (use ≥4000 for reasoning models: R1, o4-mini, and -thinking variants)"
+          description: "maximum number of tokens in a completion"
           default: 8000
       strykerOptions:
         description: "stryker options (e.g., --concurrency 1) to pass to stryker"

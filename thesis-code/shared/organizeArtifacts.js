@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { ensureDir } from "./paths.js";
 import { PACKAGES } from "./artifacts.js";
+import { isExcludedModel } from "./modelMeta.js";
 
 function mutantsFlattenedSource(mutantsDir, pkg) {
   const nested = path.join(mutantsDir, pkg);
@@ -56,6 +57,7 @@ export function organizeArtifacts(artifactsBase, organizedBase, opts = {}) {
   ensureDir(organizedBase);
 
   for (const model of fs.readdirSync(artifactsBase)) {
+    if (isExcludedModel(model)) continue;
     const modelDir = path.join(artifactsBase, model);
     if (!fs.statSync(modelDir).isDirectory()) continue;
 

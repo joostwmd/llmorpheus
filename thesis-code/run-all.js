@@ -83,6 +83,5 @@ if (!argv.skipRq3) {
 
 runNode("rq4/index.js", commonArgs);
 runNode("rq5/index.js", []);
-runNode("rq6/index.js", []);
 
 console.log("\n=== All thesis pipelines complete ===");

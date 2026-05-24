@@ -11,7 +11,6 @@
     "rq3": "node rq3/index.js",
     "rq4": "node rq4/index.js",
     "rq5": "node rq5/index.js",
-    "rq6": "node rq6/index.js",
     "all": "node run-all.js"
   },
   "dependencies": {

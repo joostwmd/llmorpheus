@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { globSync } from "glob";
 import { readJson } from "./paths.js";
+import { isExcludedModel } from "./modelMeta.js";
 
 const PACKAGES = [
   "Complex.js",
@@ -58,6 +58,7 @@ export function discoverFromArtifacts(artifactsBase, opts = {}) {
   }
 
   for (const model of fs.readdirSync(artifactsBase)) {
+    if (isExcludedModel(model)) continue;
     if (opts.models && !opts.models.includes(model)) continue;
     const modelDir = path.join(artifactsBase, model);
     if (!fs.statSync(modelDir).isDirectory()) continue;
@@ -135,6 +136,7 @@ export function discoverFromOrganized(organizedBase, opts = {}) {
 
   for (const model of fs.readdirSync(organizedBase)) {
     if (model.startsWith(".") || model === "_workflow") continue;
+    if (isExcludedModel(model)) continue;
     if (opts.models && !opts.models.includes(model)) continue;
     const modelDir = path.join(organizedBase, model);
     if (!fs.statSync(modelDir).isDirectory()) continue;

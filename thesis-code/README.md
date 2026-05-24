@@ -1,6 +1,8 @@
 # Thesis analysis code
 
-Node.js pipelines for thesis research questions (RQ1–RQ6). RQ3 uses the existing Python equivalent-mutant classifier under `rq3/equivalent-mutants/`.
+Node.js pipelines for thesis research questions (RQ1–RQ5). RQ3 uses the existing Python equivalent-mutant classifier under `rq3/equivalent-mutants/`.
+
+The thesis evaluates **8 non-reasoning models** (see `thesis/Model_Choices.md`); reasoning and deprecated variants are excluded from CI and analysis.
 
 ## Setup
 
@@ -36,7 +38,6 @@ npm run rq2 -- --simulate-runs 5
 npm run rq3 -- --simulate-runs 5
 npm run rq4 -- --simulate-runs 5
 npm run rq5
-npm run rq6
 ```
 
 ## Output layout
