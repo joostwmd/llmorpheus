@@ -201,7 +201,13 @@ jobs:
           npx install-local ../stryker-js/packages/{core,util,api,instrumenter,*-runner}  --legacy-peer-deps
           # replace slash with underscore in model name to avoid creating an invalid filename
           export MODELNAME=$(echo ${{ github.event.inputs.model }} | sed 's/\//_/g')
-          export MUTANTS_FILE="MUTATION_TESTING/${{ github.event.inputs.template }}_${MODELNAME}_${{ github.event.inputs.temperature }}/mutants.json" 
+          TEMP="${{ needs.setup.outputs.temperatures }}"
+          case "$TEMP" in
+            0|0.0) TEMPSTR="0.0" ;;
+            1|1.0) TEMPSTR="1.0" ;;
+            *) TEMPSTR="$TEMP" ;;
+          esac
+          export MUTANTS_FILE="MUTATION_TESTING/${{ github.event.inputs.template }}_${MODELNAME}_${TEMPSTR}/mutants.json"
           STRYKER_FILES=$(node ../llm-mutation-testing/.github/expandGlob.js $(pwd) "${{ matrix.package.files }}" "${{ matrix.package.ignore }}")
           STRYKER_OPTIONS="${{ needs.setup.outputs.strykerOptions }}"
           (time npx stryker run $STRYKER_OPTIONS --usePrecomputed  --mutate $STRYKER_FILES)  2>&1 | tee -a StrykerOutput.txt

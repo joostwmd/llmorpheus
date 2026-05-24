@@ -213,10 +213,17 @@ jobs:
           npx install-local ../stryker-js/packages/{core,util,api,instrumenter,*-runner}  --legacy-peer-deps
           # need to update modelname by replacing slash with underscore
           export MODELNAME=$(echo ${{ github.event.inputs.model }} | sed 's/\//_/g')
+          # Match MutantGenerator.getSubDirName() temperature suffix (0 -> 0.0, 1 -> 1.0)
+          TEMP="${{ needs.setup.outputs.temperatures }}"
+          case "$TEMP" in
+            0|0.0) TEMPSTR="0.0" ;;
+            1|1.0) TEMPSTR="1.0" ;;
+            *) TEMPSTR="$TEMP" ;;
+          esac
           echo "template is ${{ github.event.inputs.template }}"
           echo "MODELNAME is $MODELNAME"
-          echo "temperature is ${{ github.event.inputs.temperature }}"
-          export MUTANTS_FILE="MUTATION_TESTING/${{ github.event.inputs.template }}_${MODELNAME}_${{ github.event.inputs.temperature }}/mutants.json" 
+          echo "temperature is $TEMP (dir suffix: $TEMPSTR)"
+          export MUTANTS_FILE="MUTATION_TESTING/${{ github.event.inputs.template }}_${MODELNAME}_${TEMPSTR}/mutants.json"
           echo "MUTANTS_FILE is $MUTANTS_FILE"
           STRYKER_FILES=$(node ../llm-mutation-testing/.github/expandGlob.js $(pwd) "${{ matrix.package.files }}" "${{ matrix.package.ignore }}")
           STRYKER_OPTIONS="${{ needs.setup.outputs.strykerOptions }}"
