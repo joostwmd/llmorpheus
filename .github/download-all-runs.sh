@@ -13,9 +13,36 @@
 # Organized output is written: organized/<model_dir>/run<N>/<pkg>/
 #   (summary.json, mutants.json, LLMorpheusOutput.txt, StrykerInfo.json all flat)
 #
+# Before downloading, existing artifacts and organized folders are moved to:
+#   logs/<datetime>/artifacts/ and logs/<datetime>/organized/
+#
 # At the end, a summary is printed showing which runs are missing or failed.
 
 set -euo pipefail
+
+# Create logs directory with datetime stamp and move existing folders
+DATETIME=$(date +"%Y%m%d_%H%M%S")
+LOGS_DIR="./logs/$DATETIME"
+
+if [ -d "./artifacts" ] || [ -d "./organized" ]; then
+  echo "========================================"
+  echo "  Archiving existing data"
+  echo "========================================"
+  mkdir -p "$LOGS_DIR"
+  
+  if [ -d "./artifacts" ]; then
+    echo "Moving ./artifacts → $LOGS_DIR/artifacts"
+    mv "./artifacts" "$LOGS_DIR/artifacts"
+  fi
+  
+  if [ -d "./organized" ]; then
+    echo "Moving ./organized → $LOGS_DIR/organized"
+    mv "./organized" "$LOGS_DIR/organized"
+  fi
+  
+  echo "Previous data archived to: $LOGS_DIR"
+  echo ""
+fi
 
 PACKAGES="${1:-thesis-six.json}"
 MAX_REP="${2:-5}"

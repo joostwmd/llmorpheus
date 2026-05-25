@@ -18,7 +18,8 @@
     "test": "ts-mocha --forbid-only -p test/tsconfig.json test/*.ts",
     "autoformat": "prettier --write src/**/*.ts test/*.ts typings benchmark",
     "autoformat:check": "prettier --check src/**/*.ts test/*.ts typings benchmark/*.ts",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "download:all": ".github/download-all-runs.sh"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",

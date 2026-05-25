@@ -38,7 +38,7 @@ on:
         options:
           - "openai/gpt-4o-mini"
           - "openai/gpt-4o"
-          - "google/gemini-3.5-flash-8b"
+          - "google/gemini-3.1-flash-lite"
           - "google/gemini-3.5-flash"
           - "anthropic/claude-haiku-4.5"
           - "anthropic/claude-sonnet-4.5"
@@ -52,17 +52,17 @@ on:
       #     type: number
       #     default: 0
       benchmarkMode:
-          description: "use custom rate limiting for benchmarking"
-          type: "boolean"
-          default: false
+        description: "use custom rate limiting for benchmarking"
+        type: "boolean"
+        default: false
       maxNrPrompts:
-          type: number
-          description: "maximum number of prompts to produce"
-          default: 2000
+        type: number
+        description: "maximum number of prompts to produce"
+        default: 2000
       maxTokensInCompletion:
-          type: number
-          description: "maximum number of tokens in a completion"
-          default: 250
+        type: number
+        description: "maximum number of tokens in a completion"
+        default: 250
       strykerOptions:
         description: "stryker options (e.g., --concurrency 1) to pass to stryker"
         default: "--concurrency 1"
@@ -98,7 +98,7 @@ jobs:
     needs:
       - setup
     runs-on: ubuntu-latest
-          
+
     continue-on-error: true
     strategy:
       fail-fast: false
@@ -170,7 +170,7 @@ jobs:
       - name: Check out llm-mutation-testing
         uses: actions/checkout@v3
         with:
-          path: llm-mutation-testing 
+          path: llm-mutation-testing
 
       - name: Set up llm-mutation-testing
         run: |
@@ -179,9 +179,9 @@ jobs:
 
       - name: Generate mutants
         env:
-          LLMORPHEUS_LLM_API_ENDPOINT: '${{ secrets.OPENROUTER_LLM_API_ENDPOINT }}'
-          LLMORPHEUS_LLM_AUTH_HEADERS: '${{ secrets.OPENROUTER_LLM_AUTH_HEADERS }}'
-          LLMORPHEUS_LLM_PROVIDER: '${{ secrets.LLMORPHEUS_LLM_PROVIDER }}'
+          LLMORPHEUS_LLM_API_ENDPOINT: "${{ secrets.OPENROUTER_LLM_API_ENDPOINT }}"
+          LLMORPHEUS_LLM_AUTH_HEADERS: "${{ secrets.OPENROUTER_LLM_AUTH_HEADERS }}"
+          LLMORPHEUS_LLM_PROVIDER: "${{ secrets.LLMORPHEUS_LLM_PROVIDER }}"
         run: |
           cd ${{ matrix.package.name }}
           BENCHMARK_DIR=`pwd`
@@ -234,7 +234,7 @@ jobs:
       - name: extract summary from StrykerOutput.txt
         run: |
           cd ${{ matrix.package.name }}
-          node ../llm-mutation-testing/.github/parseStrykerReport.js StrykerOutput.txt    
+          node ../llm-mutation-testing/.github/parseStrykerReport.js StrykerOutput.txt
 
       - name: gather reports/mutation/mutation.*, StrykerOutput.txt, and StrykerInfo.json into results.zip
         run: |
@@ -259,7 +259,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download output zips
-        uses: actions/download-artifact@v4 
+        uses: actions/download-artifact@v4
       - name: Combine outputs
         run: |
           mkdir results
@@ -283,91 +283,86 @@ jobs:
 
   generate_report:
     name: Generate report
-    needs: 
+    needs:
       - setup
       - combine_output
     runs-on: ubuntu-latest
 
     steps:
-       # download all files mutants-*   
-       - name: Download LLMorpheus results
-         uses: actions/download-artifact@v4
-         with:
-            pattern: "mutants-*"
+      # download all files mutants-*
+      - name: Download LLMorpheus results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "mutants-*"
 
-       # download all files results-*   
-       - name: Download Stryker results
-         uses: actions/download-artifact@v4
-         with:
-           pattern: "results-*"
+      # download all files results-*
+      - name: Download Stryker results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "results-*"
 
-       # move all mutants-* directories into a single directory
-       - name: Gather mutants into single directory
-         run: |
-           mkdir mutants
-           cd mutants
-           for mutants in ../mutants-*
-           do
-             # remove "../mutants-" prefix, leaving only the benchmark name
-             name=$(echo $mutants | sed 's/\.\.\/mutants-//')
-             echo "moving $mutants to $name"
-             mv $mutants/* $name 
-           done
-           cd ..
-           
-       # move all results-* directories into a single directory
-       - name: Gather Stryker results into single directory
-         run: |
-           mkdir results
-           cd results
-           for results in ../results-*
-           do
-             # extract benchmark name
-             name=$(echo $results | sed 's/\.\.\/results-//')
-             echo "moving $results to $name"
-             mv $results/* $name 
-           done
-           cd .. 
+      # move all mutants-* directories into a single directory
+      - name: Gather mutants into single directory
+        run: |
+          mkdir mutants
+          cd mutants
+          for mutants in ../mutants-*
+          do
+            # remove "../mutants-" prefix, leaving only the benchmark name
+            name=$(echo $mutants | sed 's/\.\.\/mutants-//')
+            echo "moving $mutants to $name"
+            mv $mutants/* $name 
+          done
+          cd ..
 
-       - name: Check out llm-mutation-testing
-         uses: actions/checkout@v3
-         with:
-           path: llm-mutation-testing
-           
-       - name: Generate report
-         run: |
-           cd llm-mutation-testing
-           npm run build
-           # if stryker options are specified, include them in the title
-           STRYKER_OPTIONS="${{ needs.setup.outputs.strykerOptions }}"
-           MODEL="${{ github.event.inputs.model }}"
-           REP="${{ github.event.inputs.replication }}"
-           if [ -n "$STRYKER_OPTIONS" ]; then
-             title="Report — ${MODEL} rep${REP} (Precomputed mutators $STRYKER_OPTIONS)"
-           else
-             title="Report — ${MODEL} rep${REP} (Precomputed mutators)"
-           fi
-           node .github/generateReport.js "$title" ../results ../mutants > report.md
-           more report.md > $GITHUB_STEP_SUMMARY
+      # move all results-* directories into a single directory
+      - name: Gather Stryker results into single directory
+        run: |
+          mkdir results
+          cd results
+          for results in ../results-*
+          do
+            # extract benchmark name
+            name=$(echo $results | sed 's/\.\.\/results-//')
+            echo "moving $results to $name"
+            mv $results/* $name 
+          done
+          cd ..
 
-       - name: Upload report
-         uses: actions/upload-artifact@v4
-         with:
-           name: report.md
-           path: llm-mutation-testing/report.md   
+      - name: Check out llm-mutation-testing
+        uses: actions/checkout@v3
+        with:
+          path: llm-mutation-testing
 
-       - name: generate Latex table
-         run: |
-           cd llm-mutation-testing
-           node .github/generateLatexTable.js "$title" ../results ../mutants > table.tex        
+      - name: Generate report
+        run: |
+          cd llm-mutation-testing
+          npm run build
+          # if stryker options are specified, include them in the title
+          STRYKER_OPTIONS="${{ needs.setup.outputs.strykerOptions }}"
+          MODEL="${{ github.event.inputs.model }}"
+          REP="${{ github.event.inputs.replication }}"
+          if [ -n "$STRYKER_OPTIONS" ]; then
+            title="Report — ${MODEL} rep${REP} (Precomputed mutators $STRYKER_OPTIONS)"
+          else
+            title="Report — ${MODEL} rep${REP} (Precomputed mutators)"
+          fi
+          node .github/generateReport.js "$title" ../results ../mutants > report.md
+          more report.md > $GITHUB_STEP_SUMMARY
 
-       - name: Upload table
-         uses: actions/upload-artifact@v4
-         with:
-           name: table.tex
-           path: llm-mutation-testing/table.tex
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: report.md
+          path: llm-mutation-testing/report.md
 
-       
+      - name: generate Latex table
+        run: |
+          cd llm-mutation-testing
+          node .github/generateLatexTable.js "$title" ../results ../mutants > table.tex
 
-       
-        
+      - name: Upload table
+        uses: actions/upload-artifact@v4
+        with:
+          name: table.tex
+          path: llm-mutation-testing/table.tex

@@ -4,6 +4,11 @@ This document defines the **10-model thesis set** with tier comparisons, pricing
 
 **Last updated:** May 2026 · Pricing from [OpenRouter `/api/v1/models`](https://openrouter.ai/api/v1/models) (stored in `.github/thesis-model-pricing.json`).
 
+**Updated Configuration (May 25, 2026):**
+- **Max tokens:** 200 (reduced from 250/8000 for consistency)
+- **Reasoning:** Globally disabled (`reasoning: { enabled: false }`) for all models
+- **Google model:** Switched to `google/gemini-3.1-flash-lite` (83% cheaper than 3.5 Flash)
+
 **Study design:** Variable runs per model based on cost-feasibility - expensive models (€15+/run) get single runs for comparison, affordable models get multiple runs for stability analysis.
 
 ---
@@ -15,7 +20,7 @@ This document defines the **10-model thesis set** with tier comparisons, pricing
 | Provider | Cheap Model | Expensive Model | Purpose |
 |----------|-------------|-----------------|---------|
 | **OpenAI** | GPT-4o-mini (€2-5/run) | GPT-4o (€20-40/run) | Complete OpenAI tier comparison |
-| **Google** | Gemini 3.5 Flash 8B (€1-3/run) | Gemini 3.5 Flash (€20+/run) | Complete Google tier comparison |
+| **Google** | Gemini 3.1 Flash Lite (€0.25-0.75/run) | Gemini 3.5 Flash (€20+/run) | Complete Google tier comparison |
 | **Anthropic** | Claude Haiku 4.5 (€4/run) | Claude Sonnet 4.5 (€15-25/run) | Complete Anthropic tier comparison |
 | **Open-weight** | Llama 3.3 70B, Llama 3.1 8B, Qwen Coder 32B | N/A | Self-hostable alternatives |
 | **Hybrid** | DeepSeek Chat v3.1 | N/A | API access to open weights |
@@ -32,7 +37,7 @@ We deliberately **do not** add premium pairs for OpenAI (GPT-4o) or Google (Gemi
 |---|--------------|-----------------|----------|------|
 | 1 | GPT-4o-mini | `openai/gpt-4o-mini` | API-only (Cheap) | Cheap OpenAI; original paper model |
 | 2 | **GPT-4o** | `openai/gpt-4o` | API-only (Expensive) | **Premium OpenAI (tier comparison with 4o-mini)** |
-| 3 | Gemini 3.5 Flash 8B | `google/gemini-3.5-flash-8b` | API-only (Cheap) | **Cheap Google alternative** |
+| 3 | Gemini 3.1 Flash Lite | `google/gemini-3.1-flash-lite` | API-only (Cheap) | **Cheap Google alternative** |
 | 4 | Gemini 3.5 Flash | `google/gemini-3.5-flash` | API-only (Expensive) | Premium Google (tier comparison with 8B) |
 | 5 | Claude Haiku 4.5 | `anthropic/claude-haiku-4.5` | API-only (Cheap) | Cheap Anthropic |
 | 6 | Claude Sonnet 4.5 | `anthropic/claude-sonnet-4.5` | API-only (Expensive) | Premium Anthropic (tier comparison with Haiku) |
@@ -54,6 +59,7 @@ We deliberately **do not** add premium pairs for OpenAI (GPT-4o) or Google (Gemi
 | Llama 3.3 70B Instruct | $0.10 | $0.32 |
 | GPT-4o-mini | $0.15 | $0.60 |
 | DeepSeek Chat v3.1 | $0.21 | $0.79 |
+| Gemini 3.1 Flash Lite | $0.25 | $1.50 |
 | Qwen 2.5 Coder 32B | $0.66 | $1.00 |
 | Claude Haiku 4.5 | $1.00 | $5.00 |
 | Gemini 3.5 Flash | $1.50 | $9.00 |

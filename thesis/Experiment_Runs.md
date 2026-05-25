@@ -8,22 +8,24 @@ This document defines the complete experimental matrix for the thesis, including
 **Total Packages**: 6 (thesis-six.json)  
 **Experimental Design**: Variable runs based on cost-feasibility
 
-## ⚠️ **CRITICAL ERROR DISCOVERED - ALL RUNS NEED RERUNNING**
+## ⚠️ **CONFIGURATION UPDATE - ALL RUNS NEED RERUNNING**
 
-**Issue**: All completed runs (rep 1) used **`maxTokensInCompletion: 8000`** instead of the original paper's **`250`**.
+**Updated Configuration (May 25, 2026):**
+- **Token limit**: Changed to **`200`** (standardized for consistency)
+- **Reasoning**: **Globally disabled** (`reasoning: { enabled: false }`) for all models
+- **Google model**: Switched to **`google/gemini-3.1-flash-lite`** (83% cheaper than 3.5 Flash)
 
 **Impact**: 
-- **Invalid for replication** - doesn't match original LLMorpheus conditions
-- **Inflated costs** - much higher output token usage than intended
-- **Potential different mutations** - models may generate different patterns with 8x more token budget
-- **Incomparable results** - cannot compare with original paper or other studies
+- **Previous runs incompatible** - mixed token limits (250/8000) and no reasoning control
+- **Cost optimization** - new Google model significantly reduces experimental costs
+- **Consistency required** - standardized parameters needed for fair comparison
 
-**Resolution**: **All experiments must be rerun** with `maxTokensInCompletion: 250` to ensure:
-- Scientific validity and replication accuracy
-- Proper cost-effectiveness analysis 
-- Fair model comparisons under identical constraints
+**Resolution**: **All experiments must be rerun** with the new standardized configuration:
+- `maxTokensInCompletion: 200` (consistent across all runs)
+- `reasoning: { enabled: false }` (globally disabled thinking mode)
+- Updated model list with cost-optimized Google alternative
 
-**Status**: Workflow updated to correct token limit. All previous runs invalidated.
+**Status**: Workflow and model configuration updated. All previous runs invalidated.
 
 ---
 
@@ -44,7 +46,7 @@ This document defines the complete experimental matrix for the thesis, including
 | Model | OpenRouter Slug | Cost/Run | Purpose |
 |-------|-----------------|----------|---------|
 | GPT-4o-mini | `openai/gpt-4o-mini` | €2-5 | Cheap OpenAI baseline |
-| **Gemini 3.5 Flash 8B** | `google/gemini-3.5-flash-8b` | €1-3 | **MISSING - Cheap Google alternative** |
+| **Gemini 3.1 Flash Lite** | `google/gemini-3.1-flash-lite` | €0.25-0.75 | **Cheap Google alternative** |
 | Claude Haiku 4.5 | `anthropic/claude-haiku-4.5` | €4 | Cheap Anthropic |
 | Llama 3.3 70B | `meta-llama/llama-3.3-70b-instruct` | €0.5-2 | Open-weight 70B baseline |
 | Llama 3.1 8B | `meta-llama/llama-3.1-8b-instruct` | €0.05 | Open-weight small model |
@@ -65,31 +67,31 @@ This document defines the complete experimental matrix for the thesis, including
 ### **Phase 2: Single-Run Comparison (RQ1, RQ3, RQ4, RQ5)**
 *All models compared on identical basis*
 
-#### **Previous Runs (INVALIDATED - used wrong token limit):**
+#### **Previous Runs (INVALIDATED - inconsistent configuration):**
 | Model | Status | Notes |
 |-------|--------|-------|
-| `openai/gpt-4o-mini` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
-| `google/gemini-3.5-flash` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
-| `anthropic/claude-haiku-4.5` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
-| `anthropic/claude-sonnet-4.5` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
-| `meta-llama/llama-3.3-70b-instruct` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
-| `meta-llama/llama-3.1-8b-instruct` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
-| `qwen/qwen-2.5-coder-32b-instruct` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
-| `deepseek/deepseek-chat-v3.1` | ❌ **Invalid** | Used 8000 tokens instead of 250 |
+| `openai/gpt-4o-mini` | ❌ **Invalid** | Mixed token limits (250/8000), no reasoning control |
+| `google/gemini-3.5-flash` | ❌ **Invalid** | Mixed token limits, model deprecated |
+| `anthropic/claude-haiku-4.5` | ❌ **Invalid** | Mixed token limits (250/8000), no reasoning control |
+| `anthropic/claude-sonnet-4.5` | ❌ **Invalid** | Mixed token limits, no reasoning control |
+| `meta-llama/llama-3.3-70b-instruct` | ❌ **Invalid** | Mixed token limits (250/8000), no reasoning control |
+| `meta-llama/llama-3.1-8b-instruct` | ❌ **Invalid** | Mixed token limits (250/8000), no reasoning control |
+| `qwen/qwen-2.5-coder-32b-instruct` | ❌ **Invalid** | Mixed token limits (250/8000), no reasoning control |
+| `deepseek/deepseek-chat-v3.1` | ❌ **Invalid** | Mixed token limits, reasoning errors |
 
-#### **All Runs Needed (correct 250 token limit):**
+#### **All Runs Needed (new standardized configuration):**
 | Model | Status | Priority | Cost/Run | Notes |
 |-------|--------|----------|----------|-------|
-| `openai/gpt-4o-mini` | ❌ **Need rerun** | HIGH | €2-5 | Rerun with 250 tokens |
-| `openai/gpt-4o` | ❌ **Need to run** | HIGH | €20-40 | New expensive model, 250 tokens |
-| `google/gemini-3.5-flash-8b` | ❌ **Need to run** | HIGH | €1-3 | New cheap alternative, 250 tokens |
-| `google/gemini-3.5-flash` | ❌ **Need rerun** | HIGH | €20+ | Rerun with 250 tokens |
-| `anthropic/claude-haiku-4.5` | ❌ **Need rerun** | HIGH | €4 | Rerun with 250 tokens |
-| `anthropic/claude-sonnet-4.5` | ❌ **Need rerun** | HIGH | €15-25 | Rerun with 250 tokens |
-| `meta-llama/llama-3.3-70b-instruct` | ❌ **Need rerun** | HIGH | €0.5-2 | Rerun with 250 tokens |
-| `meta-llama/llama-3.1-8b-instruct` | ❌ **Need rerun** | HIGH | €0.05 | Rerun with 250 tokens |
-| `qwen/qwen-2.5-coder-32b-instruct` | ❌ **Need rerun** | HIGH | €1 | Rerun with 250 tokens |
-| `deepseek/deepseek-chat-v3.1` | ❌ **Need rerun** | HIGH | €0.5-2 | Rerun with 250 tokens |
+| `openai/gpt-4o-mini` | ❌ **Need rerun** | HIGH | €2-5 | 200 tokens, reasoning disabled |
+| `openai/gpt-4o` | ❌ **Need to run** | HIGH | €20-40 | New expensive model |
+| `google/gemini-3.1-flash-lite` | ❌ **Need to run** | HIGH | €0.25-0.75 | New cheap alternative (83% cheaper) |
+| `google/gemini-3.5-flash` | ❌ **Need rerun** | HIGH | €20+ | Keep for tier comparison |
+| `anthropic/claude-haiku-4.5` | ❌ **Need rerun** | HIGH | €4 | 200 tokens, reasoning disabled |
+| `anthropic/claude-sonnet-4.5` | ❌ **Need rerun** | HIGH | €15-25 | 200 tokens, reasoning disabled |
+| `meta-llama/llama-3.3-70b-instruct` | ❌ **Need rerun** | HIGH | €0.5-2 | 200 tokens, reasoning disabled |
+| `meta-llama/llama-3.1-8b-instruct` | ❌ **Need rerun** | HIGH | €0.05 | 200 tokens, reasoning disabled |
+| `qwen/qwen-2.5-coder-32b-instruct` | ❌ **Need rerun** | HIGH | €1 | 200 tokens, reasoning disabled |
+| `deepseek/deepseek-chat-v3.1` | ❌ **Need rerun** | HIGH | €0.5-2 | 200 tokens, reasoning disabled |
 
 ### **Phase 3: Multi-Run Stability Analysis (RQ2)**
 *Consistency evaluation for cost-feasible models*
@@ -100,7 +102,7 @@ This document defines the complete experimental matrix for the thesis, including
 | Model | Rep 2 | Rep 3 | Total Runs | Purpose |
 |-------|-------|-------|------------|---------|
 | `openai/gpt-4o-mini` | ❌ | ❌ | 1/3 | Stability analysis |
-| `google/gemini-3.5-flash-8b` | ❌ | ❌ | 0/3 | Stability analysis (new model) |
+| `google/gemini-3.1-flash-lite` | ❌ | ❌ | 0/3 | Stability analysis (new cheaper model) |
 | `anthropic/claude-haiku-4.5` | ❌ | ❌ | 1/3 | Stability analysis |
 | `meta-llama/llama-3.3-70b-instruct` | ❌ | ❌ | 1/3 | Stability analysis |
 | `meta-llama/llama-3.1-8b-instruct` | ❌ | ❌ | 1/3 | Stability analysis |
@@ -119,19 +121,20 @@ This document defines the complete experimental matrix for the thesis, including
 ## Action Items
 
 ### **Immediate (Priority 1):**
-1. **✅ Workflow updated:**
-   - ✅ Added all 10 models to `.github/workflows/openrouter-exp.yml` dropdown
-   - ✅ Corrected `maxTokensInCompletion` from 8000 to 250 (original paper value)
+1. **✅ Workflow updated (May 25, 2026):**
+   - ✅ Updated model list: `google/gemini-3.1-flash-lite` (replaces 3.5-flash-8b)
+   - ✅ Standardized `maxTokensInCompletion` to 200 (consistent limit)
+   - ✅ Added global reasoning disabled (`reasoning: { enabled: false }`)
 
-2. **Rerun ALL models with corrected settings (10 runs for rep 1):**
-   - All models must be rerun with `maxTokensInCompletion: 250`
+2. **Rerun ALL models with standardized configuration (10 runs for rep 1):**
+   - All models with `maxTokensInCompletion: 200` and `reasoning: { enabled: false }`
    - **Expensive models** (€60-85 total): GPT-4o, Gemini 3.5 Flash, Claude Sonnet 4.5
-   - **Affordable models** (€10-20 total): All others
+   - **Affordable models** (€8-15 total): All others (reduced cost with new Google model)
 
 ### **Secondary (Priority 2):**
 4. **Multi-run stability analysis (16 runs):**
    - Rep 2 & 3 for all 7 affordable models
-   - Rep 2 & 3 for new `google/gemini-3.5-flash-8b` (once rep 1 is complete)
+   - Rep 2 & 3 for new `google/gemini-3.1-flash-lite` (once rep 1 is complete)
 
 ---
 

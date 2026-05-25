@@ -130,16 +130,10 @@ export class Model implements IModel {
         { role: "user", content: prompt },
       ],
       ...options,
+      // Globally disable reasoning for consistent mutation testing
+      reasoning: { enabled: false },
       ...(reasoning ? { reasoning } : {}),
     };
-    
-    // Disable thinking mode for models that might have reasoning requirements
-    // This prevents 400 errors from DeepSeek V4 and similar models
-    if (model.includes('deepseek') || model.includes('reasoner') || model.includes('thinking')) {
-      body.extra_body = {
-        thinking: { type: "disabled" }
-      };
-    }
     if (Model.LLMORPHEUS_LLM_PROVIDER) {
       const provider = Model.LLMORPHEUS_LLM_PROVIDER;
       body = {

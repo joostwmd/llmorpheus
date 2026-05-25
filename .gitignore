@@ -14,6 +14,7 @@ test-*
 
 artifacts/
 organized/
+logs/
 thesis-code/node_modules/
 thesis-code/rq3/equivalent-mutants/classify/data
 thesis-code/rq3/equivalent-mutants/classify/results

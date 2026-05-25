@@ -11,8 +11,35 @@
 #
 # Raw artifacts are saved to:  artifacts/<model_with_slashes_replaced>/rep<N>/
 # Organized output is written: organized/<model_with_slashes_replaced>/run<N>/
+#
+# Before downloading, existing artifacts and organized folders are moved to:
+#   logs/<datetime>/artifacts/ and logs/<datetime>/organized/
 
 set -euo pipefail
+
+# Create logs directory with datetime stamp and move existing folders
+DATETIME=$(date +"%Y%m%d_%H%M%S")
+LOGS_DIR="./logs/$DATETIME"
+
+if [ -d "./artifacts" ] || [ -d "./organized" ]; then
+  echo "========================================"
+  echo "  Archiving existing data"
+  echo "========================================"
+  mkdir -p "$LOGS_DIR"
+  
+  if [ -d "./artifacts" ]; then
+    echo "Moving ./artifacts → $LOGS_DIR/artifacts"
+    mv "./artifacts" "$LOGS_DIR/artifacts"
+  fi
+  
+  if [ -d "./organized" ]; then
+    echo "Moving ./organized → $LOGS_DIR/organized"
+    mv "./organized" "$LOGS_DIR/organized"
+  fi
+  
+  echo "Previous data archived to: $LOGS_DIR"
+  echo ""
+fi
 
 MODEL="${1:?Usage: $0 <model> <rep> [packages]}"
 REP="${2:?Usage: $0 <model> <rep> [packages]}"
