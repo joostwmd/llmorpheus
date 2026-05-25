@@ -123,7 +123,7 @@ export class Model implements IModel {
       "utf8"
     );
     const { model, reasoning } = this.resolveModelRequest();
-    let body = {
+    let body: any = {
       model,
       messages: [
         { role: "system", content: systemPrompt },
@@ -132,6 +132,14 @@ export class Model implements IModel {
       ...options,
       ...(reasoning ? { reasoning } : {}),
     };
+    
+    // Disable thinking mode for models that might have reasoning requirements
+    // This prevents 400 errors from DeepSeek V4 and similar models
+    if (model.includes('deepseek') || model.includes('reasoner') || model.includes('thinking')) {
+      body.extra_body = {
+        thinking: { type: "disabled" }
+      };
+    }
     if (Model.LLMORPHEUS_LLM_PROVIDER) {
       const provider = Model.LLMORPHEUS_LLM_PROVIDER;
       body = {
