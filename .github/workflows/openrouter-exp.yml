@@ -33,7 +33,7 @@ on:
         description: "Sampling temperature to try when obtaining completions"
         default: 0.0
       model:
-        description: "OpenRouter model id (thesis set — 10 models with tier comparisons, see thesis/Model_Choices.md)"
+        description: "OpenRouter model id (thesis set + RQ0 replication — see thesis/Model_Choices.md, thesis/RQ0_Replication.md)"
         type: choice
         options:
           - "openai/gpt-4o-mini"
@@ -44,6 +44,7 @@ on:
           - "anthropic/claude-sonnet-4.5"
           - "meta-llama/llama-3.3-70b-instruct"
           - "meta-llama/llama-3.1-8b-instruct"
+          - "meta-llama/codellama-34b-instruct"
           - "qwen/qwen-2.5-coder-32b-instruct"
           - "deepseek/deepseek-chat-v3.1"
         default: "openai/gpt-4o-mini"
