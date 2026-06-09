@@ -13,7 +13,12 @@ test-*
 
 .cursor/
 
-thesis-references/
+thesis-references/**/*
+!thesis-references/*.js
+!thesis-references/package.json
+!thesis-references/.env.example
+thesis-references/node_modules/
+thesis-references/.env
 
 
 artifacts/

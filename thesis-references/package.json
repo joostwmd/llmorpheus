@@ -1,0 +1,14 @@
+{
+  "name": "thesis-references",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Convert academic PDF references to markdown via Unstructured",
+  "scripts": {
+    "convert": "node convert.cli.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "unstructured-client": "^0.26.0"
+  }
+}
