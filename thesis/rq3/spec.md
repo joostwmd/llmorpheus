@@ -1,10 +1,24 @@
-# Research Question 2: Equivalent Mutant Analysis
+# Research Question 3: Equivalent Mutant Analysis
 
 ## Overview
 
-**Research Question:** Which Large Language Model (LLM) generates the fewest equivalent mutants among surviving mutants during automated mutation testing?
+**Research Question:** How likely are different models to generate equivalent mutants?
 
-**Hypothesis:** Different LLMs will produce varying rates of equivalent mutants, with some models generating more semantically meaningful mutations than others.
+**Hypothesis:** Equivalence rates differ across models; models with high survivor counts may be inflated by equivalents; effective survivors (predicted behavioral change) is more informative than raw survival count.
+
+## Study matrix (canonical)
+
+**Registry:** `thesis/shared/modelRegistry.js` · **Detail:** `thesis/meta/model_choices.md`
+
+| Scope | Models | Runs used |
+|-------|--------|-----------|
+| **All models** | 10 (same matrix as RQ1) | **run1 only** |
+
+See RQ1 spec for the full 10-model table.  
+**Datasets (RQ3):** surviving mutants from 10 models × 6 packages × run1  
+**Outputs:** `thesis/rq3/output/publication/` (see `artifacts_index.md`)
+
+**Classifier:** UniXCoder ensemble, θ = 0.80 for pipeline application (θ ≈ 0.94 for OOF model selection)
 
 ## Background and Motivation
 
@@ -25,15 +39,16 @@ This analysis extends the original LLMorpheus paper's RQ2, which found a **20.2%
 
 - Uses the same **surviving-mutants-only** denominator for direct comparability
 - Applies a trained UniXCoder classifier instead of manual annotation
-- Covers **7 LLMs** across **6 JavaScript packages** with **4,816 surviving mutants**
+- Covers **10 models** across **6 JavaScript packages** (thesis-six)
 - Provides confidence intervals and statistical testing between models
+- Paper 20.2% rate is a **directional reference only** (different corpus, manual labels)
 
 ### Input Data
 
-**Source:** `organized/` directory containing LLM mutation testing results
-- **7 LLMs:** GPT-4o-mini, Claude Sonnet 4.5, Gemini 2.5 Flash (+ thinking), Llama 3.3 70B, Llama 4 Maverick, DeepSeek Chat v3.1
-- **6 JavaScript packages:** Complex.js, countries-and-timezones, node-jsonfile, pull-stream, spacl-core, zip-a-folder
-- **1 run per LLM** (42 datasets total: 7 LLMs × 6 packages × 1 run)
+**Source:** `organized/` / `artifacts/` — surviving mutants from RQ1 (**run1**)
+- **10 models** (see Study matrix)
+- **6 JavaScript packages:** thesis-six subset
+- **60 datasets:** 10 models × 6 packages × run1
 
 **Raw data per package:**
 - `mutants.json` — All LLM-generated mutants with metadata (original code, replacement, location, prompt/completion IDs)
@@ -68,7 +83,7 @@ For most packages, `mutants.json` and Stryker results have identical lengths and
 **Classification Process:**
 - Input: (original_code, replacement_code) pairs from surviving mutants
 - Output: Binary prediction (EQUIVALENT vs BEHAVIORAL_CHANGE) with confidence scores
-- Batch processing: ~4,816 surviving mutants across all datasets
+- Batch processing: all surviving mutants across 60 datasets (count in `aggregated_results.csv`)
 
 #### 3. Statistical Analysis (`equivalent-mutants/analyze/`)
 
@@ -88,30 +103,20 @@ For most packages, `mutants.json` and Stryker results have identical lengths and
 
 #### Primary Results Table
 
-| LLM | Weighted Equiv Rate | 95% CI | Rank |
-|-----|---------------------|---------|------|
-| google_gemini-2.5-flash | **10.7%** | [8.7%, 12.8%] | 1 |
-| meta-llama_llama-4-maverick | **9.4%** | [6.8%, 12.1%] | 2 |  
-| openai_gpt-4o-mini | **9.4%** | [7.4%, 11.6%] | 3 |
-| meta-llama_llama-3.3-70b-instruct | **11.1%** | [9.1%, 13.3%] | 4 |
-| anthropic_claude-sonnet-4.5 | **11.9%** | [9.7%, 14.3%] | 5 |
-| google_gemini-2.5-flash-thinking | **12.4%** | [8.8%, 16.3%] | 6 |
-| deepseek_deepseek-chat-v3.1 | **12.8%** | [10.7%, 14.9%] | 7 |
+Published values: `thesis/rq3/output/publication/main_results.tex`, `aggregated_results.csv`
 
-**Overall Rate:** 11.1% equivalent among 4,816 surviving mutants (536 predicted equivalent)
+| LLM | Weighted equiv rate | Rank |
+|-----|---------------------|------|
+| (10 models) | see publication outputs | … |
 
-#### Key Findings
+**Paper reference (directional):** 20.2% manual equivalent rate among survivors (Tip et al., 2025) — not a replication target.
 
-1. **Range:** Equivalent rates vary from 9.4% to 12.8% across LLMs — a meaningful difference for mutation testing effectiveness
+#### Key findings (interpretation)
 
-2. **Best Performers:** Gemini 2.5 Flash and both Llama models (4-Maverick, 3.3-70B) show lowest equivalent rates
-
-3. **Consistency:** High coefficient of variation (88-117%) indicates substantial package-to-package variation within each LLM
-
-4. **Comparison to Baselines:** All automated rates (9-13%) are **lower** than the original manual study (20.2%), possibly due to:
-   - Classifier conservatism (prefers behavioral predictions when uncertain)
-   - Different mutant generation strategies between studies
-   - Package/language differences
+1. Equivalence rates vary across the 10-model matrix
+2. Effective survivors (predicted behavioral change) should be preferred over raw survivor counts
+3. Classifier labels are **predicted**, not ground-truth equivalence
+4. Comparison to paper 20.2% is directional only (6 vs 13 packages, different models, automated vs manual)
 
 #### Generated Artifacts
 
@@ -175,11 +180,9 @@ python equivalent-mutants/analyze/analyze_results.py --source organized
 ### Data Quality and Limitations
 
 #### Survivor Matching Accuracy
-- **Perfect matches:** 36/42 datasets (85.7%)
-- **Near-perfect:** 6/42 datasets missing 1-3 survivors due to text formatting differences
-- **Overall coverage:** 4,816/~4,822 survivors (>99.8%)
-
-The small gaps occur in `spacl-core` packages where Stryker reformats complex JavaScript expressions differently than the raw LLM output, but these don't materially affect the analysis.
+- Survivor extraction via Stryker HTML + `mutants.json` alignment
+- `spacl-core` may require location-based matching when Stryker reformats expressions
+- Coverage details in `thesis/rq3/output/appendix/`
 
 #### Classifier Limitations
 - **Training bias:** Model trained on manually-labeled equivalent mutants may not perfectly generalize to LLM-generated patterns
@@ -195,7 +198,7 @@ The small gaps occur in `spacl-core` packages where Stryker reformats complex Ja
 
 ### Practical Impact
 
-1. **Tool Selection:** Practitioners should prefer LLMs with lower equivalent rates (Gemini Flash, Llama models) for mutation testing tasks
+1. **Tool Selection:** Prefer models with lower predicted equivalence rates when survivor quality matters
 
 2. **Quality vs Quantity:** Raw mutant count is insufficient — equivalent rate is a critical quality metric for LLM-generated mutation suites
 

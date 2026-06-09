@@ -6,6 +6,19 @@
 
 **Hypothesis:** Cheap models are not necessarily cost-efficient when accounting for duplicates and equivalents; Pareto frontier reveals a small subset of models with best effectiveness-to-cost ratio.
 
+## Study matrix (canonical)
+
+**Registry:** `thesis/shared/modelRegistry.js` · **Detail:** `thesis/meta/model_choices.md`
+
+| Scope | Models | Runs used |
+|-------|--------|-----------|
+| **All models** | 10 (same matrix as RQ1) | **run1 only** |
+
+See RQ1 spec for the full 10-model table.  
+**Pricing:** `.github/thesis-model-pricing.json` (pinned OpenRouter snapshot)  
+**Datasets (RQ4):** 10 models × 6 packages × run1  
+**Outputs:** `thesis/rq4/output/publication/` (see `artifacts_index.md`)
+
 ## Background and Motivation
 
 The practical adoption of LLM-powered mutation testing depends critically on cost-effectiveness considerations. While raw API costs provide one dimension of comparison, the true value proposition requires analyzing:
@@ -224,11 +237,9 @@ def identify_pareto_frontier(cost_effectiveness_data):
 
 | Model | Total Cost (USD) | Cost/Valid | Cost/Survivor | Cost/Non-Equiv | Efficiency Rank | Pareto Efficient |
 |-------|------------------|------------|---------------|----------------|-----------------|------------------|
-| llama-3.3-70b | $2.34 | $0.0021 | $0.0057 | $0.0065 | 1 | ✓ |
-| gpt-4o-mini | $8.47 | $0.0079 | $0.0207 | $0.0229 | 2 | ✓ |
-| gemini-2.5-flash | $15.23 | $0.0142 | $0.0384 | $0.0427 | 3 | ✓ |
-| claude-sonnet-4.5 | $67.89 | $0.0634 | $0.1512 | $0.1708 | 4 | ✗ |
-| ... | ... | ... | ... | ... | ... | ... |
+| (see `cost.tex`) | … | … | … | … | … | … |
+
+Published values: `thesis/rq4/output/publication/cost.tex`, `model_cost_summary.csv`
 
 *Costs aggregated across 6 packages per model*
 
@@ -282,7 +293,7 @@ effective_survivors = survivors - equivalent_mutants
 cost_effectiveness['cost_per_effective_survivor'] = api_costs / effective_survivors  
 ```
 
-**RQ5-6 Integration:** Category-based cost analysis
+**RQ5 Integration:** Category-based cost analysis
 ```python
 # Open-weight vs API model cost comparison
 open_weight_costs = cost_data[cost_data['category'] == 'open-weight']['cost_per_survivor'].mean()

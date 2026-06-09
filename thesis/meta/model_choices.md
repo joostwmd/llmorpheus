@@ -1,56 +1,70 @@
 # Thesis Model Selection
 
-This document defines the **10-model thesis set** with tier comparisons, pricing, estimated LLM costs, and run strategy based on cost-feasibility.
+Defines the **10-model thesis set**, tier comparisons, pricing, and run strategy.
 
-**Last updated:** May 2026 · Pricing from [OpenRouter `/api/v1/models`](https://openrouter.ai/api/v1/models) (stored in `.github/thesis-model-pricing.json`).
+**Last updated:** June 2026  
+**Registry (canonical):** `thesis/shared/modelRegistry.js` — all models `status: ready`  
+**Pricing:** [OpenRouter `/api/v1/models`](https://openrouter.ai/api/v1/models) → `.github/thesis-model-pricing.json`
 
-**Updated Configuration (May 25, 2026):**
-- **Max tokens:** 200 (reduced from 250/8000 for consistency)
-- **Reasoning:** Disabled for most models; Gemini 3.x uses `{ effort: "minimal", exclude: true }`
-- **Analysis registry:** `thesis/shared/modelRegistry.js` — flip `status` to `ready` when CI artifacts are valid
-- **Google model:** Switched to `google/gemini-3.1-flash-lite` (83% cheaper than 3.5 Flash)
+## Experimental configuration
 
-**Study design:** Variable runs per model based on cost-feasibility - expensive models (€15+/run) get single runs for comparison, affordable models get multiple runs for stability analysis.
+| Parameter | Value |
+|-----------|-------|
+| **Packages** | thesis-six (6 JavaScript packages) — `.github/thesis-six.json` |
+| **Template** | `template-full` |
+| **Temperature** | `0.0` |
+| **maxTokens** | `200` |
+| **Reasoning** | Disabled; Gemini 3.x uses `{ effort: "minimal", exclude: true }` |
+| **Serving** | All models via OpenRouter (not self-hosted) |
 
----
+## Run strategy
 
-## Design rationale
+| Policy | Models | Reps | Used in |
+|--------|--------|------|---------|
+| **multi** | 7 affordable models | **5** (`rep1`–`rep5`) | RQ2 (all reps); RQ1/RQ3/RQ4/RQ5 use **run1** for cross-model comparison |
+| **single** | 3 expensive models | **1** (`rep1` only) | RQ1/RQ3/RQ4/RQ5 only; **excluded from RQ2** |
 
-**Updated strategy:** Complete tier comparisons for each major API provider, enabling direct cost-effectiveness analysis within providers while maintaining budget feasibility through variable run strategies.
-
-| Provider | Cheap Model | Expensive Model | Purpose |
-|----------|-------------|-----------------|---------|
-| **OpenAI** | GPT-4o-mini (€2-5/run) | GPT-4o (€20-40/run) | Complete OpenAI tier comparison |
-| **Google** | Gemini 3.1 Flash Lite (€0.25-0.75/run) | Gemini 3.5 Flash (€20+/run) | Complete Google tier comparison |
-| **Anthropic** | Claude Haiku 4.5 (€4/run) | Claude Sonnet 4.5 (€15-25/run) | Complete Anthropic tier comparison |
-| **Open-weight** | Llama 3.3 70B, Llama 3.1 8B, Qwen Coder 32B | N/A | Self-hostable alternatives |
-| **Hybrid** | DeepSeek Chat v3.1 | N/A | API access to open weights |
-
-**Run strategy:** Expensive models (€15+/run) get single runs for comparison, affordable models get multiple runs for stability analysis (RQ2).
-
-We deliberately **do not** add premium pairs for OpenAI (GPT-4o) or Google (Gemini Pro) — Anthropic Haiku/Sonnet already covers the “cheap vs premium API” story without tripling CI cost.
-
----
+Expensive models (GPT-4o, Gemini 3.5 Flash, Claude Sonnet 4.5) are single-run for cost feasibility. Affordable models get five runs for stability analysis (Jaccard, CV).
 
 ## Final model list (10 models)
 
-| # | Display name | OpenRouter slug | Category | Role |
-|---|--------------|-----------------|----------|------|
-| 1 | GPT-4o-mini | `openai/gpt-4o-mini` | API-only (Cheap) | Cheap OpenAI; original paper model |
-| 2 | **GPT-4o** | `openai/gpt-4o` | API-only (Expensive) | **Premium OpenAI (tier comparison with 4o-mini)** |
-| 3 | Gemini 3.1 Flash Lite | `google/gemini-3.1-flash-lite` | API-only (Cheap) | **Cheap Google alternative** |
-| 4 | Gemini 3.5 Flash | `google/gemini-3.5-flash` | API-only (Expensive) | Premium Google (tier comparison with 8B) |
-| 5 | Claude Haiku 4.5 | `anthropic/claude-haiku-4.5` | API-only (Cheap) | Cheap Anthropic |
-| 6 | Claude Sonnet 4.5 | `anthropic/claude-sonnet-4.5` | API-only (Expensive) | Premium Anthropic (tier comparison with Haiku) |
-| 7 | Llama 3.3 70B Instruct | `meta-llama/llama-3.3-70b-instruct` | Open-weight | Canonical 70B; original paper model |
-| 8 | Llama 3.1 8B Instruct | `meta-llama/llama-3.1-8b-instruct` | Open-weight | Small / local-deployment tier |
-| 9 | Qwen 2.5 Coder 32B | `qwen/qwen-2.5-coder-32b-instruct` | Open-weight | Code-specialist; non-Meta family |
-| 10 | DeepSeek Chat v3.1 | `deepseek/deepseek-chat-v3.1` | Hybrid | Strong cost-efficiency (API access to open weights) |
+| # | Artifact ID | Display name | OpenRouter slug | Category | Run policy | Reps |
+|---|-------------|--------------|-----------------|----------|------------|------|
+| 1 | `openai_gpt-4o-mini` | GPT-4o-mini | `openai/gpt-4o-mini` | api-only | multi | 5 |
+| 2 | `openai_gpt-4o` | GPT-4o | `openai/gpt-4o` | api-only | single | 1 |
+| 3 | `google_gemini-3.1-flash-lite` | Gemini 3.1 Flash Lite | `google/gemini-3.1-flash-lite` | api-only | multi | 5 |
+| 4 | `google_gemini-3.5-flash` | Gemini 3.5 Flash | `google/gemini-3.5-flash` | api-only | single | 1 |
+| 5 | `anthropic_claude-haiku-4.5` | Claude Haiku 4.5 | `anthropic/claude-haiku-4.5` | api-only | multi | 5 |
+| 6 | `anthropic_claude-sonnet-4.5` | Claude Sonnet 4.5 | `anthropic/claude-sonnet-4.5` | api-only | single | 1 |
+| 7 | `meta-llama_llama-3.3-70b-instruct` | Llama 3.3 70B | `meta-llama/llama-3.3-70b-instruct` | open-weight | multi | 5 |
+| 8 | `meta-llama_llama-3.1-8b-instruct` | Llama 3.1 8B | `meta-llama/llama-3.1-8b-instruct` | open-weight | multi | 5 |
+| 9 | `qwen_qwen-2.5-coder-32b-instruct` | Qwen 2.5 Coder 32B | `qwen/qwen-2.5-coder-32b-instruct` | open-weight | multi | 5 |
+| 10 | `deepseek_deepseek-chat-v3.1` | DeepSeek Chat v3.1 | `deepseek/deepseek-chat-v3.1` | hybrid | multi | 5 |
 
-**Run strategy:** 3 expensive models (single run) · 7 affordable models (multiple runs)  
-**RQ5 grouping:** 3 open-weight · 6 API-only · 1 hybrid.
+**RQ5 grouping:** 3 open-weight · 6 api-only · 1 hybrid (DeepSeek)
 
----
+**Paper baselines in this study (not replication targets):** `gpt-4o-mini`, `llama-3.3-70b-instruct`
+
+## Tier comparisons (within provider)
+
+| Provider | Cheap (multi, 5 reps) | Premium (single, 1 rep) |
+|----------|----------------------|-------------------------|
+| OpenAI | GPT-4o-mini | GPT-4o |
+| Google | Gemini 3.1 Flash Lite | Gemini 3.5 Flash |
+| Anthropic | Claude Haiku 4.5 | Claude Sonnet 4.5 |
+
+Tier comparisons use **run1** data only (asymmetric run counts).
+
+## Excluded models (legacy artifacts)
+
+These directories may exist locally but are **not** in the study matrix (`thesis/shared/modelMeta.js` → `EXCLUDED_MODELS`):
+
+| Artifact ID | Reason |
+|-------------|--------|
+| `google_gemini-2.5-flash` | Superseded by Gemini 3.5 Flash |
+| `google_gemini-2.5-flash-thinking` | Reasoning model — out of scope |
+| `meta-llama_llama-4-maverick` | Redundant with Llama 3.3 70B |
+| `meta-llama/codellama-34b-instruct` | No longer on OpenRouter (404) |
 
 ## Pricing (OpenRouter, per 1M tokens)
 
@@ -64,118 +78,50 @@ We deliberately **do not** add premium pairs for OpenAI (GPT-4o) or Google (Gemi
 | Qwen 2.5 Coder 32B | $0.66 | $1.00 |
 | Claude Haiku 4.5 | $1.00 | $5.00 |
 | Gemini 3.5 Flash | $1.50 | $9.00 |
+| GPT-4o | (see pricing JSON) | (see pricing JSON) |
 | Claude Sonnet 4.5 | $3.00 | $15.00 |
-
----
 
 ## Estimated LLM cost (mutant generation only)
 
-Costs assume the **observed token profile** from one full pass over **thesis-six** (6 packages), totalling **1,292,856 prompt tokens** and **237,642 completion tokens** (measured from `openai/gpt-4o-mini` rep1).
+Token profile measured from `openai/gpt-4o-mini` rep1 over thesis-six: **1,292,856** prompt + **237,642** completion tokens.
 
 **Formula:** `cost = (prompt_tokens / 1M) × input_rate + (completion_tokens / 1M) × output_rate`
 
-Actual usage varies slightly per model; treat these as **projections**.
+### Per model — all 6 packages
 
-### Per model — all 6 thesis packages
+| Model | 1 run | 5 runs |
+|-------|-------|--------|
+| Llama 3.1 8B Instruct | ~$0.04 | ~$0.19 |
+| Llama 3.3 70B Instruct | ~$0.21 | ~$1.03 |
+| GPT-4o-mini | ~$0.34 | ~$1.68 |
+| DeepSeek Chat v3.1 | ~$0.46 | ~$2.30 |
+| Gemini 3.1 Flash Lite | (see pricing JSON) | — |
+| Qwen 2.5 Coder 32B | ~$1.09 | ~$5.45 |
+| Claude Haiku 4.5 | ~$2.48 | ~$12.41 |
+| Gemini 3.5 Flash | ~$4.08 | — (single run) |
+| GPT-4o | (see pricing JSON) | — (single run) |
+| Claude Sonnet 4.5 | ~$7.44 | — (single run) |
 
-| Model | 1 run (1×) | 5 runs (5×) |
-|-------|------------|-------------|
-| Llama 3.1 8B Instruct | **$0.04** | **$0.19** |
-| Llama 3.3 70B Instruct | **$0.21** | **$1.03** |
-| GPT-4o-mini | **$0.34** | **$1.68** |
-| DeepSeek Chat v3.1 | **$0.46** | **$2.30** |
-| Qwen 2.5 Coder 32B | **$1.09** | **$5.45** |
-| Claude Haiku 4.5 | **$2.48** | **$12.41** |
-| Gemini 3.5 Flash | **$4.08** | **$20.39** |
-| Claude Sonnet 4.5 | **$7.44** | **$37.22** |
-
-### Full thesis suite (all 8 models)
-
-| Replications | Total LLM cost (generation only) |
-|--------------|----------------------------------|
-| **1×** (each model once) | **~$16.13** |
-| **5×** (each model five times, for RQ2) | **~$80.66** |
-
-> These are **LLM API costs only**. GitHub Actions compute time for Stryker is separate (often the dominant wall-clock cost). Gemini 3.5 Flash and Claude Sonnet 4.5 are the most expensive models in the set.
-
-### Workload multiplier
-
-Each full model run = **6 packages** (thesis-six) × **1 workflow** (packages run in parallel within the workflow).
-
-For the complete thesis study with **5 replications** per model:
+### Full thesis workload
 
 ```
-8 models × 6 packages × 5 reps = 240 package-level benchmark jobs
+7 multi-run models × 6 packages × 5 reps = 210 package-level jobs
+3 single-run models × 6 packages × 1 rep  =  18 package-level jobs
+Total                                    = 228 package-level jobs
 ```
-
-(confirm RQ0 pipeline checklist in `thesis/rq0/replication.md` before interpreting multi-rep results).
-
----
-
-## Existing runs: keep vs delete
-
-Current local artifacts (`artifacts/` and `organized/`) reflect an **older 7-model set** (including reasoning and redundant Llama). Only **rep1** is real data; runs 2–5 in `organized/` are simulated symlinks.
-
-### Keep (still in the final 8-model set)
-
-| Artifact directory | OpenRouter slug | Notes |
-|--------------------|-----------------|-------|
-| `openai_gpt-4o-mini` | `openai/gpt-4o-mini` | Keep rep1; re-run reps 2–5 live when ready |
-| `anthropic_claude-sonnet-4.5` | `anthropic/claude-sonnet-4.5` | Premium tier — keep rep1 |
-| `meta-llama_llama-3.3-70b-instruct` | `meta-llama/llama-3.3-70b-instruct` | Keep rep1 |
-| `deepseek_deepseek-chat-v3.1` | `deepseek/deepseek-chat-v3.1` | Keep rep1 |
-
-### Delete (not in final set)
-
-| Artifact directory | Reason |
-|--------------------|--------|
-| `google_gemini-2.5-flash` | Replaced by **Gemini 3.5 Flash** |
-| `google_gemini-2.5-flash-thinking` | Reasoning model — excluded from thesis |
-| `meta-llama_llama-4-maverick` | Redundant with Llama 3.3 70B |
-
-After deleting, remove matching folders under both `artifacts/` and `organized/`, then re-run `thesis` organize/analysis when new runs are available.
-
-### Must run (no existing data)
-
-| OpenRouter slug | Priority |
-|-----------------|----------|
-| `google/gemini-3.5-flash` | High — replaces 2.5 Flash |
-| `anthropic/claude-haiku-4.5` | High — new cheap Anthropic tier |
-| `meta-llama/llama-3.1-8b-instruct` | Medium — open small tier |
-| `qwen/qwen-2.5-coder-32b-instruct` | Medium — open coder |
-
-### Simulated runs (runs 2–5)
-
-Any **simulated** run2–run5 data for kept models was duplicated from rep1 for pipeline testing. **Delete or overwrite** with real replications when you run the 5× study for RQ2.
-
----
-
-## Models dropped from earlier plans
-
-| Model | Why dropped |
-|-------|-------------|
-| Gemini 2.5 Flash | Superseded by Gemini 3.5 Flash |
-| Gemini 2.5 Flash (thinking) | Reasoning / cost |
-| Llama 4 Maverick | Too similar to Llama 3.3 70B |
-| GPT-4o | Premium OpenAI pair not needed (Haiku/Sonnet covers tier story) |
-| Gemini 2.5 / 3.5 Pro | Same — cost vs marginal insight |
-| All o-series / R1 / `-thinking` | CI timeout and cost |
-
----
 
 ## Related files
 
 | File | Purpose |
 |------|---------|
-| `.github/workflows/openrouter-exp.yml` | CI model dropdown |
-| `.github/download-all-runs.sh` | Batch artifact download model list |
-| `.github/thesis-model-pricing.json` | Pinned pricing for cost scripts |
-| `thesis/shared/modelMeta.js` | Display names and RQ5 categories |
-| `thesis/rq0/replication.md` | Pipeline validation & experimental setup (not paper replication) |
-
----
+| `thesis/shared/modelRegistry.js` | Canonical model list, run policy, status |
+| `thesis/shared/modelMeta.js` | Display names, categories, exclusions |
+| `thesis/meta/experiment_runs.md` | Run matrix summary |
+| `.github/workflows/openrouter-exp.yml` | CI workflow |
+| `.github/thesis-model-pricing.json` | Pinned pricing for RQ4 |
+| `thesis/rq0/replication.md` | Pipeline validation |
 
 ## References
 
-- LLMorpheus (method): [arXiv:2404.09952](https://arxiv.org/abs/2404.09952) — this thesis extends the tool; `gpt-4o-mini` and `llama-3.3-70b-instruct` are study baselines, not replication targets. `codellama-34b-instruct` excluded (no longer on OpenRouter).
-- RQ0 setup: `thesis/rq0/replication.md`
+- LLMorpheus method: [arXiv:2404.09952](https://arxiv.org/abs/2404.09952)
+- RQ definitions: `thesis/meta/rq_overview.md`

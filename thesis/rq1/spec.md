@@ -6,6 +6,33 @@
 
 **Hypothesis:** Models differ in mutant volume and validity rates; some models produce more survivors but with larger edit distances (less subtle mutations); modern models expected to outperform original baselines.
 
+## Study matrix (canonical)
+
+**Registry:** `thesis/shared/modelRegistry.js` · **Detail:** `thesis/meta/model_choices.md`
+
+| Scope | Models | Runs used |
+|-------|--------|-----------|
+| **All models** | 10 (see table below) | **run1 only** for cross-model comparison |
+
+| # | Artifact ID | OpenRouter slug | Category | Run policy |
+|---|-------------|-----------------|----------|------------|
+| 1 | `openai_gpt-4o-mini` | `openai/gpt-4o-mini` | api-only | multi (5 reps; RQ1 uses rep1) |
+| 2 | `openai_gpt-4o` | `openai/gpt-4o` | api-only | single (1 rep) |
+| 3 | `google_gemini-3.1-flash-lite` | `google/gemini-3.1-flash-lite` | api-only | multi |
+| 4 | `google_gemini-3.5-flash` | `google/gemini-3.5-flash` | api-only | single |
+| 5 | `anthropic_claude-haiku-4.5` | `anthropic/claude-haiku-4.5` | api-only | multi |
+| 6 | `anthropic_claude-sonnet-4.5` | `anthropic/claude-sonnet-4.5` | api-only | single |
+| 7 | `meta-llama_llama-3.3-70b-instruct` | `meta-llama/llama-3.3-70b-instruct` | open-weight | multi |
+| 8 | `meta-llama_llama-3.1-8b-instruct` | `meta-llama/llama-3.1-8b-instruct` | open-weight | multi |
+| 9 | `qwen_qwen-2.5-coder-32b-instruct` | `qwen/qwen-2.5-coder-32b-instruct` | open-weight | multi |
+| 10 | `deepseek_deepseek-chat-v3.1` | `deepseek/deepseek-chat-v3.1` | hybrid | multi |
+
+**Packages:** thesis-six (6 JavaScript packages) — `.github/thesis-six.json`  
+**Datasets (RQ1):** 10 models × 6 packages × 1 run = **60**  
+**Outputs:** `thesis/rq1/output/publication/` (see `artifacts_index.md`)
+
+**Paper baselines (directional comparison only):** `gpt-4o-mini`, `llama-3.3-70b-instruct`
+
 ## Background and Motivation
 
 The effectiveness of mutation testing depends not only on the total number of mutants generated, but also on their quality characteristics. Key quality dimensions include:
@@ -25,10 +52,10 @@ This analysis systematizes the mutant generation analysis from the original LLMo
 
 ### Input Data Structure
 
-**Source:** `artifacts/` directory containing structured LLM mutation testing results
-- **7 LLMs:** GPT-4o-mini, Claude Sonnet 4.5, Gemini 2.5 Flash (+ thinking), Llama 3.3 70B, Llama 4 Maverick, DeepSeek Chat v3.1
-- **6 JavaScript packages:** Complex.js, countries-and-timezones, node-jsonfile, pull-stream, spacl-core, zip-a-folder
-- **1 run per LLM** (42 datasets total: 7 LLMs × 6 packages × 1 run)
+**Source:** `artifacts/` / `organized/` — see Study matrix above
+- **10 models** (7 multi-run + 3 single-run; RQ1 filters to **run1**)
+- **6 JavaScript packages:** thesis-six subset
+- **60 datasets:** 10 models × 6 packages × run1
 
 **Raw data structure per model × package × run:**
 ```
@@ -120,10 +147,9 @@ def calculate_edit_distances(mutants_data):
 
 | Model | Median #Candidates | Validity Rate | Median Mutation Score | Median #Survived | Median Abs. Levenshtein | Median Norm. Levenshtein |
 |-------|-------------------|---------------|----------------------|------------------|------------------------|--------------------------|
-| gpt-4o-mini | 1,395 | 76.8% | 61.90% | 408 | 3.5 [2.0-6.0] | 0.42 [0.25-0.67] |
-| claude-sonnet-4.5 | ... | ... | ... | ... | ... | ... |
-| gemini-2.5-flash | ... | ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... | ... | ... |
+| (see `volume_metrics.tex`) | … | … | … | … | … | … |
+
+Published values: `thesis/rq1/output/publication/volume_metrics.tex`, `model_summary.csv`
 
 #### Generated Artifacts (Implementation Plan)
 
@@ -272,7 +298,7 @@ python mutation-volume-analysis/generate_plots.py
 ### Data Quality Considerations
 
 #### Coverage Verification
-- **Complete datasets:** Verify all 42 combinations (7 models × 6 packages) present
+- **Complete datasets:** Verify all 60 combinations (10 models × 6 packages × run1) present
 - **Data integrity:** Validate JSON parsing success rates across all files
 - **Outlier detection:** Flag packages with unusual generation patterns (e.g., excessive timeouts)
 
@@ -287,7 +313,7 @@ python mutation-volume-analysis/generate_plots.py
 **RQ2 dependency:** Multi-run data would enhance this analysis with consistency metrics
 **RQ3 integration:** Survivor counts connect to equivalent mutant analysis  
 **RQ4 synergy:** Token usage directly feeds into cost-effectiveness calculations
-**RQ5-6 foundation:** Volume/quality metrics enable category-based comparisons
+**RQ5 foundation:** Volume/quality metrics enable category-based comparisons
 
 ## Practical Implications
 

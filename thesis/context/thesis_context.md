@@ -32,7 +32,7 @@ Detail: `thesis/meta/rq_overview.md`. Per-RQ methodology: `thesis/rqX/spec.md`.
 - **Models:** 10 (see `thesis/meta/model_choices.md`, registry in `thesis/shared/modelRegistry.js`)
 - **Categories:** `api-only`, `open-weight`, `hybrid` (DeepSeek)
 - **Config:** FULL prompt template, T=0, maxTokens=200, reasoning disabled (Gemini 3.x: minimal effort)
-- **Runs:** `multi` policy → 5 reps (RQ2 stability); `single` policy → 1 rep (expensive API models)
+- **Runs:** `multi` policy → **5 reps** (7 affordable models; RQ2 uses all reps); `single` policy → **1 rep** (3 expensive models)
 - **Raw data:** `../artifacts/`, `../organized/` at repo root (gitignored)
 
 ## RQ dependencies

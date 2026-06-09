@@ -4,14 +4,36 @@
 
 **Research Question:** How consistent are different models across runs?
 
-**Hypothesis:** Models vary significantly in stability even at T=0; reasoning models may be less stable due to more complex generation behavior; open-weight models may differ from API models in consistency.
+**Hypothesis:** Models vary significantly in stability even at T=0; open-weight and API models may differ in consistency, but category labels are not assumed causal.
+
+## Study matrix (canonical)
+
+**Registry:** `thesis/shared/modelRegistry.js` · **Detail:** `thesis/meta/model_choices.md`
+
+RQ2 includes **only multi-run models** (single-run models excluded — see `filterForRq` in `thesis/shared/filterDatasets.js`).
+
+| # | Artifact ID | OpenRouter slug | Reps |
+|---|-------------|-----------------|------|
+| 1 | `openai_gpt-4o-mini` | `openai/gpt-4o-mini` | 5 |
+| 2 | `google_gemini-3.1-flash-lite` | `google/gemini-3.1-flash-lite` | 5 |
+| 3 | `anthropic_claude-haiku-4.5` | `anthropic/claude-haiku-4.5` | 5 |
+| 4 | `meta-llama_llama-3.3-70b-instruct` | `meta-llama/llama-3.3-70b-instruct` | 5 |
+| 5 | `meta-llama_llama-3.1-8b-instruct` | `meta-llama/llama-3.1-8b-instruct` | 5 |
+| 6 | `qwen_qwen-2.5-coder-32b-instruct` | `qwen/qwen-2.5-coder-32b-instruct` | 5 |
+| 7 | `deepseek_deepseek-chat-v3.1` | `deepseek/deepseek-chat-v3.1` | 5 |
+
+**Excluded from RQ2:** `openai_gpt-4o`, `google_gemini-3.5-flash`, `anthropic_claude-sonnet-4.5` (single-run policy)
+
+**Packages:** thesis-six (6 packages)  
+**Datasets (RQ2):** 7 models × 6 packages × 5 reps = **210**  
+**Outputs:** `thesis/rq2/output/publication/` (see `artifacts_index.md`)
 
 ## Background and Motivation
 
 Even with deterministic settings (temperature=0), large language models can exhibit variation across runs due to:
 
 - **Implementation differences:** Floating-point precision, batching strategies, hardware variations
-- **Model architecture:** Reasoning models may have additional stochastic components  
+- **Model architecture:** Serving and batching differences across providers  
 - **API vs local deployment:** Different serving infrastructure and optimization strategies
 - **Prompt sensitivity:** Minor context variations affecting generation paths
 
@@ -23,33 +45,18 @@ Understanding cross-run consistency is critical for:
 
 ## Research Design
 
-### Experimental Requirements
+### Input Data Structure
 
-**Critical limitation:** This research question **cannot be fully answered with current data**, as it requires **multiple runs per model × package combination**.
-
-**Current data:** 1 run per model × package (42 datasets total)
-**Required data:** 3+ runs per model × package (126+ datasets minimum)
-
-### Input Data Structure (Required)
-
-**Target structure for complete analysis:**
 ```
 artifacts/{model}/
-├── rep1/                      # First run (current data)
+├── rep1/ … rep5/              # 5 reps for each multi-run model
 │   ├── mutants-{package}/
 │   └── results-{package}/
-├── rep2/                      # Second run (MISSING)
-│   ├── mutants-{package}/
-│   └── results-{package}/
-└── rep3/                      # Third run (MISSING)
-    ├── mutants-{package}/
-    └── results-{package}/
 ```
 
-**Analysis scope with complete data:**
-- **7 LLMs × 6 packages × 3 runs = 126 datasets**
-- **Consistency metrics:** Cross-run stability for each model × package pair
-- **Statistical power:** 3 runs enables meaningful variance estimation
+**Analysis scope:**
+- **7 models × 6 packages × 5 runs = 210 datasets**
+- **Consistency metrics:** Jaccard overlap, CV/SD of score, survivors, edit distance across reps
 
 ### Methodology Framework
 
@@ -207,25 +214,10 @@ def analyze_package_consistency(consistency_results):
 
 ### Implementation Plan
 
-#### Data Collection Requirements
+#### Analysis pipeline
 
-**Critical need:** Additional runs must be collected to complete this analysis
-```bash
-# Example collection strategy for complete RQ2 analysis
-for model in gpt-4o-mini claude-sonnet-4.5 gemini-2.5-flash ...; do
-  for package in Complex.js countries-and-timezones ...; do
-    for run in rep2 rep3; do
-      # Execute LLMorpheus with identical configuration
-      llmorpheus --model ${model} --package ${package} --output artifacts/${model}/${run}/
-    done
-  done  
-done
-```
-
-**Computational cost estimation:** 
-- **Additional data needed:** 2 × 42 = 84 new runs  
-- **Estimated time:** ~40 hours of LLM generation + ~20 hours Stryker testing
-- **Estimated cost:** $200-800 depending on model pricing (API models)
+**Implementation:** `thesis/rq2/index.js`, `thesis/rq2/plots/`  
+**Schedule affordable reps:** `.github/schedule-affordable-runs.sh <1-5>`
 
 #### Analysis Scripts Framework
 
@@ -252,111 +244,21 @@ model-consistency-analysis/
 - `package_consistency_radar.png` — Multi-dimensional consistency per package
 - `stability_vs_performance_scatter.png` — Consistency-effectiveness tradeoffs
 
-### Partial Analysis with Current Data
-
-#### Limited Insights Available
-
-While complete cross-run analysis is impossible, some preliminary consistency indicators can be derived:
-
-**1. Internal consistency checks:**
-- Mutant generation patterns within single runs
-- Prompt-to-prompt variation in mutation types
-- Location targeting consistency across prompts
-
-**2. Cross-package stability:**
-- Models showing consistent performance patterns across different packages
-- Identifying packages that reveal model instabilities
-
-**3. Quality variance indicators:**
-- Models with highly variable mutant quality within single runs
-- Outlier detection in generation patterns
-
-#### Placeholder Implementation
-
-```python
-# Partial analysis with current single-run data
-def analyze_within_run_consistency(artifacts_dir):
-    """Extract what consistency insights are possible from single runs"""
-    
-    results = []
-    for model_dir in artifacts_dir.glob("*/rep1"):
-        model_name = model_dir.parent.name
-        
-        # Analyze prompt-to-prompt variation within each package
-        for mutants_file in model_dir.glob("mutants-*/*/mutants.json"):
-            package_name = mutants_file.parent.parent.name.replace("mutants-", "")
-            mutants_data = json.load(mutants_file.open())
-            
-            # Group mutants by prompt ID and analyze internal consistency
-            prompt_groups = {}
-            for mutant in mutants_data:
-                prompt_id = mutant['promptId'] 
-                if prompt_id not in prompt_groups:
-                    prompt_groups[prompt_id] = []
-                prompt_groups[prompt_id].append(mutant)
-            
-            # Calculate within-prompt consistency metrics
-            prompt_consistency = analyze_prompt_consistency(prompt_groups)
-            
-            results.append({
-                'model': model_name,
-                'package': package_name,
-                'within_prompt_consistency': prompt_consistency,
-                'cross_prompt_variance': calculate_cross_prompt_variance(prompt_groups)
-            })
-    
-    return results
-```
-
 ## Research Question Status
 
-### Current Status: **BLOCKED - Insufficient Data**
+### Current Status: **READY**
 
-**Completion requirements:**
-1. **Data collection:** Execute 2 additional runs per model × package combination
-2. **Infrastructure setup:** Automated run management and artifact organization  
-3. **Analysis implementation:** Multi-run comparison and statistical testing
-4. **Validation:** Cross-run reproducibility verification
-
-### Alternative Research Directions
-
-#### RQ2a: Package-Induced Consistency Patterns
-**Research question:** Do certain packages induce higher model variability than others?
-**Feasibility:** Analyzable with current data using cross-package performance variance
-**Implementation effort:** Low (2-3 days)
-
-#### RQ2b: Within-Run Generation Consistency  
-**Research question:** How consistent are models across prompts within a single generation run?
-**Feasibility:** Fully analyzable with current data structure
-**Implementation effort:** Medium (1 week)
-
-#### RQ2c: Model Architecture and Consistency
-**Research question:** Do reasoning models show different consistency patterns than standard models?
-**Feasibility:** Requires additional reasoning model variants but analyzable framework exists
-**Implementation effort:** Medium (pending model variants)
+All 7 multi-run models have 5 complete reps. Run `cd thesis && node rq2/index.js` (or `npm run all`) to regenerate outputs.
 
 ## Integration with Other Research Questions
 
 **RQ1 foundation:** Volume/quality metrics provide baseline for consistency comparison
 **RQ3 stability:** Equivalent mutant rates may vary across runs - affects interpretation  
 **RQ4 implications:** Cost calculations should account for result variability
-**RQ5-6 enhancement:** Category comparisons more robust with consistency data
+**RQ5 note:** Category-level Jaccard comparison is **excluded** from RQ5 (unequal rep counts across categories).
 
-## Future Work and Recommendations
+## Future Work
 
-### Immediate Actions (if additional runs collected)
-1. **Systematic data collection:** Standardized multi-run generation protocol
-2. **Analysis pipeline:** Implement complete consistency analysis framework
-3. **Baseline establishment:** Document expected consistency ranges for future studies
-
-### Alternative Approaches  
-1. **Focus on RQ2b:** Within-run consistency analysis with current data
-2. **Pilot study:** Collect multi-run data for subset of models/packages  
-3. **Literature integration:** Compare single-run results to published LLM consistency studies
-
-### Long-term Research Program
-1. **Longitudinal consistency:** Track model consistency changes over API updates
-2. **Configuration sensitivity:** Vary temperature, prompts, context to study consistency drivers
-3. **Hardware dependency:** Compare consistency across different deployment environments
-
-The consistency analysis represents a critical gap in current LLM mutation testing research that requires dedicated data collection and analysis infrastructure to address comprehensively.
+- Longitudinal consistency as API providers update models
+- Configuration sensitivity (temperature, prompt variants)
+- Self-hosted vs OpenRouter serving consistency

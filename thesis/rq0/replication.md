@@ -44,7 +44,7 @@ All models are compared under **identical** conditions. These are design choices
 | **Template** | `template-full` |
 | **System prompt** | `SystemPrompt-MutationTestingExpert` |
 | **Temperature** | `0.0` |
-| **maxTokens** | `250` (see `thesis/meta/experiment_runs.md` if a repo-wide config change applies) |
+| **maxTokens** | `200` |
 | **maxNrPrompts** | `2000` |
 | **Stryker** | Custom `stryker-js` fork, `--concurrency 1`, precomputed mutators |
 
@@ -108,7 +108,7 @@ Organize and analyze: `thesis/` (`node run-all.js` or per-RQ scripts)
 
 ## Checklist — ready for RQ1–RQ5?
 
-- [ ] At least one successful GHA run per model in the matrix (or documented reason for exclusion)
+- [x] Successful runs for all 10 models in the matrix (see `thesis/meta/experiment_runs.md`)
 - [ ] Logs show token usage and **> 0 mutants** per package (not 404 / empty runs)
 - [ ] Artifacts organized under `artifacts/` / `organized/` with expected layout
 - [ ] `cd thesis && npm run all` (or equivalent) completes without missing-input errors
@@ -130,7 +130,7 @@ Expensive models (single rep):
 .github/schedule-expensive-runs.sh 1
 ```
 
-Workflow inputs: `thesis-six.json`, `template-full`, `SystemPrompt-MutationTestingExpert`, `temperature=0.0`, `maxTokensInCompletion=250`.
+Workflow inputs: `thesis-six.json`, `template-full`, `SystemPrompt-MutationTestingExpert`, `temperature=0.0`, `maxTokensInCompletion=200`.
 
 Repository secrets: `OPENROUTER_LLM_API_ENDPOINT`, `OPENROUTER_LLM_AUTH_HEADERS` (optional: `LLMORPHEUS_LLM_PROVIDER`).
 

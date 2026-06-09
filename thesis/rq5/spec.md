@@ -40,19 +40,26 @@ Understanding performance differences across these categories enables practition
 
 ### Model Categorization
 
-**Current model inventory with category classification:**
+**Canonical labels:** `thesis/shared/modelRegistry.js` / `thesis/shared/modelMeta.js`
 
-| Model | Category | Rationale |
-|-------|----------|-----------|
-| `meta-llama/llama-3.3-70b-instruct` | Open-weight | Weights available on Hugging Face |
-| `meta-llama/llama-4-maverick` | Open-weight | Weights available on Hugging Face |
-| `openai/gpt-4o-mini` | API-only | Proprietary OpenAI model |
-| `anthropic/claude-sonnet-4.5` | API-only | Proprietary Anthropic model |
-| `google/gemini-2.5-flash` | API-only | Proprietary Google model |
-| `google/gemini-2.5-flash-thinking` | API-only | Proprietary Google model |
-| `deepseek/deepseek-chat-v3.1` | **Hybrid*** | API access to open-weight model |
+| Artifact ID | OpenRouter slug | Category | Run policy |
+|-------------|-----------------|----------|------------|
+| `meta-llama_llama-3.3-70b-instruct` | `meta-llama/llama-3.3-70b-instruct` | open-weight | multi (5 reps) |
+| `meta-llama_llama-3.1-8b-instruct` | `meta-llama/llama-3.1-8b-instruct` | open-weight | multi |
+| `qwen_qwen-2.5-coder-32b-instruct` | `qwen/qwen-2.5-coder-32b-instruct` | open-weight | multi |
+| `openai_gpt-4o-mini` | `openai/gpt-4o-mini` | api-only | multi |
+| `openai_gpt-4o` | `openai/gpt-4o` | api-only | single |
+| `google_gemini-3.1-flash-lite` | `google/gemini-3.1-flash-lite` | api-only | multi |
+| `google_gemini-3.5-flash` | `google/gemini-3.5-flash` | api-only | single |
+| `anthropic_claude-haiku-4.5` | `anthropic/claude-haiku-4.5` | api-only | multi |
+| `anthropic_claude-sonnet-4.5` | `anthropic/claude-sonnet-4.5` | api-only | single |
+| `deepseek_deepseek-chat-v3.1` | `deepseek/deepseek-chat-v3.1` | **hybrid** | multi |
 
-***Note:** DeepSeek represents a hybrid case - the underlying model has open weights but is accessed via API in this study. Classification decisions and sensitivity analysis required.
+**RQ5 grouping:** 3 open-weight · 6 api-only · 1 hybrid  
+**Comparison data:** run1 only (all 10 models)  
+**Outputs:** `thesis/rq5/output/publication/` (see `artifacts_index.md`)
+
+*DeepSeek has open weights but is accessed via OpenRouter API in this study. Sensitivity analysis: compare with/without DeepSeek in hybrid category.*
 
 ### Comparative Analysis Framework
 
@@ -102,7 +109,11 @@ def compare_model_categories(results_df, category_mapping):
 
 #### 2. Consistency and Reliability Analysis
 
-**Stability metrics (requires RQ2 multi-run data when available):**
+**Excluded from RQ5:** Cross-run Jaccard and stability metrics (unequal rep counts — see RQ2). The code below is **not** used in RQ5 publication outputs.
+
+<details>
+<summary>Legacy consistency sketch (not in RQ5 scope)</summary>
+
 ```python
 def analyze_category_consistency(consistency_data, category_mapping):
     """Compare consistency patterns between model categories"""
@@ -124,6 +135,8 @@ def analyze_category_consistency(consistency_data, category_mapping):
     
     return consistency_comparison
 ```
+
+</details>
 
 #### 3. Cost-Efficiency Dimension
 
@@ -243,12 +256,12 @@ def pca_category_analysis(normalized_metrics, category_mapping):
 
 #### Category Performance Profiles
 
-**Open-weight Models (Llama 3.3, Llama 4):**
+**Open-weight Models (Llama 3.3, Llama 3.1 8B, Qwen Coder 32B):**
 - **Strengths:** Exceptional cost-efficiency, competitive quality metrics
 - **Considerations:** Requires local infrastructure, potential consistency variations
 - **Use cases:** Budget-conscious deployments, privacy-sensitive codebases, high-volume testing
 
-**API-only Models (GPT-4o, Claude, Gemini):**
+**API-only Models (GPT-4o-mini, GPT-4o, Gemini Flash Lite/3.5, Haiku, Sonnet):**
 - **Strengths:** Cutting-edge performance, managed infrastructure, consistent availability
 - **Considerations:** Higher costs, API dependencies, rate limiting
 - **Use cases:** Premium quality requirements, managed service preference, occasional usage
@@ -309,9 +322,9 @@ category-comparison-analysis/
 #### Sample Size Considerations
 
 **Current model distribution:**
-- **Open-weight:** 2 models (Llama 3.3, Llama 4) - limited statistical power
-- **API-only:** 4 models (GPT-4o, Claude, 2×Gemini) - moderate sample size
-- **Hybrid:** 1 model (DeepSeek) - requires careful classification handling
+- **Open-weight:** 3 models (Llama 3.3 70B, Llama 3.1 8B, Qwen Coder 32B)
+- **API-only:** 6 models (GPT-4o-mini, GPT-4o, Gemini 3.1 Flash Lite, Gemini 3.5 Flash, Haiku, Sonnet)
+- **Hybrid:** 1 model (DeepSeek Chat v3.1)
 
 **Statistical power implications:**
 - **Effect size detection:** Small effects may not reach significance with limited samples
