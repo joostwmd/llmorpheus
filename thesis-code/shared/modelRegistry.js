@@ -43,7 +43,7 @@ export const MODEL_REGISTRY = {
     displayName: "Gemini 3.5 Flash",
     category: "api-only",
     runPolicy: "single",
-    status: "pending",
+    status: "ready",
   },
   "anthropic_claude-haiku-4.5": {
     openRouterSlug: "anthropic/claude-haiku-4.5",
