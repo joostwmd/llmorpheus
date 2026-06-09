@@ -18,6 +18,7 @@ thesis/references/**/*
 !thesis/references/*.js
 !thesis/references/package.json
 !thesis/references/.env.example
+!thesis/references/_index.md
 thesis/references/node_modules/
 thesis/references/.env
 thesis/rq3/equivalent-mutants/classify/data

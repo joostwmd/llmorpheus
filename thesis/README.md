@@ -64,16 +64,22 @@ Central build output is under `output/figures/`, `output/tables/`, `output/stats
 
 ## References
 
+| Path | Purpose |
+|------|---------|
+| `references/input/` | Source PDFs (not committed) |
+| `references/processed/{slug}/` | Converted `paper.md`, `paper.json`, `figures/` |
+| `references/_index.md` | Slug catalog for agents (APA citations, RQ tags) |
+
 Convert a PDF to markdown:
 
 ```bash
 cd references
 npm install
 cp .env.example .env   # add Unstructured API key
-node convert.cli.js path/to/paper.pdf --slug paper-slug
+node convert.cli.js input/paper.pdf --slug paper-slug
 ```
 
-Track converted papers in [`references/_index.md`](references/_index.md).
+Output lands in `references/processed/paper-slug/`. Track converted papers in [`references/_index.md`](references/_index.md).
 
 ## Model registry
 

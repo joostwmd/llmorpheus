@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { ReferencePdfConverter } from "./ReferencePdfConverter.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { PROCESSED_DIR, ReferencePdfConverter } from "./ReferencePdfConverter.js";
 
 function printUsage() {
   console.log(`Usage:
   node convert.cli.js <pdf-path> [--slug name] [--overwrite] [--no-save-json]
   node convert.cli.js --from-json <elements.json> [--slug name] [--overwrite]
 
+Example:
+  node convert.cli.js input/my-paper.pdf --slug my-paper
+
 Options:
-  --slug          Output folder name under thesis/references/
-  --output-root   Override output root directory
+  --slug          Output folder name under thesis/references/processed/
+  --output-root   Override output root directory (default: processed/)
   --overwrite     Regenerate outputs even if paper.md exists
   --from-json     Rebuild markdown from cached Unstructured JSON
   --no-save-json  Skip writing paper.json when converting a PDF
@@ -73,7 +72,7 @@ async function main() {
   }
 
   const converter = new ReferencePdfConverter({
-    outputRoot: args.outputRoot ?? __dirname,
+    outputRoot: args.outputRoot ?? PROCESSED_DIR,
   });
 
   try {

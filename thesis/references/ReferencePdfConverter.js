@@ -13,6 +13,7 @@ try {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+export const PROCESSED_DIR = path.join(__dirname, "processed");
 /** SDK default; it appends `/general/v0/general` itself. */
 const DEFAULT_API_URL = "https://api.unstructuredapp.io";
 
@@ -191,7 +192,7 @@ export class ReferencePdfConverter {
    * @param {{ outputRoot?: string, apiKey?: string, apiUrl?: string }} [options]
    */
   constructor(options = {}) {
-    this.outputRoot = path.resolve(options.outputRoot ?? __dirname);
+    this.outputRoot = path.resolve(options.outputRoot ?? PROCESSED_DIR);
     this.apiKey = options.apiKey ?? process.env.UNSTRUCTURED_API_KEY ?? "";
     const rawApiUrl = options.apiUrl ?? process.env.UNSTRUCTURED_API_URL ?? DEFAULT_API_URL;
     this.apiUrl = normalizeApiUrl(rawApiUrl) ?? DEFAULT_API_URL;
@@ -300,7 +301,11 @@ export class ReferencePdfConverter {
       throw new Error(`Expected a JSON array of elements in ${resolvedJson}`);
     }
 
-    const resolvedSlug = slug ?? slugify(resolvedJson);
+    const resolvedSlug =
+      slug ??
+      (path.basename(resolvedJson) === "paper.json"
+        ? path.basename(path.dirname(resolvedJson))
+        : slugify(resolvedJson));
     const outputDir = path.join(this.outputRoot, resolvedSlug);
     const markdownPath = path.join(outputDir, "paper.md");
 
