@@ -4,11 +4,11 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/** thesis-code/ directory */
-export const THESIS_CODE_ROOT = path.resolve(__dirname, "..");
+/** thesis/ workspace directory */
+export const THESIS_ROOT = path.resolve(__dirname, "..");
 
-/** llmorpheus repo root (parent of thesis-code/) */
-export const REPO_ROOT = path.resolve(THESIS_CODE_ROOT, "..");
+/** llmorpheus repo root (parent of thesis/) */
+export const REPO_ROOT = path.resolve(THESIS_ROOT, "..");
 
 export const DEFAULT_ARTIFACTS_DIR = path.join(REPO_ROOT, "artifacts");
 export const DEFAULT_ORGANIZED_DIR = path.join(REPO_ROOT, "organized");
@@ -49,7 +49,7 @@ export function copyIfExists(src, dest) {
 }
 
 export function globalOutputDirs() {
-  const base = path.join(THESIS_CODE_ROOT, "output");
+  const base = path.join(THESIS_ROOT, "output");
   const figures = path.join(base, "figures");
   const figuresPng = path.join(base, "figures-png");
   const tables = path.join(base, "tables");
@@ -62,12 +62,12 @@ export function globalOutputDirs() {
 }
 
 export function rqOutputDirs(rqName) {
-  const base = path.join(THESIS_CODE_ROOT, rqName, "output");
-  const thesis = path.join(base, "thesis");
+  const base = path.join(THESIS_ROOT, rqName, "output");
+  const publication = path.join(base, "publication");
   const appendix = path.join(base, "appendix");
-  ensureDir(thesis);
+  ensureDir(publication);
   ensureDir(appendix);
   globalOutputDirs();
-  return { base, thesis, appendix };
+  return { base, publication, appendix };
 }
 

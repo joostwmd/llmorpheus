@@ -211,12 +211,12 @@ def main() -> None:
     pairwise = load_rq2_pairwise_jaccard()
     trial_counts = load_rq2_mutant_trial_counts()
     plot_jaccard_box(detail)
-    plot_cv_grouped_bar(pd.read_csv(Path(__file__).resolve().parents[1] / "output" / "thesis" / "model_consistency_summary.csv"))
+    plot_cv_grouped_bar(pd.read_csv(Path(__file__).resolve().parents[1] / "output" / "publication" / "model_consistency_summary.csv"))
     plot_score_across_runs(per_run)
     plot_within_model_jaccard_heatmap(pairwise)
     plot_mutant_variability_stacked(trial_counts)
     plot_forest(per_run)
-    print("RQ2 plots written to thesis-code/output/figures/", flush=True)
+    print("RQ2 plots written to thesis/output/figures/", flush=True)
 
 
 if __name__ == "__main__":

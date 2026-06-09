@@ -2,7 +2,7 @@ import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { THESIS_CODE_ROOT } from "./paths.js";
+import { THESIS_ROOT } from "./paths.js";
 import { distributeRqArtifacts } from "./rqOutput.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -11,9 +11,9 @@ function pythonExecutable() {
   return process.env.PYTHON ?? "python3";
 }
 
-export function spawnPython(scriptPath, args = [], { cwd = THESIS_CODE_ROOT, optional = false } = {}) {
+export function spawnPython(scriptPath, args = [], { cwd = THESIS_ROOT, optional = false } = {}) {
   const py = pythonExecutable();
-  const absScript = path.isAbsolute(scriptPath) ? scriptPath : path.join(THESIS_CODE_ROOT, scriptPath);
+  const absScript = path.isAbsolute(scriptPath) ? scriptPath : path.join(THESIS_ROOT, scriptPath);
   if (!fs.existsSync(absScript)) {
     const msg = `Python script not found: ${absScript}`;
     if (optional) {

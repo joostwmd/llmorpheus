@@ -74,10 +74,10 @@ def per_package_table(detail: pd.DataFrame) -> None:
 
 def main() -> None:
     detail = load_rq2_detail()
-    summary_path = Path(__file__).resolve().parents[1] / "output" / "thesis" / "model_consistency_summary.csv"
+    summary_path = Path(__file__).resolve().parents[1] / "output" / "publication" / "model_consistency_summary.csv"
     consistency_table(summary_path)
     per_package_table(detail)
-    print("RQ2 tables written to thesis-code/output/tables/", flush=True)
+    print("RQ2 tables written to thesis/output/tables/", flush=True)
 
 
 if __name__ == "__main__":

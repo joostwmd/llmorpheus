@@ -11,9 +11,9 @@ EQUIVALENT_MUTANTS_ROOT = Path(__file__).resolve().parents[1]
 
 
 def _find_repo_root() -> Path:
-    """Resolve llmorpheus repo root (supports thesis-code/rq3/ layout)."""
+    """Resolve llmorpheus repo root (supports thesis/rq3/ layout)."""
     candidate = EQUIVALENT_MUTANTS_ROOT.parent.parent.parent
-    if (candidate / "thesis-code").is_dir():
+    if (candidate / "thesis" / "shared").is_dir():
         return candidate
     legacy = EQUIVALENT_MUTANTS_ROOT.parent
     if (legacy / "package.json").is_file():

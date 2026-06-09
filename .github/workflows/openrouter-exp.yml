@@ -33,7 +33,7 @@ on:
         description: "Sampling temperature to try when obtaining completions"
         default: 0.0
       model:
-        description: "OpenRouter model id (thesis model matrix — see thesis/Model_Choices.md, thesis/RQ0_Replication.md)"
+        description: "OpenRouter model id (thesis model matrix — see thesis/meta/model_choices.md, thesis/rq0/replication.md)"
         type: choice
         options:
           - "openai/gpt-4o-mini"

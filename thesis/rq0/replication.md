@@ -6,7 +6,7 @@
 
 This is **not** an external replication of the original [LLMorpheus paper](https://arxiv.org/abs/2404.09952). The thesis does not claim to reproduce the paper’s CodeLlama 34B numbers or to prove the paper right or wrong. The paper is cited as the **method and tool** this work extends; RQ1–RQ5 are a **new comparative study** of modern LLMs under a shared, standardized setup.
 
-**What RQ0 answers:** *Does our pipeline (LLMorpheus → Stryker → artifacts → `thesis-code`) run correctly and produce parseable data for all models in the study?*
+**What RQ0 answers:** *Does our pipeline (LLMorpheus → Stryker → artifacts → `thesis`) run correctly and produce parseable data for all models in the study?*
 
 ---
 
@@ -21,7 +21,7 @@ Each package job runs the full loop:
 3. **Stryker** with precomputed mutants (`--usePrecomputed`)
 4. Upload artifacts (`mutants-*`, `results-*`)
 
-If runs complete with **non-zero mutants** and `thesis-code` can organize and analyze the artifacts, the pipeline is validated. No separate replay step or comparison to the 2024 paper is required.
+If runs complete with **non-zero mutants** and `thesis` can organize and analyze the artifacts, the pipeline is validated. No separate replay step or comparison to the 2024 paper is required.
 
 ### Signs of a healthy run
 
@@ -30,7 +30,7 @@ If runs complete with **non-zero mutants** and `thesis-code` can organize and an
 | LLM logs | `*** prompt tokens: …` | `AxiosError: Request failed with status code 404` |
 | Mutant output | `wrote N mutants` with **N > 0** | `wrote 0 mutants in 0 locations` |
 | Workflow conclusion | Success **and** non-empty artifacts | Success but empty data (errors swallowed per prompt) |
-| Downstream | `thesis-code` RQ scripts run without missing inputs | Organize/analysis fails |
+| Downstream | `thesis` RQ scripts run without missing inputs | Organize/analysis fails |
 
 ---
 
@@ -44,7 +44,7 @@ All models are compared under **identical** conditions. These are design choices
 | **Template** | `template-full` |
 | **System prompt** | `SystemPrompt-MutationTestingExpert` |
 | **Temperature** | `0.0` |
-| **maxTokens** | `250` (see `thesis/Experiment_Runs.md` if a repo-wide config change applies) |
+| **maxTokens** | `250` (see `thesis/meta/experiment_runs.md` if a repo-wide config change applies) |
 | **maxNrPrompts** | `2000` |
 | **Stryker** | Custom `stryker-js` fork, `--concurrency 1`, precomputed mutators |
 
@@ -52,7 +52,7 @@ All models are compared under **identical** conditions. These are design choices
 
 ## Model matrix
 
-**10 models** in the thesis study (see `thesis/Model_Choices.md`). Each is a peer in the comparison — including `gpt-4o-mini` and `llama-3.3-70b-instruct`, which also appeared in the original paper, but only as **baselines within this study**, not as replication targets.
+**10 models** in the thesis study (see `thesis/meta/model_choices.md`). Each is a peer in the comparison — including `gpt-4o-mini` and `llama-3.3-70b-instruct`, which also appeared in the original paper, but only as **baselines within this study**, not as replication targets.
 
 | Included | OpenRouter slug | Role in this thesis |
 |----------|-----------------|---------------------|
@@ -86,7 +86,7 @@ artifacts/
 ```
 
 Download helpers: `.github/download-run.sh`, `.github/download-all-runs.sh`  
-Organize and analyze: `thesis-code/` (`node run-all.js` or per-RQ scripts)
+Organize and analyze: `thesis/` (`node run-all.js` or per-RQ scripts)
 
 ---
 
@@ -96,7 +96,7 @@ Organize and analyze: `thesis-code/` (`node run-all.js` or per-RQ scripts)
 
 - CI checkout, build, LLMorpheus, Stryker, and artifact extraction work end-to-end
 - Every model in the matrix can produce non-empty, parseable results
-- `thesis-code` can consume artifacts for RQ1–RQ5
+- `thesis` can consume artifacts for RQ1–RQ5
 
 **Does not prove:**
 
@@ -111,7 +111,7 @@ Organize and analyze: `thesis-code/` (`node run-all.js` or per-RQ scripts)
 - [ ] At least one successful GHA run per model in the matrix (or documented reason for exclusion)
 - [ ] Logs show token usage and **> 0 mutants** per package (not 404 / empty runs)
 - [ ] Artifacts organized under `artifacts/` / `organized/` with expected layout
-- [ ] `cd thesis-code && npm run all` (or equivalent) completes without missing-input errors
+- [ ] `cd thesis && npm run all` (or equivalent) completes without missing-input errors
 - [ ] Experimental parameters documented in methods section (template, T=0, maxTokens, packages)
 
 ---
@@ -146,14 +146,14 @@ Repository secrets: `OPENROUTER_LLM_API_ENDPOINT`, `OPENROUTER_LLM_AUTH_HEADERS`
 | **RQ4** Cost | Yes — needs token logs from live generation |
 | **RQ5** Open-weight vs API | Yes — needs complete RQ1–RQ4 inputs |
 
-Once the checklist above passes, proceed with the full model matrix. Use **5 replications** per affordable model for RQ2; single rep for expensive models (see `thesis/Experiment_Runs.md`).
+Once the checklist above passes, proceed with the full model matrix. Use **5 replications** per affordable model for RQ2; single rep for expensive models (see `thesis/meta/experiment_runs.md`).
 
 ---
 
 ## References
 
 - LLMorpheus (method): [arXiv:2404.09952](https://arxiv.org/abs/2404.09952)
-- Model list & pricing: `thesis/Model_Choices.md`
-- Run matrix & status: `thesis/Experiment_Runs.md`
+- Model list & pricing: `thesis/meta/model_choices.md`
+- Run matrix & status: `thesis/meta/experiment_runs.md`
 - CI workflow: `.github/workflows/openrouter-exp.yml`
 - Packages: `.github/thesis-six.json`

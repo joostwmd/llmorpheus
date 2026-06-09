@@ -34,9 +34,9 @@ def fmt_usd(v, digits=4) -> str:
 
 
 def main() -> None:
-    thesis = Path(__file__).resolve().parents[1] / "output" / "thesis"
-    cat = pd.read_csv(thesis / "category_summary.csv")
-    comp = pd.read_csv(thesis / "category_comparisons.csv")
+    publication = Path(__file__).resolve().parents[1] / "output" / "publication"
+    cat = pd.read_csv(publication / "category_summary.csv")
+    comp = pd.read_csv(publication / "category_comparisons.csv")
 
     cat_rows = [
         [
@@ -84,7 +84,7 @@ def main() -> None:
             col_spec="l|rrrr",
         ),
     )
-    print("RQ5 tables written to thesis-code/output/tables/", flush=True)
+    print("RQ5 tables written to thesis/output/tables/", flush=True)
 
 
 if __name__ == "__main__":

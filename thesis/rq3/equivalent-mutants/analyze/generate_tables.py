@@ -164,7 +164,7 @@ def main() -> None:
     (input_dir / "statistical_tests_table.tex").write_text(stats_tex, encoding="utf-8")
     write_table("rq3_main_results.tex", main_tex)
     write_table("rq3_statistical_tests.tex", stats_tex)
-    print(f"Wrote LaTeX tables to {input_dir} and thesis-code/output/tables/", flush=True)
+    print(f"Wrote LaTeX tables to {input_dir} and thesis/output/tables/", flush=True)
 
 
 if __name__ == "__main__":

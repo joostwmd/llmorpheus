@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
-THESIS_CODE_ROOT = Path(__file__).resolve().parent.parent
+THESIS_ROOT = Path(__file__).resolve().parent.parent
 REGISTRY_PATH = Path(__file__).resolve().parent / "model_registry.json"
 
 NA_VALUES = ["", "—", "null", "None", "nan"]
@@ -37,7 +37,7 @@ def _read(path: Path) -> pd.DataFrame:
 
 
 def default_path(*parts: str) -> Path:
-    return THESIS_CODE_ROOT.joinpath(*parts)
+    return THESIS_ROOT.joinpath(*parts)
 
 
 def load_rq1_merged(path: Path | None = None) -> pd.DataFrame:
@@ -47,7 +47,7 @@ def load_rq1_merged(path: Path | None = None) -> pd.DataFrame:
 
 
 def load_rq1_summary(path: Path | None = None) -> pd.DataFrame:
-    df = _read(path or default_path("rq1", "output", "thesis", "model_summary.csv"))
+    df = _read(path or default_path("rq1", "output", "publication", "model_summary.csv"))
     if "displayName" not in df.columns:
         df["displayName"] = df["model"].map(display_name)
     return df
@@ -74,7 +74,7 @@ def load_rq2_mutant_trial_counts(path: Path | None = None) -> pd.DataFrame:
 
 
 def load_rq3_aggregated(path: Path | None = None) -> pd.DataFrame:
-    return _read(path or default_path("rq3", "output", "thesis", "aggregated_results.csv"))
+    return _read(path or default_path("rq3", "output", "publication", "aggregated_results.csv"))
 
 
 def load_rq4_costs(path: Path | None = None) -> pd.DataFrame:
@@ -84,7 +84,7 @@ def load_rq4_costs(path: Path | None = None) -> pd.DataFrame:
 
 
 def load_rq4_summary(path: Path | None = None) -> pd.DataFrame:
-    df = _read(path or default_path("rq4", "output", "thesis", "model_cost_summary.csv"))
+    df = _read(path or default_path("rq4", "output", "publication", "model_cost_summary.csv"))
     df["displayName"] = df["model"].map(display_name)
     return df
 

@@ -146,7 +146,7 @@ def main() -> None:
     plot_pareto_frontier(summary)
     plot_cost_composition(costs)
     plot_cost_vs_jaccard(summary, rq2)
-    print("RQ4 plots written to thesis-code/output/figures/", flush=True)
+    print("RQ4 plots written to thesis/output/figures/", flush=True)
 
 
 if __name__ == "__main__":

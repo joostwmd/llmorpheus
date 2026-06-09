@@ -109,7 +109,7 @@ def main() -> None:
     volume_metrics_table(summary, merged)
     edit_distance_table(merged)
     per_package_breakdown(merged)
-    print("RQ1 tables written to thesis-code/output/tables/", flush=True)
+    print("RQ1 tables written to thesis/output/tables/", flush=True)
 
 
 if __name__ == "__main__":

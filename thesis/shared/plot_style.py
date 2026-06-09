@@ -11,12 +11,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import seaborn as sns  # noqa: E402
 
-THESIS_CODE_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_FIGURES = THESIS_CODE_ROOT / "output" / "figures"
-OUTPUT_FIGURES_PNG = THESIS_CODE_ROOT / "output" / "figures-png"
-OUTPUT_TABLES = THESIS_CODE_ROOT / "output" / "tables"
-OUTPUT_STATS = THESIS_CODE_ROOT / "output" / "stats"
-OUTPUT_DATA = THESIS_CODE_ROOT / "output" / "data"
+THESIS_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_FIGURES = THESIS_ROOT / "output" / "figures"
+OUTPUT_FIGURES_PNG = THESIS_ROOT / "output" / "figures-png"
+OUTPUT_TABLES = THESIS_ROOT / "output" / "tables"
+OUTPUT_STATS = THESIS_ROOT / "output" / "stats"
+OUTPUT_DATA = THESIS_ROOT / "output" / "data"
 
 BASELINE_LLMORPHEUS = 20.2
 BASELINE_STRYKERJS = 4.7
@@ -42,7 +42,7 @@ def ensure_output_dirs() -> None:
 
 
 def setup() -> None:
-    cache_dir = THESIS_CODE_ROOT / ".matplotlib-cache"
+    cache_dir = THESIS_ROOT / ".matplotlib-cache"
     cache_dir.mkdir(parents=True, exist_ok=True)
     os.environ.setdefault("MPLCONFIGDIR", str(cache_dir))
     ensure_output_dirs()

@@ -12,7 +12,7 @@ function printUsage() {
   node convert.cli.js --from-json <elements.json> [--slug name] [--overwrite]
 
 Options:
-  --slug          Output folder name under thesis-references/
+  --slug          Output folder name under thesis/references/
   --output-root   Override output root directory
   --overwrite     Regenerate outputs even if paper.md exists
   --from-json     Rebuild markdown from cached Unstructured JSON

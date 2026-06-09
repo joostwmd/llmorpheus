@@ -80,7 +80,7 @@ def main() -> None:
     merged = load_rq5_merged()
     plot_category_violins(merged)
     plot_effect_size_forest(merged)
-    print("RQ5 plots written to thesis-code/output/figures/", flush=True)
+    print("RQ5 plots written to thesis/output/figures/", flush=True)
 
 
 if __name__ == "__main__":

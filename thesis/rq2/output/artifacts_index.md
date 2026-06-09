@@ -1,6 +1,6 @@
 # RQ2 publication artifacts
 
-Use files in `thesis/` in the main paper; use `appendix/` for supplementary material.
+Use files in `publication/` in the main paper; use `appendix/` for supplementary material.
 
 ## Figures
 

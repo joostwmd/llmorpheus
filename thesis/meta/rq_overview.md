@@ -4,9 +4,9 @@ Table
 Aspect Detail
 Input GitHub Actions runs (LLMorpheus + Stryker) on thesis-six for each model in the study matrix
 Output Confirmation that artifacts are non-empty and parseable; standardized experimental constants documented
-Aggregation Per model: successful end-to-end run with > 0 mutants per package; thesis-code organize/analysis succeeds
+Aggregation Per model: successful end-to-end run with > 0 mutants per package; thesis organize/analysis succeeds
 Expected result Pipeline validated; no external replication of the 2024 paper claimed — proceed to RQ1–RQ5
-See thesis/RQ0_Replication.md for setup, checklist, and artifact layout.
+See thesis/rq0/replication.md for setup, checklist, and artifact layout.
 RQ1 — How many mutants do different models produce and what are they?
 Table
 

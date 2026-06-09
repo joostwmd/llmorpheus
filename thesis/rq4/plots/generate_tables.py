@@ -74,7 +74,7 @@ def main() -> None:
     summary = load_rq4_summary()
     cost_table(summary)
     pareto_table(summary)
-    print("RQ4 tables written to thesis-code/output/tables/", flush=True)
+    print("RQ4 tables written to thesis/output/tables/", flush=True)
 
 
 if __name__ == "__main__":

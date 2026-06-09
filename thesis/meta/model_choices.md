@@ -7,7 +7,7 @@ This document defines the **10-model thesis set** with tier comparisons, pricing
 **Updated Configuration (May 25, 2026):**
 - **Max tokens:** 200 (reduced from 250/8000 for consistency)
 - **Reasoning:** Disabled for most models; Gemini 3.x uses `{ effort: "minimal", exclude: true }`
-- **Analysis registry:** `thesis-code/shared/modelRegistry.js` — flip `status` to `ready` when CI artifacts are valid
+- **Analysis registry:** `thesis/shared/modelRegistry.js` — flip `status` to `ready` when CI artifacts are valid
 - **Google model:** Switched to `google/gemini-3.1-flash-lite` (83% cheaper than 3.5 Flash)
 
 **Study design:** Variable runs per model based on cost-feasibility - expensive models (€15+/run) get single runs for comparison, affordable models get multiple runs for stability analysis.
@@ -108,7 +108,7 @@ For the complete thesis study with **5 replications** per model:
 8 models × 6 packages × 5 reps = 240 package-level benchmark jobs
 ```
 
-(confirm RQ0 pipeline checklist in `thesis/RQ0_Replication.md` before interpreting multi-rep results).
+(confirm RQ0 pipeline checklist in `thesis/rq0/replication.md` before interpreting multi-rep results).
 
 ---
 
@@ -133,7 +133,7 @@ Current local artifacts (`artifacts/` and `organized/`) reflect an **older 7-mod
 | `google_gemini-2.5-flash-thinking` | Reasoning model — excluded from thesis |
 | `meta-llama_llama-4-maverick` | Redundant with Llama 3.3 70B |
 
-After deleting, remove matching folders under both `artifacts/` and `organized/`, then re-run `thesis-code` organize/analysis when new runs are available.
+After deleting, remove matching folders under both `artifacts/` and `organized/`, then re-run `thesis` organize/analysis when new runs are available.
 
 ### Must run (no existing data)
 
@@ -170,12 +170,12 @@ Any **simulated** run2–run5 data for kept models was duplicated from rep1 for 
 | `.github/workflows/openrouter-exp.yml` | CI model dropdown |
 | `.github/download-all-runs.sh` | Batch artifact download model list |
 | `.github/thesis-model-pricing.json` | Pinned pricing for cost scripts |
-| `thesis-code/shared/modelMeta.js` | Display names and RQ5 categories |
-| `thesis/RQ0_Replication.md` | Pipeline validation & experimental setup (not paper replication) |
+| `thesis/shared/modelMeta.js` | Display names and RQ5 categories |
+| `thesis/rq0/replication.md` | Pipeline validation & experimental setup (not paper replication) |
 
 ---
 
 ## References
 
 - LLMorpheus (method): [arXiv:2404.09952](https://arxiv.org/abs/2404.09952) — this thesis extends the tool; `gpt-4o-mini` and `llama-3.3-70b-instruct` are study baselines, not replication targets. `codellama-34b-instruct` excluded (no longer on OpenRouter).
-- RQ0 setup: `thesis/RQ0_Replication.md`
+- RQ0 setup: `thesis/rq0/replication.md`

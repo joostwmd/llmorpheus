@@ -22,7 +22,7 @@ const argv = yargs(hideBin(process.argv))
   .option("real-only", { type: "boolean", default: true })
   .option("rq3-aggregated", {
     type: "string",
-    default: path.join("rq3", "output", "thesis", "aggregated_results.csv"),
+    default: path.join("rq3", "output", "publication", "aggregated_results.csv"),
   })
   .parseSync();
 
@@ -50,9 +50,9 @@ for (const row of equivRows) {
 const costRows = computeCosts(datasets, equivByKey);
 const modelSummary = paretoFrontier(aggregateModelCosts(costRows));
 
-const { thesis, appendix } = rqOutputDirs("rq4");
+const { publication, appendix } = rqOutputDirs("rq4");
 writeCsv(path.join(appendix, "cost_all_runs.csv"), costRows);
-writeCsv(path.join(thesis, "model_cost_summary.csv"), modelSummary);
+writeCsv(path.join(publication, "model_cost_summary.csv"), modelSummary);
 
 for (const model of [...new Set(costRows.map((r) => r.model))]) {
   writeCsv(
@@ -63,4 +63,4 @@ for (const model of [...new Set(costRows.map((r) => r.model))]) {
 
 runPlotPipeline("rq4");
 
-console.log(`RQ4 complete: ${thesis}`);
+console.log(`RQ4 complete: ${publication}`);

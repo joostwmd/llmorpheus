@@ -187,18 +187,18 @@ runPython("generate_tables.py", ["--config", configPath]);
 runPython("generate_plots.py", ["--config", configPath]);
 
 const pythonOut = path.join(ANALYZE_ROOT, "output");
-const { thesis, appendix } = rqOutputDirs("rq3");
+const { publication, appendix } = rqOutputDirs("rq3");
 
 const SKIP_PUBLICATION_EXTS = new Set([".png", ".pdf", ".tex"]);
 if (fs.existsSync(pythonOut)) {
   for (const name of fs.readdirSync(pythonOut)) {
     if (SKIP_PUBLICATION_EXTS.has(path.extname(name))) continue;
-    copyIfExists(path.join(pythonOut, name), path.join(thesis, name));
+    copyIfExists(path.join(pythonOut, name), path.join(publication, name));
   }
 }
 
 // Appendix: per-run rows from aggregated_results
-const aggPath = path.join(thesis, "aggregated_results.csv");
+const aggPath = path.join(publication, "aggregated_results.csv");
 if (fs.existsSync(aggPath)) {
   const allowed = new Set(getModelsForRq("rq3"));
   const text = fs.readFileSync(aggPath, "utf8").trim();
@@ -228,4 +228,4 @@ if (fs.existsSync(aggPath)) {
 
 distributeRqArtifacts("rq3");
 
-console.log(`RQ3 complete: ${thesis}`);
+console.log(`RQ3 complete: ${publication}`);

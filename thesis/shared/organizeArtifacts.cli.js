@@ -3,8 +3,8 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import path from "path";
 import { fileURLToPath } from "url";
-import { REPO_ROOT, DEFAULT_ARTIFACTS_DIR, DEFAULT_ORGANIZED_DIR } from "./shared/paths.js";
-import { organizeArtifacts } from "./shared/organizeArtifacts.js";
+import { REPO_ROOT, DEFAULT_ARTIFACTS_DIR, DEFAULT_ORGANIZED_DIR } from "./paths.js";
+import { organizeArtifacts } from "./organizeArtifacts.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

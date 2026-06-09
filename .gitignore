@@ -13,18 +13,18 @@ test-*
 
 .cursor/
 
-thesis-references/**/*
-!thesis-references/*.js
-!thesis-references/package.json
-!thesis-references/.env.example
-thesis-references/node_modules/
-thesis-references/.env
+thesis/node_modules/
+thesis/references/**/*
+!thesis/references/*.js
+!thesis/references/package.json
+!thesis/references/.env.example
+thesis/references/node_modules/
+thesis/references/.env
+thesis/rq3/equivalent-mutants/classify/data
+thesis/rq3/equivalent-mutants/classify/results
+thesis/rq3/equivalent-mutants/classify/runs
 
 
 artifacts/
 organized/
 logs/
-thesis-code/node_modules/
-thesis-code/rq3/equivalent-mutants/classify/data
-thesis-code/rq3/equivalent-mutants/classify/results
-thesis-code/rq3/equivalent-mutants/classify/runs

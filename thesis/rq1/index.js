@@ -46,7 +46,7 @@ const merged = volumeRows.map((v) => {
   return { ...v, ...d };
 });
 
-const { thesis, appendix } = rqOutputDirs("rq1");
+const { publication, appendix } = rqOutputDirs("rq1");
 
 writeCsv(path.join(appendix, "raw_metrics_all_runs.csv"), merged);
 writeCsv(path.join(appendix, "volume_metrics_all_runs.csv"), volumeRows);
@@ -98,7 +98,7 @@ for (const model of models) {
   });
 }
 
-writeCsv(path.join(thesis, "model_summary.csv"), modelSummary);
+writeCsv(path.join(publication, "model_summary.csv"), modelSummary);
 
 for (const model of models) {
   const rows = merged.filter((r) => r.model === model);
@@ -107,4 +107,4 @@ for (const model of models) {
 
 runPlotPipeline("rq1");
 
-console.log(`RQ1 complete: ${thesis}`);
+console.log(`RQ1 complete: ${publication}`);

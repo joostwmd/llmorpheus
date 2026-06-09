@@ -162,7 +162,7 @@ def main() -> None:
     plot_score_vs_survivors(df)
     plot_per_package_heatmap(df)
     plot_tokens_per_valid(df)
-    print("RQ1 plots written to thesis-code/output/figures/", flush=True)
+    print("RQ1 plots written to thesis/output/figures/", flush=True)
 
 
 if __name__ == "__main__":

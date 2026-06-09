@@ -184,7 +184,7 @@ def main() -> None:
     plot_scatter(per_dataset, input_dir / "package_complexity_scatter.png")
     plot_effective_survivors(per_dataset)
     plot_score_vs_equiv_rate(per_dataset, llm_summary)
-    print(f"Wrote plots to {input_dir} and thesis-code/output/figures/", flush=True)
+    print(f"Wrote plots to {input_dir} and thesis/output/figures/", flush=True)
 
 
 if __name__ == "__main__":

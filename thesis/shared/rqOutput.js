@@ -10,10 +10,10 @@ function stripRqPrefix(rqName, basename) {
   return basename.startsWith(prefix) ? basename.slice(prefix.length) : basename;
 }
 
-/** Remove generated artifacts from rqX/output/thesis and appendix (keeps .gitkeep). */
+/** Remove generated artifacts from rqX/output/publication and appendix (keeps .gitkeep). */
 export function clearRqOutput(rqName) {
-  const { thesis, appendix } = rqOutputDirs(rqName);
-  for (const dir of [thesis, appendix]) {
+  const { publication, appendix } = rqOutputDirs(rqName);
+  for (const dir of [publication, appendix]) {
     if (!fs.existsSync(dir)) continue;
     for (const name of fs.readdirSync(dir)) {
       if (KEEP_FILES.has(name)) continue;
@@ -31,7 +31,7 @@ function copyArtifact(rqName, src, destDir, destName) {
   return copyIfExists(src, dest);
 }
 
-/** Copy figures, tables, and stats from central output/ into per-RQ thesis/ or appendix/. */
+/** Copy figures, tables, and stats from central output/ into per-RQ publication/ or appendix/. */
 export function distributeRqArtifacts(rqName) {
   const manifest = OUTPUT_MANIFEST[rqName];
   if (!manifest) {
@@ -39,34 +39,34 @@ export function distributeRqArtifacts(rqName) {
     return;
   }
 
-  const { thesis, appendix } = rqOutputDirs(rqName);
+  const { publication, appendix } = rqOutputDirs(rqName);
   const { figures, figuresPng, tables, stats } = globalOutputDirs();
   const rqPrefix = `${rqName}_`;
   let copied = 0;
 
   for (const [stem, meta] of Object.entries(manifest.figures ?? {})) {
-    const destDir = meta.placement === "thesis" ? thesis : appendix;
+    const destDir = meta.placement === "publication" ? publication : appendix;
     const centralStem = `${rqPrefix}${stem}`;
     if (copyArtifact(rqName, path.join(figures, `${centralStem}.pdf`), destDir, `${stem}.pdf`)) copied++;
     if (copyArtifact(rqName, path.join(figuresPng, `${centralStem}.png`), destDir, `${stem}.png`)) copied++;
   }
 
   for (const [stem, meta] of Object.entries(manifest.tables ?? {})) {
-    const destDir = meta.placement === "thesis" ? thesis : appendix;
+    const destDir = meta.placement === "publication" ? publication : appendix;
     const centralName = stem.endsWith(".tex") ? stem : `${stem}.tex`;
     const destName = stripRqPrefix(rqName, centralName);
     if (copyArtifact(rqName, path.join(tables, centralName), destDir, destName)) copied++;
   }
 
   for (const [stem, meta] of Object.entries(manifest.stats ?? {})) {
-    const destDir = meta.placement === "thesis" ? thesis : appendix;
+    const destDir = meta.placement === "publication" ? publication : appendix;
     const centralName = stem.endsWith(".csv") ? stem : `${stem}.csv`;
     const destName = stripRqPrefix(rqName, centralName);
     if (copyArtifact(rqName, path.join(stats, centralName), destDir, destName)) copied++;
   }
 
   writeArtifactsIndex(rqName);
-  console.log(`[${rqName}] distributed ${copied} publication artifact(s) to thesis/ and appendix/`);
+  console.log(`[${rqName}] distributed ${copied} publication artifact(s) to publication/ and appendix/`);
 }
 
 /** Write a human-readable index of figure/table/stats placement for LaTeX writing. */
@@ -78,7 +78,7 @@ export function writeArtifactsIndex(rqName) {
   const lines = [
     `# ${rqName.toUpperCase()} publication artifacts`,
     "",
-    "Use files in `thesis/` in the main paper; use `appendix/` for supplementary material.",
+    "Use files in `publication/` in the main paper; use `appendix/` for supplementary material.",
     "",
     "## Figures",
     "",

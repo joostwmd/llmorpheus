@@ -2,21 +2,17 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import path from "path";
-import { fileURLToPath } from "url";
-import { rqOutputDirs } from "../shared/paths.js";
+import { THESIS_ROOT, rqOutputDirs } from "../shared/paths.js";
 import { writeCsv, readCsv } from "../shared/csv.js";
 import { runPlotPipeline } from "../shared/python_runner.js";
 import { clearRqOutput } from "../shared/rqOutput.js";
 import { getModelsForRq } from "../shared/modelRegistry.js";
 import { compareCategories, categoryDistribution } from "./categoryComparison.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const THESIS_CODE = path.resolve(__dirname, "..");
-
 const argv = yargs(hideBin(process.argv))
-  .option("rq1-summary", { type: "string", default: path.join(THESIS_CODE, "rq1/output/thesis/model_summary.csv") })
-  .option("rq3-aggregated", { type: "string", default: path.join(THESIS_CODE, "rq3/output/thesis/aggregated_results.csv") })
-  .option("rq4-costs", { type: "string", default: path.join(THESIS_CODE, "rq4/output/appendix/cost_all_runs.csv") })
+  .option("rq1-summary", { type: "string", default: path.join(THESIS_ROOT, "rq1/output/publication/model_summary.csv") })
+  .option("rq3-aggregated", { type: "string", default: path.join(THESIS_ROOT, "rq3/output/publication/aggregated_results.csv") })
+  .option("rq4-costs", { type: "string", default: path.join(THESIS_ROOT, "rq4/output/appendix/cost_all_runs.csv") })
   .parseSync();
 
 clearRqOutput("rq5");
@@ -45,15 +41,15 @@ for (const cost of rq4) {
   });
 }
 
-const { thesis, appendix } = rqOutputDirs("rq5");
+const { publication, appendix } = rqOutputDirs("rq5");
 writeCsv(path.join(appendix, "merged_metrics.csv"), merged);
 
 const catDist = categoryDistribution(merged);
-writeCsv(path.join(thesis, "category_summary.csv"), catDist);
+writeCsv(path.join(publication, "category_summary.csv"), catDist);
 
 const { comparisons } = compareCategories(merged);
-writeCsv(path.join(thesis, "category_comparisons.csv"), comparisons);
+writeCsv(path.join(publication, "category_comparisons.csv"), comparisons);
 
 runPlotPipeline("rq5");
 
-console.log(`RQ5 complete: ${thesis}`);
+console.log(`RQ5 complete: ${publication}`);

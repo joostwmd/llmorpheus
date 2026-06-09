@@ -7,7 +7,7 @@
 # Examples:
 #   .github/schedule-replication-run.sh       # Schedule rep 1
 #
-# For zero-cost validation, prefer local replay — see thesis/RQ0_Replication.md Phase 1.
+# For zero-cost validation, prefer local replay — see thesis/rq0/replication.md Phase 1.
 # This script triggers a live OpenRouter run to validate CI + API end-to-end.
 
 set -euo pipefail
@@ -28,7 +28,7 @@ echo "Model: $MODEL"
 echo "Replication: $REP_NUMBER"
 echo "Packages: $PACKAGES"
 echo ""
-echo "Compare results to paper Table 3 — see thesis/RQ0_Replication.md"
+echo "Compare results to paper Table 3 — see thesis/rq0/replication.md"
 echo ""
 
 read -p "Continue with scheduling? (y/N): " -r

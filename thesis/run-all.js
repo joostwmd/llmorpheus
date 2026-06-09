@@ -73,14 +73,14 @@ if (!argv.skipRq3) {
   ]);
 } else {
   console.log("\n=== Skipping RQ3 (--skip-rq3) ===");
-  const { thesis, appendix } = rqOutputDirs("rq3");
+  const { publication, appendix } = rqOutputDirs("rq3");
   // Copy from legacy location if present
   const legacyOut = path.join(REPO_ROOT, "equivalent-mutants", "analyze", "output");
   const movedOut = path.join(__dirname, "rq3", "equivalent-mutants", "analyze", "output");
   const src = fs.existsSync(movedOut) ? movedOut : legacyOut;
   if (fs.existsSync(src)) {
     for (const f of fs.readdirSync(src)) {
-      copyIfExists(path.join(src, f), path.join(thesis, f));
+      copyIfExists(path.join(src, f), path.join(publication, f));
     }
   }
 }

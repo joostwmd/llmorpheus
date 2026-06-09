@@ -74,7 +74,7 @@ for (const [key, group] of groups) {
   modelAgg.get(model).push(row);
 }
 
-const { thesis, appendix } = rqOutputDirs("rq2");
+const { publication, appendix } = rqOutputDirs("rq2");
 const { rows: trialCountRows } = computeMutantTrialCounts(datasets);
 
 writeCsv(path.join(appendix, "consistency_by_model_package.csv"), detailRows);
@@ -93,8 +93,8 @@ const modelSummary = [...modelAgg.entries()]
   }))
   .sort((a, b) => (a.meanJaccardOverlap ?? 0) - (b.meanJaccardOverlap ?? 0));
 
-writeCsv(path.join(thesis, "model_consistency_summary.csv"), modelSummary);
+writeCsv(path.join(publication, "model_consistency_summary.csv"), modelSummary);
 
 runPlotPipeline("rq2");
 
-console.log(`RQ2 complete: ${thesis}`);
+console.log(`RQ2 complete: ${publication}`);

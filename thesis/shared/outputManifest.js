@@ -1,20 +1,20 @@
 /**
  * Publication artifact placement per research question.
- * placement: "thesis" (main paper) | "appendix"
+ * placement: "publication" (main paper) | "appendix"
  */
 export const OUTPUT_MANIFEST = {
   rq1: {
     figures: {
       mutation_score_box: {
-        placement: "thesis",
+        placement: "publication",
         description: "Mutation score distribution by model",
       },
       validity_stack: {
-        placement: "thesis",
+        placement: "publication",
         description: "Candidate composition (valid / invalid / identical / duplicate)",
       },
       score_vs_survivors: {
-        placement: "thesis",
+        placement: "publication",
         description: "Mutation score vs survivor count",
       },
       edit_distance_ridge: {
@@ -32,7 +32,7 @@ export const OUTPUT_MANIFEST = {
     },
     tables: {
       rq1_volume_metrics: {
-        placement: "thesis",
+        placement: "publication",
         description: "Volume and quality metrics per model",
       },
       rq1_edit_distance: {
@@ -54,11 +54,11 @@ export const OUTPUT_MANIFEST = {
   rq2: {
     figures: {
       jaccard_box: {
-        placement: "thesis",
+        placement: "publication",
         description: "Jaccard overlap distribution across runs",
       },
       mutant_variability_stacked: {
-        placement: "thesis",
+        placement: "publication",
         description: "Mutant trial variability (stable / variable / unique)",
       },
       cv_grouped_bar: {
@@ -80,7 +80,7 @@ export const OUTPUT_MANIFEST = {
     },
     tables: {
       rq2_consistency: {
-        placement: "thesis",
+        placement: "publication",
         description: "Cross-run consistency metrics per model",
       },
       rq2_per_package_consistency: {
@@ -102,15 +102,15 @@ export const OUTPUT_MANIFEST = {
   rq3: {
     figures: {
       llm_comparison_boxplot: {
-        placement: "thesis",
+        placement: "publication",
         description: "Equivalent mutant rate by model",
       },
       llm_means_errorbar: {
-        placement: "thesis",
+        placement: "publication",
         description: "Mean equivalence rate with error bars",
       },
       effective_survivors: {
-        placement: "thesis",
+        placement: "publication",
         description: "Equivalent vs behavioral-change survivors",
       },
       llm_package_heatmap: {
@@ -128,7 +128,7 @@ export const OUTPUT_MANIFEST = {
     },
     tables: {
       rq3_main_results: {
-        placement: "thesis",
+        placement: "publication",
         description: "Equivalent mutant rates per model",
       },
       rq3_statistical_tests: {
@@ -141,11 +141,11 @@ export const OUTPUT_MANIFEST = {
   rq4: {
     figures: {
       pareto_frontier: {
-        placement: "thesis",
+        placement: "publication",
         description: "Pareto frontier (cost vs mutation score)",
       },
       cost_per_nonequiv_bar: {
-        placement: "thesis",
+        placement: "publication",
         description: "Cost per non-equivalent survivor (log scale)",
       },
       cost_composition: {
@@ -159,11 +159,11 @@ export const OUTPUT_MANIFEST = {
     },
     tables: {
       rq4_cost: {
-        placement: "thesis",
+        placement: "publication",
         description: "Cost metrics per model",
       },
       rq4_pareto: {
-        placement: "thesis",
+        placement: "publication",
         description: "Pareto-optimal models",
       },
     },
@@ -177,21 +177,21 @@ export const OUTPUT_MANIFEST = {
   rq5: {
     figures: {
       category_violins: {
-        placement: "thesis",
+        placement: "publication",
         description: "Open-weight vs API-only metric distributions",
       },
       effect_size_forest: {
-        placement: "thesis",
+        placement: "publication",
         description: "Cliff's delta effect sizes between categories",
       },
     },
     tables: {
       rq5_category_summary: {
-        placement: "thesis",
+        placement: "publication",
         description: "Category-level summary statistics",
       },
       rq5_pairwise_effect: {
-        placement: "thesis",
+        placement: "publication",
         description: "Mann–Whitney comparisons with effect sizes",
       },
     },

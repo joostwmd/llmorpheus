@@ -1,5 +1,5 @@
 {
-  "name": "llmorpheus-thesis-code",
+  "name": "llmorpheus-thesis",
   "version": "1.0.0",
   "private": true,
   "description": "Thesis analysis pipelines for LLMorpheus research questions",

@@ -14,7 +14,7 @@ This document defines the complete experimental matrix for the thesis, including
 - **Token limit**: Changed to **`200`** (standardized for consistency)
 - **Reasoning**: Disabled for most models (`reasoning: { enabled: false }`); **Gemini 3.x** uses `{ effort: "minimal", exclude: true }` (OpenRouter requirement)
 - **Google model**: Switched to **`google/gemini-3.1-flash-lite`** (83% cheaper than 3.5 Flash)
-- **Analysis registry**: Model run policy and status live in `thesis-code/shared/modelRegistry.js` (`ready | pending | failed`)
+- **Analysis registry**: Model run policy and status live in `thesis/shared/modelRegistry.js` (`ready | pending | failed`)
 
 **Impact**: 
 - **Previous runs incompatible** - mixed token limits (250/8000) and no reasoning control
@@ -59,15 +59,15 @@ This document defines the complete experimental matrix for the thesis, including
 ## Experimental Matrix
 
 ### **Phase 0: Pipeline validation (RQ0)**
-*Confirm CI + artifacts + `thesis-code` work — not external replication of the 2024 paper*
+*Confirm CI + artifacts + `thesis` work — not external replication of the 2024 paper*
 
 | Check | Status | Purpose |
 |-------|--------|---------|
 | GHA end-to-end (LLMorpheus → Stryker → artifacts) | ✅ **Complete** | Toolchain runs on thesis-six |
 | Non-empty mutants per model × package | ✅ **Complete** (10-model matrix) | RQ1–RQ5 have valid inputs |
-| `thesis-code` organize + analysis | ✅ **Complete** | Downstream RQs runnable |
+| `thesis` organize + analysis | ✅ **Complete** | Downstream RQs runnable |
 
-See `thesis/RQ0_Replication.md` for checklist and experimental constants.
+See `thesis/rq0/replication.md` for checklist and experimental constants.
 
 ### **Phase 2: Single-Run Comparison (RQ1, RQ3, RQ4, RQ5)**
 *All models compared on identical basis*
