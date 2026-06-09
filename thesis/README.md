@@ -12,6 +12,9 @@ Unified bachelor thesis workspace for the LLMorpheus modern-model evaluation (RQ
 | `shared/` | Model registry, artifact organization, plot styling |
 | `output/` | Central figures, tables, and stats (built by plot pipelines) |
 | `references/` | PDF-to-markdown converter and converted papers |
+| `context/` | Shared domain context for agents (`thesis_context.md`, glossary, critique rubric) |
+| `workspace/` | Agent handoffs (literature, analysis, synthesis, critique notes) |
+| `draft/` | Thesis manuscript prose (Writing agent only) |
 | `archive/` | Deprecated planning material (do not use for agents) |
 
 Raw experiment data lives at the **repo root**: `../artifacts/` and `../organized/` (gitignored, downloaded from CI).
@@ -80,3 +83,18 @@ Edit `shared/modelRegistry.js` (mirrored in `shared/model_registry.json` for Pyt
 - `status`: `"ready"` | `"pending"` | `"failed"`
 
 The study evaluates **10 models** — see [`meta/model_choices.md`](meta/model_choices.md).
+
+## Agent workflow
+
+Thesis **content** lives here; **agent prompts** live in [`.cursor/`](../.cursor/).
+
+| Step | Agent | Output |
+|------|-------|--------|
+| 1 | Literature + Data (parallel) | `workspace/literature/`, `workspace/analysis/` |
+| 2 | Synthesis | `workspace/synthesis/` |
+| 3 | Critique | `workspace/critique/` |
+| 4 | Writing | `draft/` |
+
+Entry point: [`.cursor/README.md`](../.cursor/README.md) and [`.cursor/agents/WORKFLOW.md`](../.cursor/agents/WORKFLOW.md).
+
+Invoke via natural-language triggers (e.g. "Summarize RQ1 results", "Draft methodology") — routed by [`.cursor/rules/thesis-agents.mdc`](../.cursor/rules/thesis-agents.mdc).
