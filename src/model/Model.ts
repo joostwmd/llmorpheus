@@ -70,10 +70,10 @@ export class Model implements IModel {
     return this.modelName;
   }
 
-  /** OpenRouter model id and optional reasoning config (for *-thinking aliases). */
+  /** OpenRouter model id and reasoning config (provider-specific). */
   private resolveModelRequest(): {
     model: string;
-    reasoning?: { effort: string };
+    reasoning?: { effort?: string; exclude?: boolean; enabled?: boolean };
   } {
     const thinkingSuffix = "-thinking";
     if (this.modelName.endsWith(thinkingSuffix)) {
@@ -82,7 +82,17 @@ export class Model implements IModel {
         reasoning: { effort: "high" },
       };
     }
-    return { model: this.modelName };
+    // Gemini 3.x uses OpenRouter thinkingLevel; { enabled: false } returns HTTP 400.
+    if (/^google\/gemini-3/i.test(this.modelName)) {
+      return {
+        model: this.modelName,
+        reasoning: { effort: "minimal", exclude: true },
+      };
+    }
+    return {
+      model: this.modelName,
+      reasoning: { enabled: false },
+    };
   }
 
   public getTemperature(): number {
@@ -130,8 +140,6 @@ export class Model implements IModel {
         { role: "user", content: prompt },
       ],
       ...options,
-      // Globally disable reasoning for consistent mutation testing
-      reasoning: { enabled: false },
       ...(reasoning ? { reasoning } : {}),
     };
     if (Model.LLMORPHEUS_LLM_PROVIDER) {
