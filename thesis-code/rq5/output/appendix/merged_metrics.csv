@@ -23,6 +23,12 @@ google_gemini-3.1-flash-lite,node-jsonfile,1,run1,77.5,36,22.2222,0,0,343
 google_gemini-3.1-flash-lite,pull-stream,1,run1,68.11,258,2.7132,0,0,343
 google_gemini-3.1-flash-lite,spacl-core,1,run1,84.62,38,51.5152,0,0,343
 google_gemini-3.1-flash-lite,zip-a-folder,1,run1,94.02,7,0,0,0,343
+google_gemini-3.5-flash,Complex.js,1,run1,55.03,527,14.611,0.004388706831119545,0.005139663333333333,338.5
+google_gemini-3.5-flash,countries-and-timezones,1,run1,80.99,50,40,0.00721368,0.0120228,338.5
+google_gemini-3.5-flash,node-jsonfile,1,run1,72.05,45,20,0.004720133333333333,0.005900166666666666,338.5
+google_gemini-3.5-flash,pull-stream,1,run1,64.8,302,0.9934,0.0031920149006622513,0.0032240418060200666,338.5
+google_gemini-3.5-flash,spacl-core,1,run1,83.95,39,47.2222,0.012872230769230768,0.02281895454545454,338.5
+google_gemini-3.5-flash,zip-a-folder,1,run1,97.46,3,0,0.07002799999999999,0.07002799999999999,338.5
 meta-llama_llama-3.1-8b-instruct,Complex.js,1,run1,63.8,408,1.7157,0.000047927671568627454,0.000048764314214463845,353.5
 meta-llama_llama-3.1-8b-instruct,countries-and-timezones,1,run1,80,47,31.9149,0.00005341446808510638,0.0000784525,353.5
 meta-llama_llama-3.1-8b-instruct,node-jsonfile,1,run1,73.58,42,16.6667,0.000034856428571428576,0.000041827714285714294,353.5
