@@ -6,7 +6,8 @@ This document defines the **10-model thesis set** with tier comparisons, pricing
 
 **Updated Configuration (May 25, 2026):**
 - **Max tokens:** 200 (reduced from 250/8000 for consistency)
-- **Reasoning:** Globally disabled (`reasoning: { enabled: false }`) for all models
+- **Reasoning:** Disabled for most models; Gemini 3.x uses `{ effort: "minimal", exclude: true }`
+- **Analysis registry:** `thesis-code/shared/modelRegistry.js` — flip `status` to `ready` when CI artifacts are valid
 - **Google model:** Switched to `google/gemini-3.1-flash-lite` (83% cheaper than 3.5 Flash)
 
 **Study design:** Variable runs per model based on cost-feasibility - expensive models (€15+/run) get single runs for comparison, affordable models get multiple runs for stability analysis.

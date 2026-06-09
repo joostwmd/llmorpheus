@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+anthropic_claude-haiku-4.5,countries-and-timezones,run1,1,34,17,17,50.0,32.3529,67.6471,"(32.4%, 67.6%)"

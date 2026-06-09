@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-deepseek_deepseek-chat-v3.1,pull-stream,run4,4,299,3,296,1.0033,0.0,2.3411,"(0.0%, 2.3%)"

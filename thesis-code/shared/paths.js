@@ -48,11 +48,26 @@ export function copyIfExists(src, dest) {
   return true;
 }
 
+export function globalOutputDirs() {
+  const base = path.join(THESIS_CODE_ROOT, "output");
+  const figures = path.join(base, "figures");
+  const figuresPng = path.join(base, "figures-png");
+  const tables = path.join(base, "tables");
+  const stats = path.join(base, "stats");
+  const data = path.join(base, "data");
+  for (const d of [figures, figuresPng, tables, stats, data]) {
+    ensureDir(d);
+  }
+  return { base, figures, figuresPng, tables, stats, data };
+}
+
 export function rqOutputDirs(rqName) {
   const base = path.join(THESIS_CODE_ROOT, rqName, "output");
   const thesis = path.join(base, "thesis");
   const appendix = path.join(base, "appendix");
   ensureDir(thesis);
   ensureDir(appendix);
+  globalOutputDirs();
   return { base, thesis, appendix };
 }
+

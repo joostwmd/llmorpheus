@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+qwen_qwen-2.5-coder-32b-instruct,pull-stream,run1,1,247,2,245,0.8097,0.0,2.0243,"(0.0%, 2.0%)"

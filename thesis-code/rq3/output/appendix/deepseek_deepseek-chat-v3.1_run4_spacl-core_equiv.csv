@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-deepseek_deepseek-chat-v3.1,spacl-core,run4,4,35,19,16,54.2857,37.1429,71.4286,"(37.1%, 71.4%)"

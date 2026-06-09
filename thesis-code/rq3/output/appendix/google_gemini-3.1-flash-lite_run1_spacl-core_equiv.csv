@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+google_gemini-3.1-flash-lite,spacl-core,run1,1,33,17,16,51.5152,33.3333,66.6667,"(33.3%, 66.7%)"

@@ -20,7 +20,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const argv = yargs(hideBin(process.argv))
   .option("artifacts", { type: "string", default: DEFAULT_ARTIFACTS_DIR })
   .option("organized", { type: "string", default: DEFAULT_ORGANIZED_DIR })
-  .option("simulate-runs", { type: "number", default: 5 })
+  .option("simulate-runs", {
+    type: "number",
+    default: 1,
+    describe: "Dev-only: duplicate run1 to simulate extra runs (default 1 = real reps only)",
+  })
   .option("skip-organize", { type: "boolean", default: false })
   .option("skip-rq3", { type: "boolean", default: false, describe: "Skip Python RQ3 pipeline" })
   .option("force-organize", { type: "boolean", default: false })

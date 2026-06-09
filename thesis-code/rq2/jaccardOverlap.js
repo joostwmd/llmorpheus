@@ -38,3 +38,24 @@ export function jaccardAcrossRuns(datasetsForModelPackage) {
   const mean = values.length ? values.reduce((a, b) => a + b, 0) / values.length : null;
   return { pairs, meanJaccard: mean, nPairs: pairs.length };
 }
+
+export function pairwiseJaccardRows(model, pkg, datasetsForModelPackage) {
+  const byRun = new Map();
+  for (const d of datasetsForModelPackage) {
+    byRun.set(d.run, mutantSetFromDataset(d));
+  }
+  const runs = [...byRun.keys()].sort((a, b) => a - b);
+  const rows = [];
+  for (let i = 0; i < runs.length; i++) {
+    for (let j = i + 1; j < runs.length; j++) {
+      rows.push({
+        model,
+        package: pkg,
+        run_a: runs[i],
+        run_b: runs[j],
+        jaccard: pairwiseJaccard(byRun.get(runs[i]), byRun.get(runs[j])),
+      });
+    }
+  }
+  return rows;
+}

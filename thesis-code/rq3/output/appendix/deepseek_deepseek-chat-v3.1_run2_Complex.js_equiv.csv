@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-deepseek_deepseek-chat-v3.1,Complex.js,run2,2,511,65,446,12.7202,9.9804,15.6556,"(10.0%, 15.7%)"

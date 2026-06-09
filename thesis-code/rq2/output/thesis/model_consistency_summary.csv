@@ -1,8 +1,8 @@
 model,displayName,meanJaccardOverlap,medianCvMutationScore,medianCvSurvivors,medianCvAbsLevenshtein
-anthropic_claude-sonnet-4.5,Claude Sonnet 4.5,1,0,0,0
-deepseek_deepseek-chat-v3.1,DeepSeek Chat v3.1,1,0,0,0
-google_gemini-2.5-flash-thinking,Gemini 2.5 Flash (thinking),1,0,0,0
-google_gemini-2.5-flash,Gemini 2.5 Flash,1,0,0,0
-meta-llama_llama-3.3-70b-instruct,Llama 3.3 70B,1,0,0,0
-meta-llama_llama-4-maverick,Llama 4 Maverick,1,0,0,0
-openai_gpt-4o-mini,GPT-4o-mini,1,0,0,0
+meta-llama_llama-3.3-70b-instruct,Llama 3.3 70B,0.5048984325932752,1.015976696413622,4.744456963695406,3.4491254003449128
+meta-llama_llama-3.1-8b-instruct,Llama 3.1 8B,0.5168144366923072,1.2892146401574016,3.7354306523544225,6.3022208005168885
+deepseek_deepseek-chat-v3.1,DeepSeek Chat v3.1,0.5592878433677355,1.3491614046004652,4.775672091529673,6.207230421612623
+openai_gpt-4o-mini,GPT-4o-mini,0.5736413420245742,1.1171479935105901,8.400722990265924,2.2727272727272725
+google_gemini-3.1-flash-lite,Gemini 3.1 Flash Lite,0.8203074550488968,0.5201685625498416,3.0115608838827037,0
+qwen_qwen-2.5-coder-32b-instruct,Qwen 2.5 Coder 32B,0.9029447812303006,0.2284630535059458,1.3465927814767955,0
+anthropic_claude-haiku-4.5,Claude Haiku 4.5,0.993239485575252,0.24804430943739533,0.7712956782406288,0

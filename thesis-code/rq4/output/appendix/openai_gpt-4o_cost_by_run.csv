@@ -1,0 +1,7 @@
+model,package,run,runLabel,simulated,nrPrompts,nrCandidates,nrValid,nrInvalid,nrIdentical,nrDuplicate,validityRate,duplicateRate,invalidRate,mutationScore,nrKilled,nrSurvived,nrTimedOut,strykerTimeSec,totalPromptTokens,totalCompletionTokens,inputCostUsd,outputCostUsd,totalCostUsd,costPerCandidate,costPerValid,costPerUnique,costPerSurvivor,costPerNonEquivSurvivor,costPerMutationScorePoint,predictedEquivalent,nonEquivSurvivors
+openai_gpt-4o,Complex.js,1,run1,,490,1379,1200,178,1,91,87.01957940536622,6.598984771573605,12.907904278462654,59.83,718,482,0,352.54200000000003,,,,,0,0,0,0,0,0,0,59,423
+openai_gpt-4o,countries-and-timezones,1,run1,,106,309,259,45,5,9,83.81877022653723,2.912621359223301,14.563106796116504,87.26,226,33,0,271.076,,,,,0,0,0,0,0,0,0,12,21
+openai_gpt-4o,node-jsonfile,1,run1,,68,197,157,40,0,7,79.69543147208121,3.5532994923857872,20.304568527918782,73.89,53,41,63,450.481,,,,,0,0,0,0,0,0,0,9,32
+openai_gpt-4o,pull-stream,1,run1,,351,1039,787,245,7,14,75.74590952839269,1.3474494706448508,23.58036573628489,65.95,453,268,66,1259.172,,,,,0,0,0,0,0,0,0,6,262
+openai_gpt-4o,spacl-core,1,run1,,134,386,269,112,5,15,69.68911917098445,3.8860103626943006,29.015544041450774,89.24,224,27,0,1033.224,,,,,0,0,0,0,0,0,0,8,19
+openai_gpt-4o,zip-a-folder,1,run1,,49,145,118,27,0,2,81.37931034482759,1.3793103448275863,18.620689655172416,95.76,27,5,86,1133.101,,,,,0,0,0,0,0,0,0,0,5

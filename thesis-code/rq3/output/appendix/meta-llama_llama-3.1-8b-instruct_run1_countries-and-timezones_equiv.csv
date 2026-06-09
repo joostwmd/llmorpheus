@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+meta-llama_llama-3.1-8b-instruct,countries-and-timezones,run1,1,47,15,32,31.9149,19.1489,44.6809,"(19.1%, 44.7%)"

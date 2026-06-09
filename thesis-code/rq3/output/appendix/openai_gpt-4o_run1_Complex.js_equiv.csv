@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+openai_gpt-4o,Complex.js,run1,1,482,59,423,12.2407,9.3361,15.1452,"(9.3%, 15.1%)"

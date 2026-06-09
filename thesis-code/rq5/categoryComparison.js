@@ -7,7 +7,6 @@ const METRICS = [
   { key: "equivRatePct", label: "Equivalent rate (%)" },
   { key: "costPerSurvivor", label: "Cost per survivor" },
   { key: "costPerNonEquivSurvivor", label: "Cost per non-equiv survivor" },
-  { key: "meanJaccardOverlap", label: "Jaccard overlap" },
 ];
 
 export function compareCategories(rows, { groupA = "open-weight", groupB = "api-only" } = {}) {

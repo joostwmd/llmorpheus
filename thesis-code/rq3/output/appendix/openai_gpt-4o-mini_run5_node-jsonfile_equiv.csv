@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-openai_gpt-4o-mini,node-jsonfile,run5,5,28,5,23,17.8571,3.5714,32.1429,"(3.6%, 32.1%)"

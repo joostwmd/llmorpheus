@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-anthropic_claude-sonnet-4.5,node-jsonfile,run3,3,42,14,28,33.3333,19.0476,47.619,"(19.0%, 47.6%)"

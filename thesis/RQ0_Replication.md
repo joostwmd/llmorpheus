@@ -153,7 +153,7 @@ Once artifacts exist:
 
 ```bash
 cd thesis-code
-node run-all.js --real-only
+node run-all.js
 ```
 
 Or organize manually and run individual RQs. RQ0 does not require simulated runs (`--simulate-runs`).

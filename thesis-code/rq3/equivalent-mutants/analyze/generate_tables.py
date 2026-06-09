@@ -11,10 +11,13 @@ import pandas as pd
 
 EM_ROOT = Path(__file__).resolve().parents[1]
 ANALYZE_ROOT = Path(__file__).resolve().parent
+THESIS_SHARED = Path(__file__).resolve().parents[3] / "shared"
 sys.path.insert(0, str(EM_ROOT))
 sys.path.insert(0, str(ANALYZE_ROOT))
+sys.path.insert(0, str(THESIS_SHARED))
 
 from lib.config import load_config, resolve_paths
+from booktabs import df_to_booktabs, write_table
 
 
 def format_pct(value: float, decimals: int = 1) -> str:
@@ -28,41 +31,46 @@ def llm_display_name(llm: str) -> str:
 
 
 def generate_main_results_table(llm_summary: pd.DataFrame, baselines: dict[str, float]) -> str:
-    lines = [
-        "\\begin{table*}",
-        "\\centering",
-        "{\\scriptsize",
-        "\\begin{tabular}{l||c|c|c|c||c}",
-        "\\textbf{LLM} & \\textbf{Mean} & \\textbf{Std Dev} & \\textbf{Range} & \\textbf{CoV} & \\textbf{Rank} \\\\",
-        "\\hline\\hline",
-    ]
+    rows = []
     for _, row in llm_summary.sort_values("mean_equiv_rate_pct").iterrows():
-        lines.append(
-            " & ".join(
-                [
-                    f"\\textit{{{llm_display_name(str(row['llm']))}}}",
-                    format_pct(float(row["mean_equiv_rate_pct"])),
-                    format_pct(float(row["std_equiv_rate_pct"])),
-                    str(row["range_equiv_rate_pct"]).replace("%", "\\%"),
-                    format_pct(float(row["coeff_of_variation_pct"])),
-                    str(int(row["rank"])),
-                ]
-            )
-            + " \\\\"
+        rows.append(
+            [
+                f"\\textit{{{llm_display_name(str(row['llm']))}}}",
+                format_pct(float(row["mean_equiv_rate_pct"])),
+                format_pct(float(row["std_equiv_rate_pct"])),
+                str(row["range_equiv_rate_pct"]).replace("%", "\\%"),
+                format_pct(float(row["coeff_of_variation_pct"])),
+                str(int(row["rank"])),
+            ]
         )
-    lines.extend(
+    rows.extend(
         [
-            "\\hline",
-            f"\\textit{{LLMorpheus baseline}} & {format_pct(float(baselines.get('llmorpheus', 20.2)))} & - & - & - & - \\\\",
-            f"\\textit{{StrykerJS baseline}} & {format_pct(float(baselines.get('strykerjs', 4.7)))} & - & - & - & - \\\\",
-            "\\end{tabular}",
-            "}",
-            "\\caption{Equivalent mutant rates among surviving mutants predicted by the UniXCoder classifier across LLMs (threshold $\\theta=0.8$). Mean and standard deviation are computed over package/run observations; weighted rate uses all surviving mutants pooled.}",
-            "\\label{tab:llm-equiv-main}",
-            "\\end{table*}",
+            [
+                "\\textit{LLMorpheus baseline}",
+                format_pct(float(baselines.get("llmorpheus", 20.2))),
+                "-",
+                "-",
+                "-",
+                "-",
+            ],
+            [
+                "\\textit{StrykerJS baseline}",
+                format_pct(float(baselines.get("strykerjs", 4.7))),
+                "-",
+                "-",
+                "-",
+                "-",
+            ],
         ]
     )
-    return "\n".join(lines)
+    return df_to_booktabs(
+        rows,
+        ["LLM", "Mean", "Std Dev", "Range", "CoV", "Rank"],
+        caption="Equivalent mutant rates among surviving mutants predicted by the UniXCoder classifier across LLMs (threshold $\\theta=0.8$).",
+        label="tab:llm-equiv-main",
+        col_spec="l|rrrrr",
+        star=True,
+    )
 
 
 def generate_package_breakdown_table(
@@ -81,7 +89,7 @@ def generate_package_breakdown_table(
         f"\\begin{{tabular}}{{l||{'cc|' * (len(llms) - 1)}cc}}",
         " & ".join(header[:-1]) + " \\\\",
         " & ".join([" "] + [f"Mean & SD" for _ in llms]) + " \\\\",
-        "\\hline\\hline",
+        "\\toprule",
     ]
     for package in packages:
         cells = [f"\\textit{{{package}}}"]
@@ -95,6 +103,7 @@ def generate_package_breakdown_table(
         lines.append(" & ".join(cells) + " \\\\")
     lines.extend(
         [
+            "\\bottomrule",
             "\\end{tabular}",
             "}",
             "\\caption{Per-package equivalent mutant rates among surviving mutants (mean and standard deviation across runs).}",
@@ -106,39 +115,28 @@ def generate_package_breakdown_table(
 
 
 def generate_statistical_tests_table(pairwise: pd.DataFrame) -> str:
-    lines = [
-        "\\begin{table*}",
-        "\\centering",
-        "{\\scriptsize",
-        "\\begin{tabular}{l|l|c|c|c|c|c}",
-        "\\textbf{LLM A} & \\textbf{LLM B} & \\textbf{Mean A} & \\textbf{Mean B} & \\textbf{$p$ (Bonf.)} & \\textbf{Cohen's $d$} & \\textbf{$n$} \\\\",
-        "\\hline\\hline",
-    ]
+    rows = []
     for _, row in pairwise.iterrows():
-        lines.append(
-            " & ".join(
-                [
-                    f"\\textit{{{llm_display_name(str(row['llm_a']))[:24]}}}",
-                    f"\\textit{{{llm_display_name(str(row['llm_b']))[:24]}}}",
-                    format_pct(float(row["mean_a_pct"])),
-                    format_pct(float(row["mean_b_pct"])),
-                    f"{float(row['p_value_bonferroni']):.4f}" if pd.notna(row["p_value_bonferroni"]) else "",
-                    f"{float(row['cohens_d']):.3f}" if pd.notna(row["cohens_d"]) else "",
-                    f"{int(row['n_a'])}/{int(row['n_b'])}",
-                ]
-            )
-            + " \\\\"
+        p_col = "p_value_holm" if "p_value_holm" in pairwise.columns else "p_value_bonferroni"
+        rows.append(
+            [
+                f"\\textit{{{llm_display_name(str(row['llm_a']))[:24]}}}",
+                f"\\textit{{{llm_display_name(str(row['llm_b']))[:24]}}}",
+                format_pct(float(row["mean_a_pct"])),
+                format_pct(float(row["mean_b_pct"])),
+                f"{float(row[p_col]):.4f}" if pd.notna(row.get(p_col)) else "",
+                f"{float(row['cliffs_delta']):.3f}" if pd.notna(row.get("cliffs_delta")) else "",
+                f"{int(row['n_a'])}/{int(row['n_b'])}",
+            ]
         )
-    lines.extend(
-        [
-            "\\end{tabular}",
-            "}",
-            "\\caption{Pairwise comparisons of equivalent mutant rates between LLMs (Welch's $t$-test with Bonferroni correction over all pairs).}",
-            "\\label{tab:llm-equiv-stats}",
-            "\\end{table*}",
-        ]
+    return df_to_booktabs(
+        rows,
+        ["LLM A", "LLM B", "Mean A", "Mean B", "$p$ (Holm)", "Cliff's $\\delta$", "$n$"],
+        caption="Pairwise comparisons of equivalent mutant rates between LLMs (Welch's $t$-test with Holm correction).",
+        label="tab:llm-equiv-stats",
+        col_spec="ll|rrrrrl",
+        star=True,
     )
-    return "\n".join(lines)
 
 
 def main() -> None:
@@ -164,7 +162,9 @@ def main() -> None:
     (input_dir / "main_results_table.tex").write_text(main_tex, encoding="utf-8")
     (input_dir / "package_breakdown_table.tex").write_text(package_tex, encoding="utf-8")
     (input_dir / "statistical_tests_table.tex").write_text(stats_tex, encoding="utf-8")
-    print(f"Wrote LaTeX tables to {input_dir}", flush=True)
+    write_table("rq3_main_results.tex", main_tex)
+    write_table("rq3_statistical_tests.tex", stats_tex)
+    print(f"Wrote LaTeX tables to {input_dir} and thesis-code/output/tables/", flush=True)
 
 
 if __name__ == "__main__":

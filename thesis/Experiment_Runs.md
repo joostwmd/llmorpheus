@@ -12,8 +12,9 @@ This document defines the complete experimental matrix for the thesis, including
 
 **Updated Configuration (May 25, 2026):**
 - **Token limit**: Changed to **`200`** (standardized for consistency)
-- **Reasoning**: **Globally disabled** (`reasoning: { enabled: false }`) for all models
+- **Reasoning**: Disabled for most models (`reasoning: { enabled: false }`); **Gemini 3.x** uses `{ effort: "minimal", exclude: true }` (OpenRouter requirement)
 - **Google model**: Switched to **`google/gemini-3.1-flash-lite`** (83% cheaper than 3.5 Flash)
+- **Analysis registry**: Model run policy and status live in `thesis-code/shared/modelRegistry.js` (`ready | pending | failed`)
 
 **Impact**: 
 - **Previous runs incompatible** - mixed token limits (250/8000) and no reasoning control
@@ -22,7 +23,7 @@ This document defines the complete experimental matrix for the thesis, including
 
 **Resolution**: **All experiments must be rerun** with the new standardized configuration:
 - `maxTokensInCompletion: 200` (consistent across all runs)
-- `reasoning: { enabled: false }` (globally disabled thinking mode)
+- Reasoning disabled (Gemini 3.x: minimal effort, excluded from completion)
 - Updated model list with cost-optimized Google alternative
 
 **Status**: Workflow and model configuration updated. All previous runs invalidated.
@@ -96,9 +97,9 @@ This document defines the complete experimental matrix for the thesis, including
 ### **Phase 3: Multi-Run Stability Analysis (RQ2)**
 *Consistency evaluation for cost-feasible models*
 
-#### **Required Additional Runs (rep 2 & 3):**
+#### **Required Additional Runs (rep 2–5):**
 
-**Affordable Models (14 runs needed):**
+**Affordable Models (up to 5 reps each):**
 | Model | Rep 2 | Rep 3 | Total Runs | Purpose |
 |-------|-------|-------|------------|---------|
 | `openai/gpt-4o-mini` | ❌ | ❌ | 1/3 | Stability analysis |
@@ -166,7 +167,7 @@ This document defines the complete experimental matrix for the thesis, including
 | **RQ2** (Consistency) | N/A | ✅ 7 affordable models | Excludes 3 expensive models |
 | **RQ3** (Equivalent Mutants) | ✅ All 10 models | N/A | All models (UniXCoder classifier) |
 | **RQ4** (Cost-Effectiveness) | ✅ All 10 models | ✅ 7 affordable models | Includes cost-feasibility analysis |
-| **RQ5** (Open-weight vs API) | ✅ All 10 models | ✅ 7 affordable models | Category comparisons |
+| **RQ5** (Open-weight vs API) | ✅ All 10 models (run1) | N/A (no Jaccard) | Effectiveness, equivalence, cost only — stability in RQ2 |
 
 ---
 

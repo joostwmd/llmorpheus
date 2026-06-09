@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-google_gemini-2.5-flash,zip-a-folder,run5,5,2,0,2,0.0,0.0,0.0,"(0.0%, 0.0%)"

@@ -2,22 +2,25 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import path from "path";
-import { DEFAULT_ARTIFACTS_DIR, DEFAULT_ORGANIZED_DIR, rqOutputDirs, writeText } from "../shared/paths.js";
+import { DEFAULT_ARTIFACTS_DIR, DEFAULT_ORGANIZED_DIR, rqOutputDirs } from "../shared/paths.js";
 import { loadDatasets } from "../shared/artifacts.js";
-import { simulateRuns, groupByModelPackage } from "../shared/simulateRuns.js";
+import { groupByModelPackage } from "../shared/simulateRuns.js";
+import { filterForRq } from "../shared/filterDatasets.js";
 import { writeCsv } from "../shared/csv.js";
-import { buildTable, formatNum, formatPct } from "../shared/tableGen.js";
 import { displayName } from "../shared/modelMeta.js";
 import { median } from "../shared/statistics.js";
-import { barChart } from "../shared/chartGen.js";
-import { jaccardAcrossRuns } from "./jaccardOverlap.js";
+import { runPlotPipeline } from "../shared/python_runner.js";
+import { clearRqOutput } from "../shared/rqOutput.js";
+import { extractVolumeRow } from "../rq1/volumeMetrics.js";
+import { jaccardAcrossRuns, pairwiseJaccardRows } from "./jaccardOverlap.js";
+import { computeMutantTrialCounts } from "./mutantTrialCounts.js";
 import { stabilityForGroup } from "./stabilityMetrics.js";
 
 const argv = yargs(hideBin(process.argv))
   .option("artifacts", { type: "string", default: DEFAULT_ARTIFACTS_DIR })
   .option("organized", { type: "string", default: DEFAULT_ORGANIZED_DIR })
-  .option("simulate-runs", { type: "number", default: 5 })
-  .option("real-only", { type: "boolean", default: false })
+  .option("simulate-runs", { type: "number", default: 1 })
+  .option("real-only", { type: "boolean", default: true })
   .parseSync();
 
 let datasets = loadDatasets({
@@ -25,18 +28,34 @@ let datasets = loadDatasets({
   organizedDir: argv.organized,
   preferOrganized: true,
 });
-if (!argv.realOnly && argv.simulateRuns > 1) {
-  datasets = simulateRuns(datasets, argv.simulateRuns);
-}
+datasets = filterForRq(datasets, "rq2", {
+  devSimulateRuns: argv.simulateRuns,
+  realOnly: argv.realOnly,
+});
+
+clearRqOutput("rq2");
 
 const groups = groupByModelPackage(datasets);
 const detailRows = [];
 const modelAgg = new Map();
+const pairwiseRows = [];
+const perRunLong = datasets.map((d) => {
+  const vol = extractVolumeRow(d);
+  return {
+    model: d.model,
+    package: d.package,
+    run: d.run,
+    runLabel: d.runLabel,
+    mutationScore: vol.mutationScore,
+    nrSurvived: vol.nrSurvived,
+  };
+});
 
 for (const [key, group] of groups) {
   const [model, pkg] = key.split("::");
   const jaccard = jaccardAcrossRuns(group);
   const stability = stabilityForGroup(group);
+  pairwiseRows.push(...pairwiseJaccardRows(model, pkg, group));
   const row = {
     model,
     package: pkg,
@@ -56,7 +75,12 @@ for (const [key, group] of groups) {
 }
 
 const { thesis, appendix } = rqOutputDirs("rq2");
+const { rows: trialCountRows } = computeMutantTrialCounts(datasets);
+
 writeCsv(path.join(appendix, "consistency_by_model_package.csv"), detailRows);
+writeCsv(path.join(appendix, "per_run_long.csv"), perRunLong);
+writeCsv(path.join(appendix, "pairwise_jaccard.csv"), pairwiseRows);
+writeCsv(path.join(appendix, "mutant_trial_counts.csv"), trialCountRows);
 
 const modelSummary = [...modelAgg.entries()]
   .map(([model, rows]) => ({
@@ -71,30 +95,6 @@ const modelSummary = [...modelAgg.entries()]
 
 writeCsv(path.join(thesis, "model_consistency_summary.csv"), modelSummary);
 
-writeText(
-  path.join(thesis, "consistency_table.tex"),
-  buildTable({
-    caption: "RQ2: Cross-run consistency metrics per model (median across packages)",
-    label: "tab:rq2-consistency",
-    headers: ["Model", "Jaccard overlap", "CV mutation score", "CV survivors", "CV edit distance"],
-    rows: modelSummary.map((m) => [
-      m.displayName,
-      formatNum(m.meanJaccardOverlap, 3),
-      formatPct(m.medianCvMutationScore),
-      formatPct(m.medianCvSurvivors),
-      formatPct(m.medianCvAbsLevenshtein),
-    ]),
-    colSpec: "l|rrrr",
-  })
-);
-
-await barChart(
-  path.join(thesis, "jaccard_overlap_by_model.png"),
-  modelSummary.map((m) => ({
-    model: m.displayName,
-    jaccard: m.meanJaccardOverlap ?? 0,
-  })),
-  { x: "model", y: "jaccard", title: "RQ2: Mean Jaccard overlap across runs", yTitle: "Jaccard" }
-);
+runPlotPipeline("rq2");
 
 console.log(`RQ2 complete: ${thesis}`);

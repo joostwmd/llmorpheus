@@ -1,0 +1,7 @@
+model,package,run,runLabel,simulated,nrPrompts,nrCandidates,nrValid,nrInvalid,nrIdentical,nrDuplicate,validityRate,duplicateRate,invalidRate,mutationScore,nrKilled,nrSurvived,nrTimedOut,strykerTimeSec,totalPromptTokens,totalCompletionTokens,inputCostUsd,outputCostUsd,totalCostUsd,costPerCandidate,costPerValid,costPerUnique,costPerSurvivor,costPerNonEquivSurvivor,costPerMutationScorePoint,predictedEquivalent,nonEquivSurvivors
+google_gemini-3.1-flash-lite,Complex.js,1,run1,,490,1380,1142,205,33,72,82.7536231884058,5.217391304347826,14.855072463768115,57.01,650,491,1,341.93,,,,,0,0,0,0,0,0,0,75,416
+google_gemini-3.1-flash-lite,countries-and-timezones,1,run1,,106,303,250,51,2,15,82.50825082508251,4.9504950495049505,16.831683168316832,88,220,30,0,251.817,,,,,0,0,0,0,0,0,0,11,19
+google_gemini-3.1-flash-lite,node-jsonfile,1,run1,,68,199,160,39,0,5,80.40201005025126,2.512562814070352,19.597989949748744,77.5,58,36,66,488.398,,,,,0,0,0,0,0,0,0,8,28
+google_gemini-3.1-flash-lite,pull-stream,1,run1,,351,1038,809,225,4,16,77.9383429672447,1.5414258188824663,21.67630057803468,68.11,482,258,69,1272.511,,,,,0,0,0,0,0,0,0,7,251
+google_gemini-3.1-flash-lite,spacl-core,1,run1,,134,383,259,120,4,16,67.62402088772846,4.177545691906006,31.33159268929504,84.62,209,38,0,974.462,,,,,0,0,0,0,0,0,0,17,21
+google_gemini-3.1-flash-lite,zip-a-folder,1,run1,,49,143,117,21,5,5,81.81818181818183,3.4965034965034967,14.685314685314685,94.02,19,7,91,1157.738,,,,,0,0,0,0,0,0,0,0,7

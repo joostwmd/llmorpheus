@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+qwen_qwen-2.5-coder-32b-instruct,countries-and-timezones,run1,1,19,7,12,36.8421,15.7895,57.8947,"(15.8%, 57.9%)"

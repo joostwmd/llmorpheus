@@ -38,6 +38,8 @@ export function extractVolumeRow(dataset) {
     strykerTimeSec: parseStrykerTime(st.time),
     totalPromptTokens: costs.promptTokens,
     totalCompletionTokens: costs.completionTokens,
+    inputCostUsd: costs.inputCostUsd,
+    outputCostUsd: costs.outputCostUsd,
     totalCostUsd: costs.totalCostUsd,
   };
 }

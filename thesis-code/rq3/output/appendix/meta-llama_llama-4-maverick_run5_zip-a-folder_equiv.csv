@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-meta-llama_llama-4-maverick,zip-a-folder,run5,5,2,0,2,0.0,0.0,0.0,"(0.0%, 0.0%)"

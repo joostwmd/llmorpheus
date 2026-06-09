@@ -4,7 +4,11 @@
 
 **Research Question:** How do open-weight vs API-only models compare?
 
-**Hypothesis:** Open-weight models may offer better cost-efficiency but potentially lower consistency; API-only models may be more stable but more expensive; differences may be smaller than expected since category alone is not a strong predictor.
+**Hypothesis:** Open-weight models may offer better cost-efficiency; API-only models may be more expensive; differences in effectiveness and equivalence may be smaller than expected since category alone is not a strong predictor.
+
+### Excluded metrics: cross-run consistency (Jaccard)
+
+RQ5 **does not** compare cross-run Jaccard overlap between categories. That metric requires **5 reps per model** (see RQ2). Three premium API models (GPT-4o, Gemini 3.5 Flash, Claude Sonnet 4.5) are **single-run only** (€15–40 per full run), so a category-level stability comparison would be unbalanced: open-weight models measured on 5 reps while top-tier API models cannot be included. **Stability analysis remains in RQ2** (7 affordable multi-run models only). RQ5 compares **mutation score, survivors, equivalent rate, and cost** on run1 data.
 
 ## Background and Motivation
 

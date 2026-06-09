@@ -40,12 +40,23 @@ def json_to_csv_rows(project: str, mutants: list[dict]) -> list[dict[str, object
     return rows
 
 
+MUTANT_CSV_FIELDS = [
+    "project",
+    "file",
+    "id",
+    "line",
+    "column",
+    "original",
+    "replacement",
+    "promptId",
+    "completionId",
+    "reason",
+]
+
+
 def write_csv(rows: list[dict[str, object]], out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    if not rows:
-        out_path.write_text("", encoding="utf-8")
-        return
-    fieldnames = list(rows[0].keys())
+    fieldnames = list(rows[0].keys()) if rows else MUTANT_CSV_FIELDS
     with out_path.open("w", encoding="utf-8", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)
         writer.writeheader()

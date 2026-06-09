@@ -26,7 +26,7 @@ TEMPERATURE="0.0"
 # Affordable models (cost ≤ €5/run)
 AFFORDABLE_MODELS=(
   "openai/gpt-4o-mini"                    # €2-5/run
-  "google/gemini-3.5-flash-8b"            # €1-3/run  
+  "google/gemini-3.1-flash-lite"          # €0.10/run (NEW cheaper model)  
   "anthropic/claude-haiku-4.5"            # €4/run
   "meta-llama/llama-3.3-70b-instruct"     # €0.5-2/run
   "meta-llama/llama-3.1-8b-instruct"      # €0.05/run
@@ -87,6 +87,7 @@ for model in "${AFFORDABLE_MODELS[@]}"; do
       --field systemPrompt="$SYSTEM_PROMPT" \
       --field temperature="$TEMPERATURE" \
       --field model="$model" \
+      --field maxTokensInCompletion="250" \
       --field benchmarkMode="true"; then
     echo "  ✅ Scheduled: $model | rep $REP_NUMBER | $PACKAGES"
     ((SCHEDULED++))
@@ -115,8 +116,6 @@ echo "✅ All runs scheduled successfully!"
 echo ""
 echo "Next steps:"
 echo "1. Monitor runs at: https://github.com/$(gh repo view --json owner,name -q '.owner.login + "/" + .name')/actions"
-echo "2. Manually run expensive models:"
-for model in "${EXPENSIVE_MODELS[@]}"; do
-  echo "   - $model"
-done
-echo "3. Use .github/download-all-runs.sh to collect results when complete"
+echo "2. Schedule expensive tier: .github/schedule-expensive-runs.sh"
+echo "3. Schedule RQ0 replication: .github/schedule-replication-run.sh"
+echo "4. Use .github/download-all-runs.sh to collect results when complete"

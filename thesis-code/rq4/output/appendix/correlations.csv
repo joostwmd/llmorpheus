@@ -1,0 +1,3 @@
+comparison,spearman_rho,p_value,n
+cost_vs_mutation_score,-0.09205101496312953,0.8137943104130291,9
+cost_vs_jaccard,0.6071428571428572,0.14823116148116158,7

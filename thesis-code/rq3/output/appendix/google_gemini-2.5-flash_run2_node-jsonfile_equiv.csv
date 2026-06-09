@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-google_gemini-2.5-flash,node-jsonfile,run2,2,34,4,30,11.7647,2.9412,23.5294,"(2.9%, 23.5%)"

@@ -7,14 +7,18 @@
   "scripts": {
     "organize": "node shared/organizeArtifacts.cli.js",
     "rq1": "node rq1/index.js",
+    "rq1:plots": "python3 rq1/plots/generate_plots.py && python3 rq1/plots/generate_tables.py && python3 rq1/plots/generate_stats.py && node shared/distribute.cli.js rq1",
     "rq2": "node rq2/index.js",
+    "rq2:plots": "python3 rq2/plots/generate_plots.py && python3 rq2/plots/generate_tables.py && python3 rq2/plots/generate_stats.py && node shared/distribute.cli.js rq2",
     "rq3": "node rq3/index.js",
     "rq4": "node rq4/index.js",
+    "rq4:plots": "python3 rq4/plots/generate_plots.py && python3 rq4/plots/generate_tables.py && python3 rq4/plots/generate_stats.py && node shared/distribute.cli.js rq4",
     "rq5": "node rq5/index.js",
+    "rq5:plots": "python3 rq5/plots/generate_plots.py && python3 rq5/plots/generate_tables.py && python3 rq5/plots/generate_stats.py && node shared/distribute.cli.js rq5",
+    "plots:all": "npm run rq1:plots && npm run rq2:plots && npm run rq4:plots && npm run rq5:plots",
     "all": "node run-all.js"
   },
   "dependencies": {
-    "canvas": "^3.1.0",
     "csv-stringify": "^6.5.2",
     "glob": "^11.0.2",
     "simple-statistics": "^7.8.8",

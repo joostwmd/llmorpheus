@@ -6,23 +6,23 @@ import {
   DEFAULT_ARTIFACTS_DIR,
   DEFAULT_ORGANIZED_DIR,
   rqOutputDirs,
-  writeText,
 } from "../shared/paths.js";
 import { loadDatasets } from "../shared/artifacts.js";
-import { simulateRuns, aggregateAcrossRuns } from "../shared/simulateRuns.js";
+import { aggregateAcrossRuns } from "../shared/simulateRuns.js";
+import { filterForRq } from "../shared/filterDatasets.js";
 import { writeCsv } from "../shared/csv.js";
-import { buildTable, formatNum, formatPct } from "../shared/tableGen.js";
 import { displayName } from "../shared/modelMeta.js";
-import { median, iqr, formatIqr } from "../shared/statistics.js";
-import { barChart } from "../shared/chartGen.js";
+import { median } from "../shared/statistics.js";
+import { runPlotPipeline } from "../shared/python_runner.js";
+import { clearRqOutput } from "../shared/rqOutput.js";
 import { extractVolumeMetrics } from "./volumeMetrics.js";
 import { computeEditDistances } from "./editDistances.js";
 
 const argv = yargs(hideBin(process.argv))
   .option("artifacts", { type: "string", default: DEFAULT_ARTIFACTS_DIR })
   .option("organized", { type: "string", default: DEFAULT_ORGANIZED_DIR })
-  .option("simulate-runs", { type: "number", default: 5 })
-  .option("real-only", { type: "boolean", default: false })
+  .option("simulate-runs", { type: "number", default: 1 })
+  .option("real-only", { type: "boolean", default: true })
   .parseSync();
 
 let datasets = loadDatasets({
@@ -30,9 +30,12 @@ let datasets = loadDatasets({
   organizedDir: argv.organized,
   preferOrganized: true,
 });
-if (!argv.realOnly && argv.simulateRuns > 1) {
-  datasets = simulateRuns(datasets, argv.simulateRuns);
-}
+datasets = filterForRq(datasets, "rq1", {
+  devSimulateRuns: argv.simulateRuns,
+  realOnly: argv.realOnly,
+});
+
+clearRqOutput("rq1");
 
 const volumeRows = extractVolumeMetrics(datasets);
 const distanceRows = computeEditDistances(datasets);
@@ -85,7 +88,7 @@ for (const model of models) {
     model,
     displayName: displayName(model),
     nPackages: byPackage.size,
-    nRuns: argv.simulateRuns,
+    nRuns: 1,
     medianCandidates: medCandidates,
     medianValidityRatePct: medValidity,
     medianMutationScore: medScore,
@@ -102,45 +105,6 @@ for (const model of models) {
   writeCsv(path.join(appendix, `${model}_all_runs.csv`), rows);
 }
 
-const tableRows = modelSummary.map((m) => [
-  m.displayName,
-  formatNum(m.medianCandidates, 0),
-  formatPct(m.medianValidityRatePct),
-  formatPct(m.medianMutationScore),
-  formatNum(m.medianSurvived, 0),
-  formatNum(m.medianAbsLevenshtein, 2),
-  formatNum(m.medianNormLevenshtein, 3),
-]);
-
-writeText(
-  path.join(thesis, "volume_metrics_table.tex"),
-  buildTable({
-    caption: "RQ1: Mutant volume and quality metrics per model (median across packages and runs)",
-    label: "tab:rq1-volume",
-    headers: [
-      "Model",
-      "Candidates",
-      "Validity",
-      "Mutation score",
-      "Survived",
-      "Abs. Levenshtein",
-      "Norm. Levenshtein",
-    ],
-    rows: tableRows,
-    colSpec: "l|rrrrrr",
-  })
-);
-
-await barChart(
-  path.join(thesis, "mutation_score_by_model.png"),
-  modelSummary.map((m) => ({ model: m.displayName, mutationScore: m.medianMutationScore ?? 0 })),
-  { x: "model", y: "mutationScore", title: "RQ1: Median mutation score by model", yTitle: "Mutation score (%)" }
-);
-
-await barChart(
-  path.join(thesis, "survivors_by_model.png"),
-  modelSummary.map((m) => ({ model: m.displayName, survived: m.medianSurvived ?? 0 })),
-  { x: "model", y: "survived", title: "RQ1: Median survivors by model", yTitle: "Survivors" }
-);
+runPlotPipeline("rq1");
 
 console.log(`RQ1 complete: ${thesis}`);

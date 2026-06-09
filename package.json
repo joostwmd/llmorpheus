@@ -19,7 +19,9 @@
     "autoformat": "prettier --write src/**/*.ts test/*.ts typings benchmark",
     "autoformat:check": "prettier --check src/**/*.ts test/*.ts typings benchmark/*.ts",
     "prepack": "npm run build",
-    "download:all": ".github/download-all-runs.sh"
+    "download:all": ".github/download-all-runs.sh",
+    "schedule:expensive": ".github/schedule-expensive-runs.sh",
+    "schedule:replication": ".github/schedule-replication-run.sh"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",

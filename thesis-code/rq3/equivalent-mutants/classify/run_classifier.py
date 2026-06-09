@@ -66,6 +66,20 @@ def classify_csv(
     max_len = int(config.get("max_length", 512))
 
     df = pd.read_csv(csv_path)
+    if len(df) == 0:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(
+            columns=[
+                *df.columns,
+                "pred_eval",
+                "argmax_pred",
+                "equiv_prob",
+                "confidence",
+                "threshold",
+            ]
+        ).to_csv(out_path, index=False)
+        return True
+
     results = []
     for i in tqdm(range(len(df)), desc=csv_path.name, leave=False):
         row = normalize_row(df.iloc[i].to_dict())

@@ -1,2 +1,0 @@
-llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
-meta-llama_llama-3.3-70b-instruct,Complex.js,run2,2,454,40,414,8.8106,6.3877,11.4537,"(6.4%, 11.5%)"

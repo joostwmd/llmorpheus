@@ -82,10 +82,19 @@ def cohens_d(a: np.ndarray, b: np.ndarray) -> float:
     return float((np.mean(a) - np.mean(b)) / pooled)
 
 
+def cliffs_delta(a: np.ndarray, b: np.ndarray) -> float:
+    if len(a) == 0 or len(b) == 0:
+        return float("nan")
+    greater = sum(1 for x in a for y in b if x > y)
+    less = sum(1 for x in a for y in b if x < y)
+    return float((greater - less) / (len(a) * len(b)))
+
+
 def pairwise_llm_tests(per_dataset: pd.DataFrame) -> pd.DataFrame:
+    from statsmodels.stats.multitest import multipletests
+
     llms = sorted(per_dataset["llm"].unique())
     pairs = list(itertools.combinations(llms, 2))
-    n_tests = len(pairs)
     rows: list[dict[str, object]] = []
     for llm_a, llm_b in pairs:
         a = per_dataset.loc[per_dataset["llm"] == llm_a, "equiv_rate_pct"].to_numpy(dtype=float)
@@ -104,12 +113,19 @@ def pairwise_llm_tests(per_dataset: pd.DataFrame) -> pd.DataFrame:
                 "n_b": len(b),
                 "t_stat": round(float(t_stat), 4) if t_stat == t_stat else float("nan"),
                 "p_value": round(float(p_value), 6) if p_value == p_value else float("nan"),
-                "p_value_bonferroni": round(min(float(p_value) * n_tests, 1.0), 6)
-                if p_value == p_value
-                else float("nan"),
                 "cohens_d": round(cohens_d(a, b), 4),
+                "cliffs_delta": round(cliffs_delta(a, b), 4),
             }
         )
+    p_values = [float(row["p_value"]) for row in rows if row["p_value"] == row["p_value"]]
+    if p_values:
+        _, holm, _, _ = multipletests(p_values, method="holm")
+        holm_map = dict(zip([i for i, row in enumerate(rows) if row["p_value"] == row["p_value"]], holm))
+        for i, row in enumerate(rows):
+            row["p_value_holm"] = round(float(holm_map[i]), 6) if i in holm_map else float("nan")
+    else:
+        for row in rows:
+            row["p_value_holm"] = float("nan")
     return pd.DataFrame(rows)
 
 

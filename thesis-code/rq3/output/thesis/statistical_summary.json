@@ -1,13 +1,16 @@
 {
-  "datasets": 210,
+  "datasets": 300,
   "llms": [
+    "anthropic_claude-haiku-4.5",
     "anthropic_claude-sonnet-4.5",
     "deepseek_deepseek-chat-v3.1",
-    "google_gemini-2.5-flash",
-    "google_gemini-2.5-flash-thinking",
+    "google_gemini-3.1-flash-lite",
+    "google_gemini-3.5-flash",
+    "meta-llama_llama-3.1-8b-instruct",
     "meta-llama_llama-3.3-70b-instruct",
-    "meta-llama_llama-4-maverick",
-    "openai_gpt-4o-mini"
+    "openai_gpt-4o",
+    "openai_gpt-4o-mini",
+    "qwen_qwen-2.5-coder-32b-instruct"
   ],
   "packages": [
     "Complex.js",
@@ -18,21 +21,27 @@
     "zip-a-folder"
   ],
   "runs_per_llm": {
+    "anthropic_claude-haiku-4.5": 5,
     "anthropic_claude-sonnet-4.5": 5,
     "deepseek_deepseek-chat-v3.1": 5,
-    "google_gemini-2.5-flash": 5,
-    "google_gemini-2.5-flash-thinking": 5,
+    "google_gemini-3.1-flash-lite": 5,
+    "google_gemini-3.5-flash": 5,
+    "meta-llama_llama-3.1-8b-instruct": 5,
     "meta-llama_llama-3.3-70b-instruct": 5,
-    "meta-llama_llama-4-maverick": 5,
-    "openai_gpt-4o-mini": 5
+    "openai_gpt-4o": 5,
+    "openai_gpt-4o-mini": 5,
+    "qwen_qwen-2.5-coder-32b-instruct": 5
   },
-  "overall_equiv_rate_pct": 11.1088,
+  "overall_equiv_rate_pct": 10.822,
   "llm_ranking": [
-    "google_gemini-2.5-flash",
+    "google_gemini-3.5-flash",
+    "openai_gpt-4o",
+    "meta-llama_llama-3.1-8b-instruct",
+    "qwen_qwen-2.5-coder-32b-instruct",
+    "google_gemini-3.1-flash-lite",
     "anthropic_claude-sonnet-4.5",
-    "meta-llama_llama-4-maverick",
+    "anthropic_claude-haiku-4.5",
     "meta-llama_llama-3.3-70b-instruct",
-    "google_gemini-2.5-flash-thinking",
     "openai_gpt-4o-mini",
     "deepseek_deepseek-chat-v3.1"
   ]

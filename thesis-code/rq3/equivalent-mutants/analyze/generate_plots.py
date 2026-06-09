@@ -14,10 +14,14 @@ import seaborn as sns
 
 EM_ROOT = Path(__file__).resolve().parents[1]
 ANALYZE_ROOT = Path(__file__).resolve().parent
+THESIS_SHARED = Path(__file__).resolve().parents[3] / "shared"
 sys.path.insert(0, str(EM_ROOT))
 sys.path.insert(0, str(ANALYZE_ROOT))
+sys.path.insert(0, str(THESIS_SHARED))
 
 from lib.config import load_config, resolve_paths
+from csv_loader import load_rq1_summary
+from plot_style import save_fig, setup as shared_setup
 
 
 def setup_style() -> None:
@@ -26,12 +30,58 @@ def setup_style() -> None:
     import os
 
     os.environ.setdefault("MPLCONFIGDIR", str(cache_dir))
-    sns.set_theme(style="whitegrid", context="paper", font_scale=1.1)
-    plt.rcParams.update({"figure.dpi": 150, "savefig.dpi": 300, "savefig.bbox": "tight"})
+    shared_setup()
 
 
 def short_llm_name(llm: str) -> str:
     return llm.replace("meta-llama_", "llama/").replace("openai_", "openai/").replace("google_", "google/").replace("anthropic_", "anthropic/").replace("deepseek_", "deepseek/")
+
+
+def plot_effective_survivors(per_dataset: pd.DataFrame) -> None:
+    agg = (
+        per_dataset.groupby("llm", as_index=False)
+        .agg(
+            predicted_equivalent=("predicted_equivalent", "sum"),
+            total_surviving=("total_surviving", "sum"),
+        )
+        .sort_values("llm")
+    )
+    agg["behavioral_change"] = agg["total_surviving"] - agg["predicted_equivalent"]
+    agg["llm_short"] = agg["llm"].map(short_llm_name)
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.barh(agg["llm_short"], agg["predicted_equivalent"], color="#e6550d", label="Predicted equivalent")
+    ax.barh(
+        agg["llm_short"],
+        agg["behavioral_change"],
+        left=agg["predicted_equivalent"],
+        color="#31a354",
+        label="Predicted behavioral change",
+    )
+    ax.set_xlabel("Surviving mutants")
+    ax.set_title("Effective survivors: equivalent vs behavioral-change mutants")
+    ax.legend(fontsize=8)
+    save_fig(fig, "effective_survivors", prefix="rq3_")
+
+
+def plot_score_vs_equiv_rate(per_dataset: pd.DataFrame, llm_summary: pd.DataFrame) -> None:
+    rq1 = load_rq1_summary()
+    score_by_llm = rq1.set_index("model")["medianMutationScore"].to_dict()
+    summary = llm_summary.copy()
+    summary["mutation_score"] = summary["llm"].map(score_by_llm)
+    fig, ax = plt.subplots(figsize=(8, 6))
+    for _, row in summary.iterrows():
+        ax.scatter(row["mean_equiv_rate_pct"], row["mutation_score"], s=70)
+        ax.annotate(
+            short_llm_name(str(row["llm"])),
+            (row["mean_equiv_rate_pct"], row["mutation_score"]),
+            fontsize=8,
+            xytext=(4, 4),
+            textcoords="offset points",
+        )
+    ax.set_xlabel("Mean equivalent mutant rate (%)")
+    ax.set_ylabel("Median mutation score (%)")
+    ax.set_title("Mutation score vs equivalent mutant rate")
+    save_fig(fig, "score_vs_equiv_rate", prefix="rq3_")
 
 
 def plot_boxplot(per_dataset: pd.DataFrame, baselines: dict[str, float], out_path: Path) -> None:
@@ -57,7 +107,7 @@ def plot_boxplot(per_dataset: pd.DataFrame, baselines: dict[str, float], out_pat
     ax.tick_params(axis="x", rotation=35)
     ax.legend(loc="upper right")
     fig.savefig(out_path)
-    plt.close(fig)
+    save_fig(fig, "llm_comparison_boxplot", prefix="rq3_")
 
 
 def plot_heatmap(per_dataset: pd.DataFrame, out_path: Path) -> None:
@@ -69,7 +119,7 @@ def plot_heatmap(per_dataset: pd.DataFrame, out_path: Path) -> None:
     ax.set_xlabel("Package")
     ax.set_ylabel("LLM")
     fig.savefig(out_path)
-    plt.close(fig)
+    save_fig(fig, "llm_package_heatmap", prefix="rq3_")
 
 
 def plot_errorbar(llm_summary: pd.DataFrame, baselines: dict[str, float], out_path: Path) -> None:
@@ -92,7 +142,7 @@ def plot_errorbar(llm_summary: pd.DataFrame, baselines: dict[str, float], out_pa
     ax.set_title("Mean equivalent mutant rate with standard deviation")
     ax.legend()
     fig.savefig(out_path)
-    plt.close(fig)
+    save_fig(fig, "llm_means_errorbar", prefix="rq3_")
 
 
 def plot_scatter(per_dataset: pd.DataFrame, out_path: Path) -> None:
@@ -110,7 +160,7 @@ def plot_scatter(per_dataset: pd.DataFrame, out_path: Path) -> None:
     ax.set_title("Package size vs equivalent mutant rate")
     ax.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
     fig.savefig(out_path)
-    plt.close(fig)
+    save_fig(fig, "package_complexity_scatter", prefix="rq3_")
 
 
 def main() -> None:
@@ -132,7 +182,9 @@ def main() -> None:
     plot_heatmap(per_dataset, input_dir / "llm_package_heatmap.png")
     plot_errorbar(llm_summary, baselines, input_dir / "llm_means_errorbar.png")
     plot_scatter(per_dataset, input_dir / "package_complexity_scatter.png")
-    print(f"Wrote plots to {input_dir}", flush=True)
+    plot_effective_survivors(per_dataset)
+    plot_score_vs_equiv_rate(per_dataset, llm_summary)
+    print(f"Wrote plots to {input_dir} and thesis-code/output/figures/", flush=True)
 
 
 if __name__ == "__main__":

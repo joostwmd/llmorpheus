@@ -1,0 +1,2 @@
+llm,package,run,run_number,total_surviving,predicted_equivalent,predicted_behavioral,equiv_rate_pct,ci_low_pct,ci_high_pct,confidence_interval
+qwen_qwen-2.5-coder-32b-instruct,Complex.js,run1,1,404,35,369,8.6634,6.1881,11.3861,"(6.2%, 11.4%)"

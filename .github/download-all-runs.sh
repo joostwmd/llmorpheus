@@ -48,16 +48,30 @@ PACKAGES="${1:-thesis-six.json}"
 MAX_REP="${2:-5}"
 WORKFLOW="openrouter-exp.yml"
 
-MODELS=(
+# Affordable models (multi-rep stability runs) — keep in sync with schedule-affordable-runs.sh
+AFFORDABLE_MODELS=(
   "openai/gpt-4o-mini"
-  "google/gemini-3.5-flash"
+  "google/gemini-3.1-flash-lite"
   "anthropic/claude-haiku-4.5"
-  "anthropic/claude-sonnet-4.5"
   "meta-llama/llama-3.3-70b-instruct"
   "meta-llama/llama-3.1-8b-instruct"
   "qwen/qwen-2.5-coder-32b-instruct"
   "deepseek/deepseek-chat-v3.1"
 )
+
+# Expensive models (single rep only — see schedule-expensive-runs.sh)
+EXPENSIVE_MODELS=(
+  "openai/gpt-4o"
+  "google/gemini-3.5-flash"
+  "anthropic/claude-sonnet-4.5"
+)
+
+# RQ0 replication (single rep only — see schedule-replication-run.sh)
+REPLICATION_MODELS=(
+  "meta-llama/codellama-34b-instruct"
+)
+
+MODELS=("${AFFORDABLE_MODELS[@]}" "${EXPENSIVE_MODELS[@]}" "${REPLICATION_MODELS[@]}")
 
 echo "Fetching run list from GitHub..."
 RUNS=$(gh run list \
@@ -69,9 +83,21 @@ MISSING=()
 FAILED=()
 SUCCESS=()
 
+is_single_rep_model() {
+  local model="$1"
+  for single_rep in "${EXPENSIVE_MODELS[@]}" "${REPLICATION_MODELS[@]}"; do
+    [ "$model" = "$single_rep" ] && return 0
+  done
+  return 1
+}
+
 for model in "${MODELS[@]}"; do
   model_dir=$(echo "$model" | tr '/' '_')
-  for rep in $(seq 1 "$MAX_REP"); do
+  model_max_rep="$MAX_REP"
+  if is_single_rep_model "$model"; then
+    model_max_rep=1
+  fi
+  for rep in $(seq 1 "$model_max_rep"); do
     title="$model | rep $rep | $PACKAGES"
 
     # Check for any run with this title (successful or not)
@@ -96,7 +122,7 @@ for model in "${MODELS[@]}"; do
     fi
 
     out_dir="./artifacts/${model_dir}/rep${rep}"
-    echo "[$rep/${MAX_REP}] $model → $out_dir (run $run_id)"
+    echo "[$rep/${model_max_rep}] $model → $out_dir (run $run_id)"
     mkdir -p "$out_dir"
     gh run download "$run_id" --dir "$out_dir"
     SUCCESS+=("$title")

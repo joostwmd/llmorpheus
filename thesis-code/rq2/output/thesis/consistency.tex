@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+\centering
+{\small
+\begin{tabular}{l|rrrr}
+\toprule
+\textbf{Model} & \textbf{Jaccard overlap} & \textbf{CV mutation score} & \textbf{CV survivors} & \textbf{CV edit distance} \\
+\midrule
+Llama 3.3 70B & 0.505 & 1.02\textbackslash{}\% & 4.74\textbackslash{}\% & 3.45\textbackslash{}\% \\
+Llama 3.1 8B & 0.517 & 1.29\textbackslash{}\% & 3.74\textbackslash{}\% & 6.30\textbackslash{}\% \\
+DeepSeek Chat v3.1 & 0.559 & 1.35\textbackslash{}\% & 4.78\textbackslash{}\% & 6.21\textbackslash{}\% \\
+GPT-4o-mini & 0.574 & 1.12\textbackslash{}\% & 8.40\textbackslash{}\% & 2.27\textbackslash{}\% \\
+Gemini 3.1 Flash Lite & 0.820 & 0.52\textbackslash{}\% & 3.01\textbackslash{}\% & 0.00\textbackslash{}\% \\
+Qwen 2.5 Coder 32B & 0.903 & 0.23\textbackslash{}\% & 1.35\textbackslash{}\% & 0.00\textbackslash{}\% \\
+Claude Haiku 4.5 & 0.993 & 0.25\textbackslash{}\% & 0.77\textbackslash{}\% & 0.00\textbackslash{}\% \\
+\bottomrule
+\end{tabular}
+}
+\caption{RQ2: Cross-run consistency metrics per model (median across packages)}
+\label{tab:rq2-consistency}
+\end{table}
