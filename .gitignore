@@ -11,6 +11,8 @@ benchmark/*.js.map
 test/actual
 test-*
 
+.cursor/
+
 
 artifacts/
 organized/
