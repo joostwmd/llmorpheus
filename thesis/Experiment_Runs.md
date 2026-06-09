@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document defines the complete experimental matrix for the thesis, including replication validation, single-run expensive model comparison, and multi-run stability analysis.
+This document defines the complete experimental matrix for the thesis, including pipeline validation (RQ0), single-run expensive model comparison, and multi-run stability analysis.
 
 **Total Models**: 10 (8 current + 2 additional models for tier comparisons)  
 **Total Packages**: 6 (thesis-six.json)  
@@ -58,12 +58,16 @@ This document defines the complete experimental matrix for the thesis, including
 
 ## Experimental Matrix
 
-### **Phase 1: Replication Validation (RQ0)**
-*Validate pipeline reproduces original LLMorpheus results*
+### **Phase 0: Pipeline validation (RQ0)**
+*Confirm CI + artifacts + `thesis-code` work — not external replication of the 2024 paper*
 
-| Model | Runs | Status | Purpose |
-|-------|------|--------|---------|
-| `meta-llama/llama-3.3-70b-instruct` | 1 | ✅ **Complete** | Baseline replication (original paper model) |
+| Check | Status | Purpose |
+|-------|--------|---------|
+| GHA end-to-end (LLMorpheus → Stryker → artifacts) | ✅ **Complete** | Toolchain runs on thesis-six |
+| Non-empty mutants per model × package | ✅ **Complete** (10-model matrix) | RQ1–RQ5 have valid inputs |
+| `thesis-code` organize + analysis | ✅ **Complete** | Downstream RQs runnable |
+
+See `thesis/RQ0_Replication.md` for checklist and experimental constants.
 
 ### **Phase 2: Single-Run Comparison (RQ1, RQ3, RQ4, RQ5)**
 *All models compared on identical basis*
@@ -162,7 +166,7 @@ This document defines the complete experimental matrix for the thesis, including
 
 | Research Question | Single Run Data | Multi-Run Data | Models Included |
 |------------------|------------------|----------------|-----------------|
-| **RQ0** (Replication) | ✅ | N/A | Llama 3.3 70B |
+| **RQ0** (Pipeline validation) | ✅ | N/A | All 10 models (end-to-end CI) |
 | **RQ1** (Volume & Quality) | ✅ All 10 models | N/A | All models (fair comparison) |
 | **RQ2** (Consistency) | N/A | ✅ 7 affordable models | Excludes 3 expensive models |
 | **RQ3** (Equivalent Mutants) | ✅ All 10 models | N/A | All models (UniXCoder classifier) |

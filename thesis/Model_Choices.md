@@ -108,7 +108,7 @@ For the complete thesis study with **5 replications** per model:
 8 models × 6 packages × 5 reps = 240 package-level benchmark jobs
 ```
 
-(use RQ0 replication with **1 rep** before starting this matrix).
+(confirm RQ0 pipeline checklist in `thesis/RQ0_Replication.md` before interpreting multi-rep results).
 
 ---
 
@@ -171,11 +171,11 @@ Any **simulated** run2–run5 data for kept models was duplicated from rep1 for 
 | `.github/download-all-runs.sh` | Batch artifact download model list |
 | `.github/thesis-model-pricing.json` | Pinned pricing for cost scripts |
 | `thesis-code/shared/modelMeta.js` | Display names and RQ5 categories |
-| `thesis/RQ0_Replication.md` | Pipeline validation before full matrix |
+| `thesis/RQ0_Replication.md` | Pipeline validation & experimental setup (not paper replication) |
 
 ---
 
 ## References
 
-- Original LLMorpheus paper: [arXiv:2404.09952](https://arxiv.org/abs/2404.09952) — primary models `codellama-34b-instruct`, `llama-3.3-70b-instruct`, `gpt-4o-mini`
-- RQ0 replication: `thesis/RQ0_Replication.md`
+- LLMorpheus (method): [arXiv:2404.09952](https://arxiv.org/abs/2404.09952) — this thesis extends the tool; `gpt-4o-mini` and `llama-3.3-70b-instruct` are study baselines, not replication targets. `codellama-34b-instruct` excluded (no longer on OpenRouter).
+- RQ0 setup: `thesis/RQ0_Replication.md`

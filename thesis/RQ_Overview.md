@@ -1,12 +1,12 @@
-RQ0 — Does our pipeline replicate the original LLMorpheus study?
+RQ0 — Is the experimental pipeline ready?
 Table
 
 Aspect Detail
-Input Recorded runs from neu-se/mutation-testing-data (replay) and/or one live run of codellama-34b-instruct on thesis-six
-Output Per-package validation that mutant generation and Stryker results match the original paper (6-package subset); working CI artifact layout
-Aggregation Compare 6 thesis packages against paper Table 3 rows for codellama-34b-instruct at T=0
-Expected result Replay reproduces identical volume metrics; live run is qualitatively similar; pipeline ready for RQ1–RQ5
-See thesis/RQ0_Replication.md for step-by-step instructions.
+Input GitHub Actions runs (LLMorpheus + Stryker) on thesis-six for each model in the study matrix
+Output Confirmation that artifacts are non-empty and parseable; standardized experimental constants documented
+Aggregation Per model: successful end-to-end run with > 0 mutants per package; thesis-code organize/analysis succeeds
+Expected result Pipeline validated; no external replication of the 2024 paper claimed — proceed to RQ1–RQ5
+See thesis/RQ0_Replication.md for setup, checklist, and artifact layout.
 RQ1 — How many mutants do different models produce and what are they?
 Table
 
