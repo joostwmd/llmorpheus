@@ -1,6 +1,9 @@
 # Thesis context (shared by all agents)
 
-Canonical domain context for the LLMorpheus modern-model evaluation thesis. **Do not** use `thesis/archive/outline.md` — it is outdated.
+Canonical domain context for the LLMorpheus modern-model evaluation thesis.
+
+**Outline:** `thesis/context/outline.md` (canonical chapter/RQ planning document).  
+**Do not** use `thesis/archive/outline.md` — it is outdated.
 
 ## Study goal
 
