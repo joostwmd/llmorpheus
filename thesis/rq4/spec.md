@@ -367,6 +367,56 @@ python cost-effectiveness-analysis/generate_tables.py
 3. **Quality thresholds:** Balance cost vs effectiveness based on testing requirements
 4. **Resource allocation:** Optimize compute vs API cost ratios based on infrastructure
 
+## Supplementary: Within-provider tier comparison
+
+**Scope:** Extends RQ4 — **not** a separate research question. Compares cheap vs premium SKUs from the same vendor on run1 cost-effectiveness and upgrade economics.
+
+### Tier pairs
+
+Defined in `thesis/shared/modelRegistry.js` (`API_TIER_PAIRS`, `OPEN_WEIGHT_TIER_PAIR`).
+
+| Pair | Cheap (multi-run) | Premium | Run policy |
+|------|-------------------|---------|------------|
+| OpenAI | GPT-4o-mini | GPT-4o | multi vs **single** |
+| Google | Gemini 3.1 Flash Lite | Gemini 3.5 Flash | multi vs **single** |
+| Anthropic | Claude Haiku 4.5 | Claude Sonnet 4.5 | multi vs **single** |
+| Meta Llama *(appendix)* | Llama 3.1 8B | Llama 3.3 70B | **both multi-run** |
+
+- **Main analysis:** 3 API provider pairs (cheap multi-run vs premium single-run).
+- **Appendix pair:** Meta Llama 8B vs 70B — both multi-run; reported separately because both tiers have five reps (upgrade economics without API premium single-run asymmetry).
+
+### Data scope and exclusions
+
+- **run1 only** for all tier metrics (aligned with cross-model RQ4).
+- **API premium models are single-run** → tier analysis uses rep1 on both sides; **no stability / Jaccard** in tier comparison (stability remains RQ2).
+- Inputs: token logs, pinned pricing, RQ1 volume/validity counts, RQ3 non-equivalent survivor counts.
+
+### Metrics
+
+Portfolio-level (summed across 6 packages, run1):
+
+| Metric | Definition |
+|--------|------------|
+| **Portfolio cost / unique valid** | Total API cost ÷ unique syntactically valid mutants |
+| **Portfolio cost / non-equiv survivor** | Total API cost ÷ effective (non-equivalent) survivors (RQ3-adjusted) |
+| **nonEquivYield** | Non-equivalent survivors per € spent (inverse of cost/non-equiv) |
+| **Marginal cost per extra non-equiv survivor** | Δcost ÷ Δ(non-equiv survivors) when upgrading cheap → premium within provider |
+
+Paired deltas (premium − cheap) per provider on mutation score, survivors, effective survivors, and cost metrics. Optional Wilcoxon signed-rank on per-package paired deltas (n = 6 packages; interpret with small-n caveat).
+
+### Outputs
+
+`thesis/rq4/output/publication/` (main) and `thesis/rq4/output/appendix/` (Meta Llama pair):
+
+| Artifact | Content |
+|----------|---------|
+| `tier_comparison.csv` | Per-pair portfolio metrics (Layers A–C) |
+| `tier_cost_efficiency.pdf` | Cost/non-equiv and nonEquivYield by tier |
+| `tier_paired_deltas.csv` | Per-provider cheap vs premium deltas |
+| `tier_wilcoxon.csv` | Per-package paired test statistics |
+| `tier_comparison.tex` | Main-paper tier summary table |
+| `tier_cost_efficiency_appendix.pdf` | Appendix: Meta Llama 8B vs 70B |
+
 ### Future Research Extensions
 
 #### Dynamic Cost Modeling

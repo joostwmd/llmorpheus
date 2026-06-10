@@ -206,6 +206,9 @@ Summarize concrete outcomes that make the added value beyond the original LLMorp
 - **Cost-effectiveness analysis (RQ4)**  
   Token, runtime, and euro cost metrics derived from OpenRouter usage and a pinned price snapshot; cost per valid, survived, unique, and non-equivalent survivor; Pareto analysis of effectiveness vs cost; waste indicators (duplicate and invalid rates).
 
+- **Within-vendor tier comparison (supplementary to RQ4)**  
+  Paired cheap-vs-premium analysis for three API providers (OpenAI, Google, Anthropic) plus optional Meta Llama appendix pair (8B vs 70B); upgrade economics via marginal cost per extra non-equivalent survivor; run1 only — not a separate research question.
+
 - **Category-level insights for practitioner model choice (RQ5)**  
   Analysis of open-weight vs API-only (and hybrid sensitivity) on RQ1–RQ4 metrics, supporting deployment decisions beyond single-model rankings.
 
@@ -246,6 +249,7 @@ Provide a short roadmap of remaining chapters so the reader knows where each res
   - RQ3: classifier validation + predicted equivalence among survivors  
   - RQ4: cost and Pareto analysis  
   - RQ5: open-weight vs API-only category comparison  
+  - 4.6 Supplementary tier comparison: within-provider cheap vs premium upgrade economics (extends RQ4)
 
 - **Chapter 5 — Discussion and Threats to Validity**  
   Interpretation of findings; practitioner guidance; limitations (six-package subset, time-conditional APIs, classifier uncertainty, unequal run counts); deferred scope (reasoning pairs, 40-bug study).
@@ -636,12 +640,17 @@ Define what is computed for each research question, which pipeline components ar
   - **Pareto analysis:** Identify models on the cost–effectiveness frontier (mutation score vs cost; not dominated on both dimensions).
   - **Aggregation:** Summed across six packages per model per run; averaged across reps for multi-run models.
   - **Outputs:** `thesis/rq4/output/publication/`.
+  - **Supplementary — within-provider tier comparison (extends RQ4, not RQ6):**
+    - **Tier pairs:** `API_TIER_PAIRS` and `OPEN_WEIGHT_TIER_PAIR` in `thesis/shared/modelRegistry.js` — 3 API pairs (cheap multi-run vs premium single-run) + optional Meta Llama appendix pair (8B vs 70B, both multi-run).
+    - **Scope:** **run1 only**; API premium SKUs single-run → **exclude stability / Jaccard** from tier analysis.
+    - **Metrics:** Portfolio cost/unique valid; portfolio cost/non-equiv survivor; nonEquivYield; marginal cost per extra non-equiv survivor; paired deltas (premium − cheap) per provider.
+    - **Outputs:** `tier_comparison.csv`, `tier_cost_efficiency.pdf`, `tier_paired_deltas.csv`, `tier_wilcoxon.csv`; `tier_comparison.tex` (main); appendix artifacts for Meta Llama pair.
 
 - **RQ5 — Category synthesis (open-weight vs API-only vs hybrid):**
   - **Input:** All RQ1–RQ4 outputs; category labels from `thesis/shared/modelMeta.js`.
   - **Metrics per category:** Distributions of mutation score, #survived, predicted equivalence rate, cost per non-equivalent survivor.
   - **Explicit exclusion:** Cross-run Jaccard overlap is **not** compared at category level — unequal run counts (7 multi-run vs 3 single-run) would produce an unbalanced stability comparison. Stability remains in RQ2.
-  - **Aggregation:** Group models by category; report median/IQR per group; optional within-provider tier comparisons (cheap vs premium).
+  - **Aggregation:** Group models by category; report median/IQR per group. Within-provider tier comparisons are **supplementary to RQ4** (§4.6 / Block Tier), not part of RQ5.
   - **Outputs:** `thesis/rq5/output/publication/`.
 
 - **Shared infrastructure:** Artifact organization (`artifacts/` → `organized/`), central figures/tables in `thesis/output/`, per-RQ scripts orchestrated via `thesis/run-all.js` or per-RQ entry points.
@@ -972,6 +981,49 @@ RQ1-RQ4 run1 metrics + category labels --> median/IQR + Mann-Whitney (EXCLUDE Ja
 
 ---
 
+## Block Tier — Within-provider tier comparison (supplementary)
+
+**Title**  
+Supplementary: Within-provider tier comparison (extends RQ4)
+
+**Goal**  
+Quantify whether upgrading from a vendor's cheap SKU to its premium SKU yields sufficient extra non-equivalent survivors to justify the price delta. **Not a separate RQ** — reported as §4.6 / supplementary to RQ4.
+
+**Tier pairs**  
+`thesis/shared/modelRegistry.js`: `API_TIER_PAIRS` (OpenAI, Google, Anthropic) + `OPEN_WEIGHT_TIER_PAIR` (Llama 3.1 8B vs 3.3 70B, appendix only).
+
+**Metrics**
+
+- **Layer A — Generation economics:** Portfolio cost/unique valid; duplicate and invalid rates (cheap vs premium).
+- **Layer B — Testing yield:** Mutation score, raw survivors, effective (non-equiv) survivors; nonEquivYield (non-equiv survivors per €).
+- **Layer C — Upgrade economics:** Δcost, Δeffective survivors, **marginal cost per extra non-equiv survivor**; paired per-package deltas; Wilcoxon signed-rank (n = 6 packages).
+
+**Figures / tables**  
+- Table Tier-A — `tier_comparison.tex`  
+- Figure Tier-1 — `tier_cost_efficiency.pdf`  
+- Appendix CSVs — `tier_paired_deltas.csv`, `tier_wilcoxon.csv`, `tier_comparison.csv`  
+- Appendix figure — `tier_cost_efficiency_appendix.pdf` (Meta Llama 8B vs 70B)
+
+**Answer sentence template**  
+Supplementary tier comparison (extends RQ4): Across three API provider pairs on run1 data, premium SKUs cost **[PREMIUM_MULT]×** more than cheap tiers on average but yielded **[DELTA_NON_EQUIV]** additional non-equivalent survivors per portfolio pass, at a marginal cost of **[MARGINAL_COST €]** per extra non-equiv survivor (Table Tier-A; Figure Tier-1). nonEquivYield favored the cheap tier for **[N_CHEAP_FAVORED]/3** API pairs. Meta Llama appendix (8B vs 70B, both multi-run): marginal upgrade cost **[LLAMA_MARGINAL €]** per extra non-equiv survivor — reported separately because both tiers have five reps (no API premium single-run asymmetry).
+
+**Scope caveats**  
+- **run1 only**; API premium models single-run → no stability claims in tier analysis.  
+- Pricing from pinned OpenRouter snapshot; marginal costs are descriptive, not predictive of future SKUs.  
+- Wilcoxon on n = 6 packages — directional only.  
+- Meta Llama pair is appendix material; main tier narrative focuses on API cheap-vs-premium pairs.
+
+**Pipeline diagram (plain text)**
+```
+API_TIER_PAIRS + OPEN_WEIGHT_TIER_PAIR (run1) + RQ1/RQ3 counts + pricing
+  |--> portfolio cost/unique valid, cost/non-equiv, nonEquivYield
+  |--> paired deltas + marginal cost per extra non-equiv survivor
+  v
+tier_comparison.tex + tier_cost_efficiency.pdf (+ appendix CSVs)
+```
+
+---
+
 # Discussion (Chapter 5)
 
 ## 5.0 Purpose and scope
@@ -1023,8 +1075,9 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 - Pareto frontier; premium models may be off-frontier on cost-adjusted axes.
 - Waste (invalid/duplicate) as hidden cost.
 - Pinned pricing snapshot; runtime vs token cost for CI feasibility.
+- **Within-vendor tier upgrade (supplementary §4.6):** Premium API SKUs often dominate on raw effectiveness but lose on **cost per non-equiv survivor** and **nonEquivYield**; marginal cost per extra non-equiv survivor quantifies whether the upgrade pays off for gap-finding (not for CI stability — premium tiers lack RQ2 data). Practitioners should compare cheap vs premium within the same provider before defaulting to flagship SKUs.
 
-**Conditional recommendation:** Budget-constrained → open-weight Pareto models; quality-first → premium API for single-run audits, not high-volume repetition without RQ2 validation.
+**Conditional recommendation:** Budget-constrained → open-weight Pareto models or cheap API tier when nonEquivYield favors it; quality-first → premium API only when marginal cost per extra non-equiv survivor is acceptable for the audit scope — not for high-volume repetition without RQ2 validation.
 
 ---
 
@@ -1165,5 +1218,6 @@ LLMorpheus remains viable with modern LLMs; practitioner value depends on aligni
 | Background Blocks 1–3 | `02-background.md` |
 | Methodology Blocks 1–11 | `03-methodology.md` |
 | Results RQ0–RQ5 | `04-results-rq0.md` … `04-results-rq5.md` (or single `04-results.md`) |
+| Results supplementary tier comparison (§4.6) | `04-results-tier-comparison.md` |
 | Discussion 5.0–5.8 | `05-discussion.md` |
 | Conclusion 6.1–6.6 | `06-conclusion.md` |

@@ -156,6 +156,10 @@ export const OUTPUT_MANIFEST = {
         placement: "appendix",
         description: "Cost vs cross-run consistency (Jaccard)",
       },
+      tier_cost_efficiency: {
+        placement: "publication",
+        description: "Within-provider tier cost efficiency (cheap vs premium)",
+      },
     },
     tables: {
       rq4_cost: {
@@ -166,11 +170,23 @@ export const OUTPUT_MANIFEST = {
         placement: "publication",
         description: "Pareto-optimal models",
       },
+      rq4_tier_comparison: {
+        placement: "publication",
+        description: "Within-provider cheap vs premium tier comparison",
+      },
     },
     stats: {
       rq4_correlations: {
         placement: "appendix",
         description: "Correlations between cost and quality metrics",
+      },
+      tier_paired_deltas: {
+        placement: "appendix",
+        description: "Paired package deltas for tier comparison (cheap − premium)",
+      },
+      tier_wilcoxon: {
+        placement: "appendix",
+        description: "Wilcoxon signed-rank tests on tier paired deltas",
       },
     },
   },

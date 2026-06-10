@@ -69,6 +69,8 @@ See `thesis/rq0/replication.md`.
 | **Aggregation** | Summed across 6 packages per model on **run1** |
 | **Expected result** | Cheap models are not always cost-efficient when duplicates and equivalents are accounted for |
 
+**Supplementary (extends RQ4, not RQ6):** Within-provider tier comparison — three API cheap-vs-premium pairs (OpenAI, Google, Anthropic) plus optional Meta Llama appendix pair (8B vs 70B, both multi-run). Uses **run1 only**; API premium SKUs are single-run, so tier analysis excludes stability. Metrics: portfolio cost/unique valid, portfolio cost/non-equiv survivor, nonEquivYield, marginal cost per extra non-equiv survivor. Outputs: `tier_comparison.csv`, `tier_cost_efficiency.pdf`, `tier_paired_deltas.csv`, `tier_wilcoxon.csv`. See `thesis/rq4/spec.md` § Supplementary.
+
 ---
 
 ## RQ5 — How do open-weight vs API-only models compare?

@@ -89,6 +89,14 @@ def load_rq4_summary(path: Path | None = None) -> pd.DataFrame:
     return df
 
 
+def load_rq4_tier_comparison(path: Path | None = None) -> pd.DataFrame:
+    return _read(path or default_path("rq4", "output", "publication", "tier_comparison.csv"))
+
+
+def load_rq4_tier_paired_deltas(path: Path | None = None) -> pd.DataFrame:
+    return _read(path or default_path("rq4", "output", "appendix", "tier_paired_deltas.csv"))
+
+
 def load_rq5_merged(path: Path | None = None) -> pd.DataFrame:
     df = _read(path or default_path("rq5", "output", "appendix", "merged_metrics.csv"))
     df["displayName"] = df["model"].map(display_name)

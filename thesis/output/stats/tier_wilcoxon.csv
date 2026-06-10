@@ -1,0 +1,13 @@
+provider,metric,n_pairs,median_delta,wilcoxon_stat,p_value
+Anthropic,cost_per_unique,6,-0.0019455494762202498,0.0,0.03125
+Anthropic,cost_per_non_equiv,6,-0.01094616713352,0.0,0.03125
+Anthropic,non_equiv_survivors,6,-6.5,5.0,0.3125
+Google,cost_per_unique,6,-0.00134026528917865,0.0,0.03125
+Google,cost_per_non_equiv,6,-0.006791263878446099,0.0,0.03125
+Google,non_equiv_survivors,6,-9.5,2.0,0.09375
+Meta,cost_per_unique,6,-5.8164498360149996e-05,0.0,0.03125
+Meta,cost_per_non_equiv,6,-0.0003752432645046,0.0,0.03125
+Meta,non_equiv_survivors,6,1.5,6.0,0.8125
+OpenAI,cost_per_unique,6,-0.00185253616070425,0.0,0.03125
+OpenAI,cost_per_non_equiv,6,-0.010591446589285701,0.0,0.03125
+OpenAI,non_equiv_survivors,6,-12.0,0.0,0.0625

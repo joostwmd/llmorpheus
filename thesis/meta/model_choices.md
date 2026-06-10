@@ -49,13 +49,17 @@ Expensive models (GPT-4o, Gemini 3.5 Flash, Claude Sonnet 4.5) are single-run fo
 
 ## Tier comparisons (within provider)
 
+**Canonical pair definitions:** `thesis/shared/modelRegistry.js` — `API_TIER_PAIRS` (3 API cheap-vs-premium pairs), `OPEN_WEIGHT_TIER_PAIR` (Meta Llama 8B vs 70B appendix pair).
+
 | Provider | Cheap (multi, 5 reps) | Premium (single, 1 rep) |
 |----------|----------------------|-------------------------|
 | OpenAI | GPT-4o-mini | GPT-4o |
 | Google | Gemini 3.1 Flash Lite | Gemini 3.5 Flash |
 | Anthropic | Claude Haiku 4.5 | Claude Sonnet 4.5 |
 
-Tier comparisons use **run1** data only (asymmetric run counts).
+**Appendix pair (both multi-run):** Llama 3.1 8B vs Llama 3.3 70B (`OPEN_WEIGHT_TIER_PAIR`).
+
+Tier comparisons use **run1** data only. API premium models are single-run → no stability analysis in tier comparison (see RQ2). Analysis spec: `thesis/rq4/spec.md` § Supplementary.
 
 ## Excluded models (legacy artifacts)
 

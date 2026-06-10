@@ -14,7 +14,7 @@ import seaborn as sns
 SHARED = Path(__file__).resolve().parents[2] / "shared"
 sys.path.insert(0, str(SHARED))
 
-from csv_loader import display_name, load_rq2_detail, load_rq4_costs, load_rq4_summary  # noqa: E402
+from csv_loader import display_name, load_rq2_detail, load_rq4_costs, load_rq4_summary, load_rq4_tier_comparison  # noqa: E402
 from plot_style import save_fig, setup  # noqa: E402
 from stats_helpers import bootstrap_median_ci  # noqa: E402
 
@@ -137,15 +137,46 @@ def plot_cost_vs_jaccard(summary: pd.DataFrame, rq2_detail: pd.DataFrame) -> Non
     save_fig(fig, "cost_vs_jaccard", prefix="rq4_")
 
 
+def plot_tier_cost_efficiency(tier: pd.DataFrame) -> None:
+    providers = tier["provider"].tolist()
+    x = np.arange(len(providers))
+    width = 0.35
+
+    cheap_unique = tier["cheap_portfolioCostPerUnique"].to_numpy(dtype=float)
+    premium_unique = tier["premium_portfolioCostPerUnique"].to_numpy(dtype=float)
+    cheap_nonequiv = tier["cheap_portfolioCostPerNonEquiv"].to_numpy(dtype=float)
+    premium_nonequiv = tier["premium_portfolioCostPerNonEquiv"].to_numpy(dtype=float)
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4.5), sharex=True)
+    for ax, cheap_vals, premium_vals, title in [
+        (axes[0], cheap_unique, premium_unique, "Cost per unique mutant"),
+        (axes[1], cheap_nonequiv, premium_nonequiv, "Cost per non-equiv survivor"),
+    ]:
+        ax.bar(x - width / 2, cheap_vals, width, label="Cheap tier", color="#6baed6")
+        ax.bar(x + width / 2, premium_vals, width, label="Premium tier", color="#fd8d3c")
+        ax.set_yscale("log")
+        ax.set_title(title)
+        ax.set_xticks(x)
+        ax.set_xticklabels(providers)
+        ax.set_ylabel("USD (log scale)")
+
+    axes[0].legend(fontsize=8, loc="upper left")
+    fig.suptitle("Within-provider tier cost efficiency")
+    fig.tight_layout()
+    save_fig(fig, "tier_cost_efficiency", prefix="rq4_")
+
+
 def main() -> None:
     setup()
     costs = load_rq4_costs()
     summary = load_rq4_summary()
     rq2 = load_rq2_detail()
+    tier = load_rq4_tier_comparison()
     plot_cost_per_nonequiv_bar(costs)
     plot_pareto_frontier(summary)
     plot_cost_composition(costs)
     plot_cost_vs_jaccard(summary, rq2)
+    plot_tier_cost_efficiency(tier)
     print("RQ4 plots written to thesis/output/figures/", flush=True)
 
 

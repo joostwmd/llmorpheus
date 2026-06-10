@@ -12,6 +12,10 @@ export function aggregateModelCosts(costRows) {
     const totalCost = rows.reduce((s, r) => s + (r.totalCostUsd ?? 0), 0);
     const totalSurvived = rows.reduce((s, r) => s + (r.nrSurvived ?? 0), 0);
     const totalValid = rows.reduce((s, r) => s + (r.nrValid ?? 0), 0);
+    const totalUniqueValid = rows.reduce(
+      (s, r) => s + Math.max((r.nrValid ?? 0) - (r.nrDuplicate ?? 0), 0),
+      0
+    );
     const totalNonEquiv = rows.reduce((s, r) => s + (r.nonEquivSurvivors ?? 0), 0);
 
     summaries.push({
@@ -20,9 +24,12 @@ export function aggregateModelCosts(costRows) {
       totalCostUsd: totalCost,
       portfolioCostPerSurvivor: totalSurvived ? totalCost / totalSurvived : null,
       portfolioCostPerValid: totalValid ? totalCost / totalValid : null,
+      portfolioCostPerUnique: totalUniqueValid ? totalCost / totalUniqueValid : null,
       portfolioCostPerNonEquiv: totalNonEquiv ? totalCost / totalNonEquiv : null,
+      nonEquivYield: totalCost ? totalNonEquiv / totalCost : null,
       medianCostPerSurvivor: median(rows.map((r) => r.costPerSurvivor)),
       medianCostPerValid: median(rows.map((r) => r.costPerValid)),
+      medianCostPerUnique: median(rows.map((r) => r.costPerUnique)),
       medianCostPerNonEquiv: median(rows.map((r) => r.costPerNonEquivSurvivor)),
       medianMutationScore: median(rows.map((r) => r.mutationScore)),
       meanDuplicateRate: mean(rows.map((r) => r.duplicateRate)),

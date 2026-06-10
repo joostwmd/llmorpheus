@@ -148,3 +148,14 @@ export function skipReason(model, rq) {
   if (rq === "rq2" && entry.runPolicy !== "multi") return "single-run model excluded from RQ2";
   return null;
 }
+
+export const API_TIER_PAIRS = [
+  { provider: "OpenAI", cheap: "openai_gpt-4o-mini", premium: "openai_gpt-4o" },
+  { provider: "Google", cheap: "google_gemini-3.1-flash-lite", premium: "google_gemini-3.5-flash" },
+  { provider: "Anthropic", cheap: "anthropic_claude-haiku-4.5", premium: "anthropic_claude-sonnet-4.5" },
+];
+export const OPEN_WEIGHT_TIER_PAIR = {
+  provider: "Meta",
+  cheap: "meta-llama_llama-3.1-8b-instruct",
+  premium: "meta-llama_llama-3.3-70b-instruct",
+};

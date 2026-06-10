@@ -12,6 +12,12 @@ import { clearRqOutput } from "../shared/rqOutput.js";
 import { computeCosts } from "./costCalculator.js";
 import { aggregateModelCosts } from "./qualityAdjustedCosts.js";
 import { paretoFrontier } from "./paretoAnalysis.js";
+import { API_TIER_PAIRS } from "../shared/modelRegistry.js";
+import {
+  ALL_TIER_PAIRS,
+  computeTierComparison,
+  computeTierPairedDeltas,
+} from "./tierComparison.js";
 
 const __dirnameRq4 = path.dirname(fileURLToPath(import.meta.url));
 
@@ -49,10 +55,14 @@ for (const row of equivRows) {
 
 const costRows = computeCosts(datasets, equivByKey);
 const modelSummary = paretoFrontier(aggregateModelCosts(costRows));
+const tierComparison = computeTierComparison(costRows, modelSummary, API_TIER_PAIRS);
+const tierPairedDeltas = computeTierPairedDeltas(costRows, ALL_TIER_PAIRS);
 
 const { publication, appendix } = rqOutputDirs("rq4");
 writeCsv(path.join(appendix, "cost_all_runs.csv"), costRows);
 writeCsv(path.join(publication, "model_cost_summary.csv"), modelSummary);
+writeCsv(path.join(publication, "tier_comparison.csv"), tierComparison);
+writeCsv(path.join(appendix, "tier_paired_deltas.csv"), tierPairedDeltas);
 
 for (const model of [...new Set(costRows.map((r) => r.model))]) {
   writeCsv(
