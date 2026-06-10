@@ -70,6 +70,24 @@ This study **extends** the LLMorpheus methodology to modern LLMs; it is **not** 
 - RQ4 consumes RQ1–RQ3 counts + OpenRouter pricing snapshot
 - RQ5 aggregates RQ1–RQ4 by category; **excludes** cross-run Jaccard from category comparison (unequal run counts)
 
+### RQ5 split verdict (locked FINDINGS)
+
+- **Null on effectiveness/equivalence:** Mann–Whitney finds no significant category differences on mutation score (p = 0.633), survivors (p = 0.993), or predicted equivalence (p = 0.861); |Cliff's δ| ≤ 0.08.
+- **Significant on cost:** Cost per survivor (p ≈ 2.75×10⁻⁵) and cost per non-equiv survivor (p ≈ 3.51×10⁻⁵); open-weight ~16× cheaper at the median (δ ≈ −0.70).
+- **OpenRouter caveat:** All models API-served; cost findings are token economics, not self-host TCO. See outline §5.5.
+
+## Literature / writing gate
+
+Before drafting Background, Methodology, or Discussion:
+
+1. Load `thesis/rqX/references.md` for the relevant RQ + `thesis/workspace/critique/outline_literature_review.md`.
+2. Use `thesis/workspace/synthesis/rqX_logic.md` for narrative hooks.
+3. **Do not cite literature for empirical numbers** — all headline stats from `thesis/rqX/FINDINGS.md` only.
+4. Discussion §5.2: cite Yuan/Song/Tip as **plausible** mechanisms; do not claim causal proof in our OpenRouter setup.
+5. Discussion §5.5: lead with OpenRouter serving caveat before category cost findings.
+6. **No GEPA** or python-classifier references.
+7. Harmonize Angermeir et al. to **(2026)** in prose.
+
 ## Output conventions
 
 Per RQ: `thesis/rqX/output/publication/` (main paper) and `thesis/rqX/output/appendix/` (supplementary). See `artifacts_index.md` in each RQ output folder.

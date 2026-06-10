@@ -50,6 +50,7 @@ Motivate the thesis topic and state the concrete problem: traditional mutation t
 - Inozemtseva, L., & Holmes, R. (2014). Coverage is not strongly correlated with test suite effectiveness. In *Proceedings of the 36th International Conference on Software Engineering (ICSE 2014)* (pp. 435–445). ACM. https://doi.org/10.1145/2568225.2568271
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
 - Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., … Wen, J.-R. (2023). A survey of large language models. *arXiv preprint arXiv:2303.18223*. https://arxiv.org/abs/2303.18223
+- Sánchez, A. B., Parejo, J. A., Segura, S., Durán, A., & Papadakis, M. (2024). Mutation testing in practice: Insights from open-source software developers. *IEEE Transactions on Software Engineering*. (optional — practitioner CI motivation)
 
 ---
 
@@ -104,6 +105,9 @@ State why the original LLMorpheus evaluation is no longer sufficient for today�
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
 - Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., … Wen, J.-R. (2023). A survey of large language models. *arXiv preprint arXiv:2303.18223*. https://arxiv.org/abs/2303.18223
+- Yuan, J., Li, H., Ding, X., et al. (2025). Understanding and mitigating numerical sources of nondeterminism in LLM inference. *NeurIPS*.
+- Song, Y., Wang, G., Li, S., & Lin, B. Y. (2024). The good, the bad, and the greedy: Evaluation of LLMs should not ignore non-determinism. *EMNLP*.
+- Manchanda, J., Westphalen, M., & Boettcher, L. (2024). The open-source advantage in large language models (LLMs).
 
 ---
 
@@ -146,6 +150,7 @@ Translate the research gaps into a concise set of research questions that guide 
 **Sources / references (APA 7)**
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Angermeir, F., et al. (2026). Reflections on the reproducibility of commercial LLM performance. *ICSE*. (scope / snapshot framing)
 
 ---
 
@@ -222,6 +227,9 @@ Summarize concrete outcomes that make the added value beyond the original LLMorp
 **Sources / references (APA 7)**
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Wang, B., Chen, M., Deng, M., Lin, Y., Harman, M., Papadakis, M., & Zhang, J. M. (2025). A comprehensive study on large language models for mutation testing. (landscape context for RQ1–RQ4)
+- Angermeir, F., et al. (2026). Reflections on the reproducibility of commercial LLM performance. *ICSE*.
+- Siddiq, M. L., Islam-Gomes, A., Sekerak, N., & Santos, J. C. S. (2025). Large language models for software engineering: A reproducibility crisis. (reproducible artifacts contribution)
 
 ---
 
@@ -305,6 +313,10 @@ Define mutation testing and position it as the baseline technique LLMorpheus ext
 **Sources / references (APA 7)**
 
 - Inozemtseva, L., & Holmes, R. (2014). Coverage is not strongly correlated with test suite effectiveness. In *Proceedings of the 36th International Conference on Software Engineering (ICSE 2014)* (pp. 435–445). ACM. https://doi.org/10.1145/2568225.2568271
+- Jia, Y., & Harman, M. (2010). An analysis and survey of the development of mutation testing. *IEEE Transactions on Software Engineering*, 37(5), 649–678.
+- Papadakis, M., Kintis, M., Zhang, J., Jia, Y., Le Traon, Y., & Harman, M. (2019). Mutation testing advances: An analysis and survey. In *Advances in Computers* (Vol. 112, pp. 275–378). Elsevier.
+- Gopinath, R., Jensen, C., & Groce, A. (2014). Mutant census: An empirical examination of the competent programmer hypothesis. In *ISSTA* (pp. 119–130). ACM.
+- Ahmed, Z., Grabowski, J., Schwass, E., Herbold, S., & Trautsch, F. (2024). A new perspective on the competent programmer hypothesis through reproduction of real faults with repeated mutations. *STVR*.
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
 
 ---
@@ -350,6 +362,14 @@ Introduce LLMs at the level needed for this thesis (Transformer basis, deploymen
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
 - Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., … Wen, J.-R. (2023). A survey of large language models. *arXiv preprint arXiv:2303.18223*. https://arxiv.org/abs/2303.18223
+- Fan, A., Gokkaya, B., Harman, M., Lyubarskiy, M., Sengupta, S., Yoo, S., & Zhang, J. M. (2023). Large language models for software engineering: Survey and open problems. In *ICSE-FoSE* (pp. 31–53). IEEE.
+- Wang, J., Huang, Y., Chen, C., Liu, Z., Wang, S., & Wang, Q. (2024). Software testing with large language models: Survey, landscape, and vision. *IEEE Transactions on Software Engineering*.
+- Yuan, J., Li, H., Ding, X., et al. (2025). Understanding and mitigating numerical sources of nondeterminism in LLM inference. *NeurIPS*.
+- Song, Y., Wang, G., Li, S., & Lin, B. Y. (2024). The good, the bad, and the greedy: Evaluation of LLMs should not ignore non-determinism. *EMNLP*.
+- Manchanda, J., Westphalen, M., & Boettcher, L. (2024). The open-source advantage in large language models (LLMs).
+- Liesenfeld, A., Lopez, A., & Dingemanse, M. (2023). Opening up ChatGPT: Tracking openness, transparency, and accountability. *ACL* (pp. 82–97).
+- Messina, A., & Scotta, S. (2026). Introducing background temperature to characterise hidden randomness in LLMs. *arXiv*. (optional Tbg vocabulary for §5.2)
+- Angermeir, F., Bauer, A., Moyn C., F., et al. (2026). Reflections on the reproducibility of commercial LLM performance in empirical software engineering studies. *ICSE*.
 
 ---
 
@@ -427,9 +447,10 @@ Explain why equivalent mutants confound mutation-testing interpretation, what de
   - *Learned classifiers:* Code-embedding models (e.g., UniXCoder) trained on labeled mutant pairs can screen survivors at scale with documented precision/recall trade-offs.
 
 - **Detection limits relevant to this thesis**  
+  - Exact equivalence is **undecidable in general** (Madeyski et al., 2014 SLR) — automated screening is necessarily approximate.  
   - Automated labels are **predicted equivalence**, not ground-truth proofs.  
   - Classifier precision on equivalent calls is lower than on behavioral-change calls (~78% vs ~99% at operational threshold).  
-  - Equivalence rates are **package-dependent** — small packages can show 40–47% predicted equivalence while high-volume packages show <2%.  
+  - **In this study (RQ3, θ = 0.80):** equivalence rates are **package-dependent** — small packages can show 40–47% predicted equivalence while high-volume packages show <2% (thesis FINDINGS; not literature benchmarks).  
   - Manual gold labels from the paper corpus (954 mutants, 13 projects) may not fully generalize to LLM-generated mutants from modern models on the thesis-six subset.
 
 - **Bridge to RQ3**  
@@ -438,7 +459,12 @@ Explain why equivalent mutants confound mutation-testing interpretation, what de
 **Sources / references (APA 7)**
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
-- (Equivalent mutant detection) `thesis/references/processed/llms-for-equivalent-mutant-detection/paper.md` — see `paper.md` for full citation
+- Madeyski, L., Orzeszyna, W., Torkar, R., & Józala, M. (2014). Overcoming the equivalent mutant problem: A systematic literature review. *IEEE TSE*, 40(1), 23–42.
+- Yao, X., Harman, M., & Jia, Y. (2014). A study of equivalent and stubborn mutation operators using human analysis of equivalence. *ICSE* (pp. 919–930).
+- Schuler, D., & Zeller, A. (2013). Covering and uncovering equivalent mutants. *Software Testing, Verification and Reliability*, 23(5), 353–374.
+- Guo, D., Lu, S., Duan, N., Wang, Y., Zhou, M., & Yin, J. (2022). UniXcoder: Unified cross-modal pre-training for code representation. *ACL* (pp. 7212–7225).
+- Papadakis, M., Kintis, M., Zhang, J., Jia, Y., Le Traon, Y., & Harman, M. (2019). Mutation testing advances: An analysis and survey. In *Advances in Computers* (Vol. 112, pp. 275–378). Elsevier.
+- Wang, D., Chen, J., Tian, Z., Cao, X., Shu, H., & Kamei, Y. (2024). LLMs for equivalent mutant detection. *ISSTA* (pp. 1–13). (related work — not our method)
 
 ---
 
@@ -461,13 +487,13 @@ Position LLMorpheus within the broader landscape of LLM-driven mutation testing 
 - **LLMorpheus-specific contribution (Tip et al., 2025)**  
   Placeholder-guided prompting with StrykerJS integration; filters invalid/duplicate candidates; evaluates cost, temperature, prompt templates, and manual equivalence examination. Establishes that LLM mutants can complement operator-based mutation but leaves open questions about modern models, stability, scaled equivalence screening, and practitioner cost decisions.
 
-- **Contrast: operator-based vs LLM-generated**  
+- **Contrast: operator-based vs LLM-generated (illustrative; not universal laws)**  
   | Dimension | Operator-based | LLM-generated (LLMorpheus) |
   |-----------|----------------|----------------------------|
   | Fault diversity | Fixed operator set | LLM-proposed replacements |
-  | Determinism | High | Variable even at T = 0 |
+  | Determinism | High (by tool design) | Variable even at T = 0 in LLMorpheus reruns (Tip et al., 2025; Yuan et al., 2025) |
   | Cost model | Compute-bound | Token/API cost + compute |
-  | Equivalence risk | Lower (simpler edits) | Higher (more semantic edits) |
+  | Equivalence risk | Operator-dependent (Yao et al., 2014) | ~20.2% manual equivalent among survivors in Tip et al. (2025); package- and model-dependent in this study |
   | Scalability of analysis | Mature tooling | Emerging; depends on API access |
 
 - **Gap this thesis fills vs Wang et al. (2025) and Tip et al. (2025)**  
@@ -477,6 +503,11 @@ Position LLMorpheus within the broader landscape of LLM-driven mutation testing 
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
 - Wang, B., Chen, M., Deng, M., Lin, Y., Harman, M., Papadakis, M., & Zhang, J. M. (2025). A comprehensive study on large language models for mutation testing. `thesis/references/processed/comprehensive-study-on-llms-for-mutation-test/paper.md`
+- Wang, G., Xu, Q., Briand, L., & Liu, K. (2025). Mutation-guided unit test generation with LLMs. *IEEE TSE*. (contrast — test generation)
+- Dakhel, A. M., Nikanjam, A., Majdinasab, V., Khomh, F., & Desmarais, M. C. (2024). Effective test generation using pre-trained LLMs and mutation testing. *Information and Software Technology*. (contrast — MuTAP)
+- Wang, J., Huang, Y., Chen, C., Liu, Z., Wang, S., & Wang, Q. (2024). Software testing with large language models: Survey, landscape, and vision. *IEEE Transactions on Software Engineering*.
+- Yuan, J., Li, H., Ding, X., et al. (2025). Understanding and mitigating numerical sources of nondeterminism in LLM inference. *NeurIPS*.
+- Song, Y., Wang, G., Li, S., & Lin, B. Y. (2024). The good, the bad, and the greedy: Evaluation of LLMs should not ignore non-determinism. *EMNLP*.
 
 ---
 
@@ -519,6 +550,8 @@ State explicitly what this study reuses, extends, and does not claim — positio
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
 - Wang, B., Chen, M., Deng, M., Lin, Y., Harman, M., Papadakis, M., & Zhang, J. M. (2025). A comprehensive study on large language models for mutation testing. `thesis/references/processed/comprehensive-study-on-llms-for-mutation-test/paper.md`
+- Siddiq, M. L., Islam-Gomes, A., Sekerak, N., & Santos, J. C. S. (2025). Large language models for software engineering: A reproducibility crisis.
+- Angermeir, F., et al. (2026). Reflections on the reproducibility of commercial LLM performance. *ICSE*.
 
 ---
 
@@ -553,6 +586,11 @@ Define the thesis as a model-comparison benchmarking study using the LLMorpheus 
 - **RQ dependencies:** RQ2 requires multi-rep data; RQ3 consumes surviving mutants from RQ1 plus the validated classifier; RQ4 integrates RQ1–RQ3 counts with OpenRouter pricing; RQ5 aggregates RQ1–RQ4 by category (excludes cross-run Jaccard because run counts differ across categories).
 - **Artifacts recorded per run:** Prompts, completions, configuration metadata, token logs, `mutants.json`, `summary.json`, Stryker outputs (`StrykerInfo.json`, reports), and downstream analysis CSVs/tables in `thesis/rqX/output/`.
 
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Fan, A., et al. (2023). Large language models for software engineering: Survey and open problems. *ICSE-FoSE*. (evaluation norms)
+
 ---
 
 ## Block 2 — RQ0 Pipeline Validation (Not External Paper Replication)
@@ -575,6 +613,12 @@ Confirm that this repository’s end-to-end toolchain works before interpreting 
   - `thesis` organize and per-RQ analysis scripts complete without missing-input errors.
 - **Checklist before RQ1–RQ5:** At least one successful GHA run per model; logs confirm > 0 mutants per package; artifacts organized under `artifacts/` / `organized/` with expected layout; experimental parameters documented (template, T=0, maxTokens, packages).
 - **Relation to downstream RQs:** RQ1 needs valid `mutants.json` / `summary.json`; RQ2 needs multiple reps with non-empty mutant sets; RQ3 needs surviving mutants from Stryker; RQ4 needs token logs; RQ5 needs complete RQ1–RQ4 inputs.
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Angermeir, F., et al. (2026). Reflections on the reproducibility of commercial LLM performance. *ICSE*.
+- Siddiq, M. L., Islam-Gomes, A., Sekerak, N., & Santos, J. C. S. (2025). Large language models for software engineering: A reproducibility crisis.
 
 ---
 
@@ -604,6 +648,10 @@ Define the study objects, justify the six-package subset, and specify what is fi
   - **Feasibility:** Keeps runtime and token budget manageable while allowing multiple replications for affordable models.
 - **Reproducibility requirements:** Each project checked out at a pinned commit; mutate globs and any benchmark patches documented in `thesis-six.json`; Node version and tool versions pinned following RQ0 validation.
 - **Validity implications:** External validity is limited to these six packages; results are evidence under the stated configuration, not universal conclusions about all JavaScript codebases.
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952 (benchmark provenance)
 
 ---
 
@@ -642,6 +690,12 @@ Lock the evaluated model set, define category labels used in RQ5, and specify ho
 - **Run policy rationale:** Expensive models (€15+ per full thesis-six run) receive single runs for cross-model comparison; affordable models receive five runs to support RQ2 stability analysis. Policy encoded in `thesis/shared/modelRegistry.js`.
 - **Baseline / longitudinal peers:** `gpt-4o-mini` and `llama-3.3-70b-instruct` also appeared in Tip et al. (2025) and enable **directional** per-package comparison on thesis-six — they are **longitudinal peers**, not replication targets (different provider path via OpenRouter, no claim of identical serving). **CodeLlama-34B** (paper's primary model) cannot be re-run — removed from OpenRouter (404); per-package paper scores cited from Table 2 for context only.
 
+**Sources / references (APA 7)**
+
+- Manchanda, J., Westphalen, M., & Boettcher, L. (2024). The open-source advantage in large language models (LLMs).
+- Liesenfeld, A., Lopez, A., & Dingemanse, M. (2023). Opening up ChatGPT. *ACL*. (openness spectrum)
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus. (longitudinal peers; model registry: `thesis/shared/modelRegistry.js`)
+
 ---
 
 ## Block 5 — Fixed Experimental Configuration
@@ -670,6 +724,11 @@ Define the configuration held constant across all models so that outcome differe
 - **Design intent:** These are internal-validity choices for fair cross-model comparison; maxTokens aligns with Tip et al. (2025), but package subset and model roster differ (see Discussion §5.8).
 - **Legacy runs:** Earlier exploratory runs with mixed token limits (250/8000) or uncontrolled reasoning are excluded from analysis; the current study matrix is homogeneous at 250.
 
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus. (paper defaults: template-full, T=0, maxTokens=250)
+- Yuan, J., et al. (2025). Understanding and mitigating numerical sources of nondeterminism in LLM inference. *NeurIPS*. (T=0 caveat)
+
 ---
 
 ## Block 6 — Procedure A: Mutant Generation
@@ -692,6 +751,10 @@ Describe precisely how each run produces a mutant set suitable for mutation anal
 - **Output:** Persist the final mutant set to `mutants.json` with metadata (location, original, replacement, prompt/completion IDs).
 - **Logged artifacts:** Prompts, completions, run configuration, and token usage (`summary.json`, `LLMorpheusOutput.txt`) stored alongside `mutants.json` for auditability and RQ4 cost analysis.
 
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus. (Procedure A workflow)
+
 ---
 
 ## Block 7 — Procedure B: Mutation Analysis (Stryker)
@@ -713,6 +776,10 @@ Run the test suite against generated mutants and collect mutation-testing outcom
 - **Mutation score definition:** Killed / (killed + survived + timed-out), excluding invalid mutants — consistent with glossary and original LLMorpheus reporting.
 - **Downstream linkage (RQ3):** Persist surviving mutants with stable identifiers (file, line, column, replacement hash) so equivalence screening applies consistently across runs and traces back to specific mutants.
 - **Index alignment note:** For most packages, `mutants.json` and Stryker results align by index; for `spacl-core`, some LLM mutants fail Stryker parsing and require location-based matching with whitespace normalization.
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus. (Procedure B; Stryker integration)
 
 ---
 
@@ -774,6 +841,11 @@ Define what is computed for each research question, which pipeline components ar
 
 - **Shared infrastructure:** Artifact organization (`artifacts/` → `organized/`), central figures/tables in `thesis/output/`, per-RQ scripts orchestrated via `thesis/run-all.js` or per-RQ entry points.
 
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus. (RQ1–RQ5 metric definitions)
+- See Methodology Block 9 for RQ3 equivalence classifier (Guo; Wang EMD related work)
+
 ---
 
 ## Block 9 — Equivalence Classifier Methodology
@@ -787,7 +859,7 @@ Document the automated equivalence screening approach used in RQ3 — from gold-
 **Content (detailed bullets)**
 
 - **Purpose:** Surviving mutants confound test-weakness signals with equivalence. RQ3 adds an equivalence-aware layer that estimates how much survival is plausibly explained by equivalence versus behavioral change, enabling **effective survivors** as a more honest comparison metric than raw survivor counts.
-- **Classifier choice:** **UniXCoder ensemble** (`microsoft/unixcoder-base` with frozen encoder + trained classification head). An initial **GEPA prompt-based LLM classifier** approach was explored (`python-classifier/`) but **abandoned** in favor of the UniXCoder fine-tuned model for reproducibility, cost, and asymmetric reliability on behavioral-change predictions.
+- **Classifier choice:** **UniXCoder ensemble** (`microsoft/unixcoder-base` with frozen encoder + trained classification head). Prompt-based LLM classification was not used for batch screening (reproducibility, cost, and more stable precision on behavioral-change labels at scale). Related LLM-based equivalent-mutant detection work (Wang et al., EMD paper) informed the embedding-classifier approach but is not our method.
 - **Gold label provenance:**
   - Source: LLMorpheus paper **RQ2 manual corpus** — 954 mutants from **13 projects**, manually labeled {Equivalent, Behavioral Change} by **two paper authors** with inter-rater agreement **ω = 0.846**.
   - **Not re-labeled** by the thesis author; gold labels are reused as-is from the published manual examination dataset.
@@ -812,6 +884,12 @@ Document the automated equivalence screening approach used in RQ3 — from gold-
   - Compute per model × package × run: predicted equivalence rate, effective survivors, and feed non-equivalent survivor counts into RQ4 cost metrics.
 - **Interpretation constraint:** All applied labels reported as **predicted equivalent** / **predicted behavioral change**; classifier provides contextualization, not definitive semantic equivalence proof.
 - **Implementation location:** `thesis/rq3/equivalent-mutants/classify/` (training, evaluation, prediction) and `thesis/rq3/equivalent-mutants/analyze/` (aggregation, statistical tests, tables/figures).
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Guo, D., Lu, S., Duan, N., Wang, Y., Zhou, M., & Yin, J. (2022). UniXcoder: Unified cross-modal pre-training for code representation. *ACL* (pp. 7212–7225).
+- Wang, D., Chen, J., Tian, Z., Cao, X., Shu, H., & Kamei, Y. (2024). LLMs for equivalent mutant detection. *ISSTA* (pp. 1–13). (related work — not our method)
 
 ---
 
@@ -845,6 +923,12 @@ Specify what is stored, how runs are identified, and what boundaries exist for r
   - **Mutant generation** via API-hosted models is **time-conditional** (model drift, provider updates); addressed through repeated runs (multi policy), detailed logging, and artifact archiving rather than single-run determinism claims.
 - **Workflow automation:** GHA workflow (`.github/workflows/openrouter-exp.yml`); scheduling scripts (`.github/schedule-affordable-runs.sh`, `.github/schedule-expensive-runs.sh`); artifact download helpers (`.github/download-run.sh`, `.github/download-all-runs.sh`).
 - **Pricing snapshot:** OpenRouter rates pinned in `.github/thesis-model-pricing.json` (May 2026) for RQ4 cost calculations; documented as time-conditional.
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Angermeir, F., Bauer, A., Moyn C., F., et al. (2026). Reflections on the reproducibility of commercial LLM performance in empirical software engineering studies. *ICSE*.
+- Siddiq, M. L., Islam-Gomes, A., Sekerak, N., & Santos, J. C. S. (2025). Large language models for software engineering: A reproducibility crisis.
 
 ---
 
@@ -883,7 +967,17 @@ Document key threats (construct, internal, external, reliability) and mitigation
 - **Gold label and classifier threats:**
   - **Gold corpus from paper authors, not thesis author** → reduces labeling bias from the evaluator but inherits any limitations of the original manual examination protocol.
   - **Class imbalance (13.2% equivalent)** → addressed via focal loss, class weighting, and threshold tuning; FP/FN trade-off documented transparently.
-  - **GEPA prompt approach abandoned** → avoids LLM-as-judge variability but introduces dependency on UniXCoder generalization to LLM-generated mutant patterns not seen in gold training data.
+  - **UniXCoder generalization** → classifier trained on Tip et al. gold corpus may not fully transfer to LLM-generated mutants from modern models on thesis-six; report as predicted equivalence, not proof.
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Guo, D., Lu, S., Duan, N., Wang, Y., Zhou, M., & Yin, J. (2022). UniXcoder: Unified cross-modal pre-training for code representation. *ACL* (pp. 7212–7225).
+- (Equivalent mutant detection) `thesis/references/processed/llms-for-equivalent-mutant-detection/paper.md` — Wang/Chen LLM EMD (related work, not our method)
+- Yuan, J., Li, H., Ding, X., et al. (2025). Understanding and mitigating numerical sources of nondeterminism in LLM inference. *NeurIPS*.
+- Song, Y., Wang, G., Li, S., & Lin, B. Y. (2024). The good, the bad, and the greedy: Evaluation of LLMs should not ignore non-determinism. *EMNLP*.
+- Angermeir, F., et al. (2026). Reflections on the reproducibility of commercial LLM performance. *ICSE*.
+- Siddiq, M. L., Islam-Gomes, A., Sekerak, N., & Santos, J. C. S. (2025). Large language models for software engineering: A reproducibility crisis.
 
 ---
 
@@ -1190,7 +1284,7 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 - Effectiveness vs volume decoupling (Qwen: high score, low survivors).
 - Validity composition wastes budget independently of final scores (Haiku ~61% validity).
 - Survivors as mixed signal — baseline for RQ3 reframing.
-- Levenshtein as style proxy, not realism (omnibus trend p = 0.133; Llama 3.1 8B largest edits).
+- Levenshtein as syntactic subtlety proxy, not semantic realism — typical real faults involve ~3–4 tokens (Gopinath et al., 2014); supports comparative use across models, not bug-likeness claims (omnibus trend p = 0.133; Llama 3.1 8B largest edits).
 - Cross-package ranking stability (per-package heatmap; Complex.js ~55–64% vs zip-a-folder ~95–97%).
 
 **Conditional recommendation:** If maximizing mutation score, prioritize strong run1 performers after checking validity; if maximizing inspection candidates, low survivors may be undesirable even with high scores.
@@ -1199,8 +1293,9 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 
 ## 5.2 RQ2 — Consistency across runs
 
-- Why stability matters for CI and longitudinal benchmarking.
-- T=0 variability mechanisms (provider nondeterminism, routing).
+- Why stability matters for CI and longitudinal benchmarking (Tip et al., 2025; Song et al., 2024).
+- **Plausible mechanisms (consistent with Yuan et al., 2025; Song et al., 2024):** inference-stack nondeterminism, batch/precision effects — **not verified** in our OpenRouter setup; provider routing opacity noted as limitation only (see §5.6).
+- Tip et al. as prior domain observation of T=0 variability; all Jaccard/CV ranks from **FINDINGS** only.
 - Stability vs effectiveness trade-off; link to RQ4 (unstable models multiply cost).
 - Premium single-run models lack stability data by design.
 
@@ -1224,6 +1319,7 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 - Optimization target defines “best” (score vs effective survivors per euro vs runtime).
 - Pareto frontier; premium models may be off-frontier on cost-adjusted axes.
 - Waste (invalid/duplicate) as hidden cost.
+- Multi-objective trade-offs (optional analogy): improving one quality dimension can cost another across models (Sun et al., 2025 NFQC) — weak analogy for Pareto framing only.
 - Pinned pricing snapshot; runtime vs token cost for CI feasibility.
 - **Within-vendor tier upgrade (supplementary §4.6):** Premium API SKUs often dominate on raw effectiveness but lose on **cost per non-equiv survivor** and **nonEquivYield**; marginal cost per extra non-equiv survivor quantifies whether the upgrade pays off for gap-finding (not for CI stability — premium tiers lack RQ2 data). Practitioners should compare cheap vs premium within the same provider before defaulting to flagship SKUs.
 
@@ -1305,6 +1401,19 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 
 **Answer sentence template**  
 Relative to Tip et al. (2025), this study extends LLMorpheus to ten modern models under aligned configuration (maxTokens = 250). On the six shared benchmark packages, mutation scores show a **modest** shift (paper CodeLlama-34B median ≈ 76% vs modern models 74–89%) rather than the misleading ~30pp gap implied by 13-vs-6-package aggregates. Overlapping models (`gpt-4o-mini`, `llama-3.3-70b-instruct`) exhibit modest per-package score changes but **persistent T = 0 instability**. Predicted equivalence rates (17–24%) align directionally with the paper's 20.2% manual rate. This is **directional positioning**, not replication.
+
+---
+
+## Discussion — Sources / references (APA 7)
+
+Writing agent: load per-RQ `references.md` for full bibliographies; outline hooks below.
+
+- **§5.1** → `thesis/rq1/references.md` (Papadakis; Gopinath optional for Levenshtein)
+- **§5.2** → `thesis/rq2/references.md` (Yuan, Song, Tip; Messina optional)
+- **§5.3** → `thesis/rq3/references.md` (Madeyski, Tip 20.2% directional)
+- **§5.4** → `thesis/rq4/references.md` (Tip cost, Wang waste, Sun NFQC optional)
+- **§5.5** → `thesis/rq5/references.md` (Manchanda, Angermeir, OpenRouter caveat)
+- **§5.6–5.8** → `thesis/rq0/references.md` + Tip et al. positioning
 
 ---
 

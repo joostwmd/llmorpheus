@@ -82,4 +82,4 @@ See `thesis/rq0/replication.md`.
 | **Output** | Per category: distributions of mutation score, survivors, equivalence rate, cost per non-equiv survivor |
 | **Excluded** | Cross-run Jaccard / stability (unequal rep counts — see RQ2) |
 | **Aggregation** | Group by category; median/IQR; Mann–Whitney with small-n caveat |
-| **Expected result** | Category alone is a weak predictor; differences may be smaller than expected |
+| **Expected result** | **Split verdict:** null on mutation score, survivors, and predicted equivalence (|δ| ≤ 0.08); **significant** cost separation (~16× median per survivor, Cliff's δ ≈ −0.70). Category predicts API token cost, not mutation-testing quality. All models served via OpenRouter — not self-host TCO. |
