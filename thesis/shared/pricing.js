@@ -34,9 +34,17 @@ export function lookupPricing(modelDirName, pricingCache = null) {
 }
 
 export function computeApiCost(summary, pricingEntry) {
-  if (!pricingEntry) return { inputCostUsd: null, outputCostUsd: null, totalCostUsd: null };
   const promptTokens = Number(summary.totalPromptTokens ?? 0);
   const completionTokens = Number(summary.totalCompletionTokens ?? 0);
+  if (!pricingEntry) {
+    return {
+      inputCostUsd: null,
+      outputCostUsd: null,
+      totalCostUsd: null,
+      promptTokens,
+      completionTokens,
+    };
+  }
   const inputCostUsd = (promptTokens / 1_000_000) * pricingEntry.input_usd_per_million;
   const outputCostUsd = (completionTokens / 1_000_000) * pricingEntry.output_usd_per_million;
   return {

@@ -6,8 +6,8 @@ Use files in `publication/` in the main paper; use `appendix/` for supplementary
 
 | File | Placement | Description |
 |------|-----------|-------------|
-| `jaccard_box.pdf` | thesis | Jaccard overlap distribution across runs |
-| `mutant_variability_stacked.pdf` | thesis | Mutant trial variability (stable / variable / unique) |
+| `jaccard_box.pdf` | publication | Jaccard overlap distribution across runs |
+| `mutant_variability_stacked.pdf` | publication | Mutant trial variability (stable / variable / unique) |
 | `cv_grouped_bar.pdf` | appendix | Coefficient of variation for score, survivors, edit distance |
 | `score_across_runs_line.pdf` | appendix | Mutation score drift across runs |
 | `within_model_jaccard_heatmap.pdf` | appendix | Run-vs-run Jaccard overlap heatmaps |
@@ -17,7 +17,7 @@ Use files in `publication/` in the main paper; use `appendix/` for supplementary
 
 | File | Placement | Description |
 |------|-----------|-------------|
-| `consistency.tex` | thesis | Cross-run consistency metrics per model |
+| `consistency.tex` | publication | Cross-run consistency metrics per model |
 | `per_package_consistency.tex` | appendix | Per-package consistency breakdown |
 
 ## Statistics

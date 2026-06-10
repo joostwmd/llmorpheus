@@ -6,15 +6,15 @@ Use files in `publication/` in the main paper; use `appendix/` for supplementary
 
 | File | Placement | Description |
 |------|-----------|-------------|
-| `category_violins.pdf` | thesis | Open-weight vs API-only metric distributions |
-| `effect_size_forest.pdf` | thesis | Cliff's delta effect sizes between categories |
+| `category_violins.pdf` | publication | Open-weight vs API-only metric distributions |
+| `effect_size_forest.pdf` | publication | Cliff's delta effect sizes between categories |
 
 ## Tables
 
 | File | Placement | Description |
 |------|-----------|-------------|
-| `category_summary.tex` | thesis | Category-level summary statistics |
-| `pairwise_effect.tex` | thesis | Mann–Whitney comparisons with effect sizes |
+| `category_summary.tex` | publication | Category-level summary statistics |
+| `pairwise_effect.tex` | publication | Mann–Whitney comparisons with effect sizes |
 
 ## Statistics
 
