@@ -31,9 +31,37 @@ Detail: `thesis/meta/rq_overview.md`. Per-RQ methodology: `thesis/rqX/spec.md`.
 - **Packages:** 6 JavaScript packages (thesis-six subset; see `.github/thesis-six.json`)
 - **Models:** 10 (see `thesis/meta/model_choices.md`, registry in `thesis/shared/modelRegistry.js`)
 - **Categories:** `api-only`, `open-weight`, `hybrid` (DeepSeek)
-- **Config:** FULL prompt template, T=0, maxTokens=200, reasoning disabled (Gemini 3.x: minimal effort)
+- **Config:** FULL prompt template, T=0, maxTokens=250, reasoning disabled (Gemini 3.x: minimal effort). Authoritative value: `summary.json` → `metaInfo.maxTokens` (verified: 250 on all 228 datasets; matches Tip et al., 2025).
 - **Runs:** `multi` policy → **5 reps** (7 affordable models; RQ2 uses all reps); `single` policy → **1 rep** (3 expensive models)
 - **Raw data:** `../artifacts/`, `../organized/` at repo root (gitignored)
+
+## Relation to Tip et al. (2025)
+
+This study **extends** the LLMorpheus methodology to modern LLMs; it is **not** a replication of Tip et al. (2025). There is **no dedicated RQ6**. Directional comparison to the original paper is scoped to Discussion outline **§5.8** and baseline references in RQ1/RQ3 — cited for context, not as a replication target.
+
+### Setup alignment vs divergence
+
+| Factor | Tip et al. (2025) | This study | Impact |
+|--------|-------------------|------------|--------|
+| maxTokens | 250 | **250** (artifact metadata) | Aligned — not a confound |
+| Packages | 13 | 6 (thesis-six subset) | **Main confound** for aggregate scores |
+| Models | 5 (CodeLlama-34B primary) | 10 modern; **2 overlap** (`gpt-4o-mini`, `llama-3.3-70b-instruct`) | CodeLlama-34B unavailable (OpenRouter 404) |
+| Equivalence | Manual labeling (20.2% among survivors) | UniXCoder classifier (θ = 0.80) | Directional comparison only |
+| Provider | Mixed | OpenRouter only | Serving / routing difference |
+
+### Key directional findings (for agents and drafting)
+
+1. **Do not compare** paper 13-package aggregates (~53–56% mutation score) to thesis 6-package medians (~74–89%) without explaining that excluded packages (notably `q`) and other corpus differences depress the paper aggregate.
+2. **Fairer comparison:** on the **six shared packages**, paper CodeLlama-34B median mutation score ≈ **76%** vs modern models **74–89%** — a modest shift, not a ~30 percentage-point jump.
+3. **Overlapping models** (`gpt-4o-mini`, `llama-3.3-70b-instruct`): per-package score changes are modest (±7pp); instability at T = 0 persists (Jaccard ~0.50–0.57 in RQ2).
+4. **Models not in the paper:** Qwen 2.5 Coder 32B (best mutation score, 88.5%); Claude Haiku 4.5 (best stability, Jaccard ~0.99); Llama 3.1 8B (best cost efficiency).
+5. **Equivalence:** predicted rates **17–24%** vs paper **20.2%** manual — aligned directionally; automated vs manual labels limit strict comparison.
+6. **Two metrics, two goals:** high **mutation score** assesses test-suite strength (more mutants killed); **effective survivors** (RQ3) signal gap-finding potential — fewer raw survivors does not automatically mean better for test improvement.
+
+### Artifact pointers
+
+- **Paper:** Tip et al. Table 2 (per-package scores), Table 7 (model totals), Table 4 (equivalence); raw data in `neu-se/mutation-testing-data`.
+- **Thesis:** `thesis/rq1/output/publication/model_summary.csv`; per-model appendix CSVs for overlapping baselines; RQ3 `llm_summary.csv` for equivalence rates.
 
 ## RQ dependencies
 

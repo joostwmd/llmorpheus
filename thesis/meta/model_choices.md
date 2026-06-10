@@ -13,9 +13,11 @@ Defines the **10-model thesis set**, tier comparisons, pricing, and run strategy
 | **Packages** | thesis-six (6 JavaScript packages) — `.github/thesis-six.json` |
 | **Template** | `template-full` |
 | **Temperature** | `0.0` |
-| **maxTokens** | `200` |
+| **maxTokens** | `250` |
 | **Reasoning** | Disabled; Gemini 3.x uses `{ effort: "minimal", exclude: true }` |
 | **Serving** | All models via OpenRouter (not self-hosted) |
+
+Authoritative config is `summary.json` → `metaInfo.maxTokens` (verified: 250 on all 228 datasets). Matches Tip et al. (2025).
 
 ## Run strategy
 

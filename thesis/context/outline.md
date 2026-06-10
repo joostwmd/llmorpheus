@@ -90,7 +90,7 @@ State why the original LLMorpheus evaluation is no longer sufficient for today�
 
 - **Scope clarifications (avoid overclaiming)**  
   - No LLM-based test generation: mutants only; existing project test suites unchanged.  
-  - Fixed configuration (model-first comparison): FULL prompt template, T = 0, maxTokens = 200, reasoning disabled (Gemini 3.x: minimal effort); differences attributed primarily to model choice, not prompt engineering.  
+  - Fixed configuration (model-first comparison): FULL prompt template, T = 0, maxTokens = 250, reasoning disabled (Gemini 3.x: minimal effort); differences attributed primarily to model choice, not prompt engineering.  
   - No manual equivalent-mutant labeling at scale: validated automated equivalence classifier applied to survivors.  
   - Six-package benchmark subset (thesis-six): documented limitation on generalizability.  
   - RQ0 validates the local pipeline; this thesis does not claim external replication of the 2024 paper.
@@ -162,7 +162,7 @@ Provide a concise end-to-end overview of what is executed and how outputs answer
   Confirm that the LLMorpheus → Stryker → artifact → `thesis` analysis toolchain produces non-empty, parseable data for each model in the 10-model matrix on the thesis-six package subset.
 
 - **RQ1–RQ4 — Mutation-testing benchmark runs**  
-  For each selected model, run the LLMorpheus mutation-testing workflow on six benchmark packages under fixed configuration (FULL template, T = 0, maxTokens = 200).  
+  For each selected model, run the LLMorpheus mutation-testing workflow on six benchmark packages under fixed configuration (FULL template, T = 0, maxTokens = 250).  
   Repeat affordable models five times (RQ2 stability); run expensive API models once (cost feasibility).  
   Compute per-model statistics: mutant volume and validity, mutation outcomes, Levenshtein edit distance (RQ1); cross-run Jaccard and SD summaries for multi-run models (RQ2); apply validated equivalence classifier to survivors (RQ3); derive token, runtime, and cost metrics from logs and a pinned OpenRouter price snapshot (RQ4).
 
@@ -386,6 +386,7 @@ Describe the LLMorpheus technique and tool at a systems level: placeholder-guide
 
 - **Original paper evaluation scope (context for this thesis)**  
   Tip et al. (2025) evaluate LLMorpheus on 13 JavaScript/TypeScript packages; study prompt, temperature, and model variation; measure cost via runtime and tokens; manually examine equivalent mutants; and include a 40-bug resemblance case study.  
+  Paper default configuration: `template-full`, T = 0, maxTokens = 250 — **same maxTokens as this thesis**; main divergence is the six-package thesis-six subset and the modern 10-model matrix (not the paper's CodeLlama-34B-centric roster).  
   **This thesis reuses the tool and workflow** but runs a new 10-model × six-package study with RQ0–RQ5 metrics. It does not replicate the 40-bug study or reasoning-model experiments.
 
 - **Scope reductions / deferred work**  
@@ -473,7 +474,7 @@ Define the study objects, justify the six-package subset, and specify what is fi
   - pull-stream
   - spacl-core
   - zip-a-folder
-- **Explicit exclusion:** `delta` (present in the original 13-package paper corpus but excluded from this thesis subset for budget and feasibility).
+- **Explicit exclusions:** `delta` and six other paper packages (notably `q`, which scored 11.94% mutation score in Tip et al. and depresses the paper's 13-package aggregate). Excluded from thesis-six for budget and feasibility. **Directional comparisons to the paper must use the six shared packages only** — not 13-package aggregates vs 6-package medians.
 - **Selection rationale:**
   - **Language/tooling diversity:** Mix of plain JS and TypeScript projects.
   - **Domain diversity:** Distinct library domains to reduce topic-specific bias.
@@ -517,7 +518,7 @@ Lock the evaluated model set, define category labels used in RQ5, and specify ho
   - **Hybrid:** Open weights accessed via API in this study (DeepSeek Chat v3.1).
 - **Tier comparisons within providers:** Cheap vs premium pairs for OpenAI (4o-mini / 4o), Google (3.1 Flash Lite / 3.5 Flash), and Anthropic (Haiku / Sonnet) enable within-vendor cost-effectiveness analysis.
 - **Run policy rationale:** Expensive models (€15+ per full thesis-six run) receive single runs for cross-model comparison; affordable models receive five runs to support RQ2 stability analysis. Policy encoded in `thesis/shared/modelRegistry.js`.
-- **Baseline models:** `gpt-4o-mini` and `llama-3.3-70b-instruct` also appeared in the original paper but serve as study baselines here, not replication targets.
+- **Baseline / longitudinal peers:** `gpt-4o-mini` and `llama-3.3-70b-instruct` also appeared in Tip et al. (2025) and enable **directional** per-package comparison on thesis-six — they are **longitudinal peers**, not replication targets (different provider path via OpenRouter, no claim of identical serving). **CodeLlama-34B** (paper's primary model) cannot be re-run — removed from OpenRouter (404); per-package paper scores cited from Table 2 for context only.
 
 ---
 
@@ -537,14 +538,15 @@ Define the configuration held constant across all models so that outcome differe
   - Structured output enforced (fenced code blocks) for reliable candidate extraction.
 - **Decoding parameters:**
   - Temperature: **T = 0.0** (fixed across all models).
-  - Max completion tokens: **200** (standardized May 2026; supersedes earlier 250-token runs).
+  - Max completion tokens: **250** — matches original LLMorpheus paper and repo/GHA defaults; recorded in `summary.json` → `metaInfo.maxTokens`.
   - Reasoning: **disabled** for all models; Gemini 3.x uses `{ effort: "minimal", exclude: true }` per OpenRouter requirement.
   - Other parameters (top-p, etc.) fixed and logged.
+- **Config verification:** All 228 analysis datasets uniform at maxTokens = 250; average completion length ~75 tokens per candidate (well below the limit).
 - **Generation limits:** `maxNrPrompts = 2000` per package run.
 - **Stryker configuration:** Custom `stryker-js` fork; `--concurrency 1`; precomputed mutators (`--usePrecomputed`); mutants loaded from `mutants.json`.
 - **Context and API policy:** Fixed code-context window strategy; uniform rate limiting and retry policies across models where feasible.
-- **Design intent:** These are internal-validity choices for fair cross-model comparison, not a claim to replicate the paper’s exact experimental configuration.
-- **Invalidated prior runs:** Any runs with mixed token limits (250/8000) or uncontrolled reasoning are excluded from analysis.
+- **Design intent:** These are internal-validity choices for fair cross-model comparison; maxTokens aligns with Tip et al. (2025), but package subset and model roster differ (see Discussion §5.8).
+- **Legacy runs:** Earlier exploratory runs with mixed token limits (250/8000) or uncontrolled reasoning are excluded from analysis; the current study matrix is homogeneous at 250.
 
 ---
 
@@ -763,7 +765,7 @@ Document key threats (construct, internal, external, reliability) and mitigation
 
 ### Purpose
 
-This chapter reports empirical findings from running the LLMorpheus pipeline under a fixed configuration (FULL prompt template, T=0, maxTokens=200, reasoning disabled) on the thesis-six benchmark subset (six JavaScript packages). Results are organized by RQ0–RQ5 and presented primarily as tables and figures derived from recorded pipeline artifacts.
+This chapter reports empirical findings from running the LLMorpheus pipeline under a fixed configuration (FULL prompt template, T=0, maxTokens=250, reasoning disabled) on the thesis-six benchmark subset (six JavaScript packages). Results are organized by RQ0–RQ5 and presented primarily as tables and figures derived from recorded pipeline artifacts.
 
 ### What a run means
 
@@ -976,12 +978,13 @@ RQ1-RQ4 run1 metrics + category labels --> median/IQR + Mann-Whitney (EXCLUDE Ja
 
 Interpret Chapter 4 findings in terms of practical meaning and plausible mechanisms. Connect results to practitioner model choice under budget, stability, and interpretability constraints.
 
-**Scope exclusions:** No reasoning vs non-reasoning comparison. No 40-bug resemblance evaluation. Sections 5.1–5.5 map one-to-one to RQ1–RQ5.
+**Scope exclusions:** No reasoning vs non-reasoning comparison. No 40-bug resemblance evaluation. Sections 5.1–5.5 map one-to-one to RQ1–RQ5. **§5.8** covers directional comparison to Tip et al. (2025) — not a dedicated RQ or replication claim.
 
 ---
 
 ## 5.1 RQ1 — Mutant volume and quality
 
+- **Score vs survivors trade-off:** Mutation score and raw survivor count optimize different goals — Qwen leads on score (88.5%) with fewest survivors (23.5), yielding fewer effective gap candidates after RQ3 screening; Haiku trades lower score for more survivors and more potential gap-finding candidates. Practitioners should pick the metric aligned with their objective (test-suite stress vs inspection workload).
 - Effectiveness vs volume decoupling (Qwen: high score, low survivors).
 - Validity composition wastes budget independently of final scores (Haiku ~61% validity).
 - Survivors as mixed signal — baseline for RQ3 reframing.
@@ -1042,6 +1045,8 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 - **External:** Six-package subset; 2025–2026 model snapshot; OpenRouter serving (not self-hosted).
 - **Construct:** Mutation score, Levenshtein, predicted equivalence as proxies.
 - **Conclusion validity:** Small category samples; multiple comparisons; API/pricing drift.
+- **Temporal comparison to Tip et al. (2025):** Package corpus mismatch (6 vs 13), unavailable CodeLlama-34B, automated vs manual equivalence, and OpenRouter vs mixed providers limit strict replication; directional comparison scoped to §5.8 and shared packages only.
+- **Documentation vs artifacts:** Some early outline drafts stated maxTokens = 200; authoritative value is **250** per `summary.json` on all 228 datasets — aligned with paper and GHA defaults; not a confound for paper comparison.
 
 ---
 
@@ -1056,6 +1061,44 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 | Category policy only | Supported for cost, not effectiveness | Pick individual models (RQ5) |
 
 **Adoption workflow:** RQ0 validation → run1 pilot (RQ1) → 3–5 reps on finalist (RQ2) → equivalence screening (RQ3) → Pareto selection (RQ4).
+
+---
+
+## 5.8 Relation to original LLMorpheus evaluation
+
+**Goal:** Position this study relative to Tip et al. (2025) without overclaiming replication. Answer how the modern-model landscape compares directionally when confounds are controlled.
+
+### 5.8.1 What this study adds beyond Tip et al.
+
+- **Extended model roster:** 10 contemporary LLMs (2025–2026) vs paper's five-model study centered on CodeLlama-34B.
+- **New dimensions:** RQ2 stability (5 reps, 7 models), RQ4 cost/Pareto analysis, RQ5 deployment-category synthesis — not in the original paper.
+- **Equivalence at scale:** UniXCoder classifier (θ = 0.80) on all survivors vs manual examination on a sample (paper: 20.2% equivalent among survivors).
+- **Practitioner framing:** Decision-oriented metrics (effective survivors, cost per non-equivalent survivor) for model selection under budget.
+- **Not claimed:** External replication of paper aggregates, 40-bug resemblance study, or identical provider/serving conditions.
+
+### 5.8.2 Directional comparison — valid vs invalid
+
+- **Invalid comparison:** Paper 13-package aggregate mutation score (~53–56%) vs thesis 6-package median (~74–89%) — confounded by excluded low-scoring packages (notably `q` at 11.94%) and corpus differences; **do not cite as evidence of a ~30pp improvement**.
+- **Valid comparison:** Per-package scores on the **six shared packages** (thesis-six) between paper Table 2 (CodeLlama-34B) and 2026 models; longitudinal per-package deltas for overlapping models (`gpt-4o-mini`, `llama-3.3-70b-instruct`).
+- **Fair baseline anchor:** Paper CodeLlama-34B median on shared six packages ≈ **76%** vs modern models **74–89%** — modest landscape shift, not a dramatic jump when confounds are controlled.
+- **Equivalence:** Predicted rates 17–24% (this study) vs paper 20.2% manual — directionally aligned; automated vs manual labels limit strict comparison.
+
+### 5.8.3 Interpretation
+
+- **Landscape shift is modest** on shared packages when maxTokens and prompt template align (both 250, `template-full`, T = 0).
+- **maxTokens aligned** — not a confound; main divergences are package subset, model roster, provider path, and equivalence method.
+- **Longitudinal instability persists:** `gpt-4o-mini` and `llama-3.3-70b-instruct` show modest per-package score changes (±7pp) but continued T = 0 instability (Jaccard ~0.50–0.57 in RQ2) — same practical concern as in the paper era.
+- **New leaders not in paper:** Qwen 2.5 Coder 32B (highest mutation score); Claude Haiku 4.5 (highest stability); Llama 3.1 8B (best cost efficiency).
+- **CodeLlama-34B gap:** Cannot re-run; paper Table 2 values cited for directional context only.
+
+### 5.8.4 Optional appendix — per-package comparison table
+
+- **Table (appendix):** Rows = six shared packages; columns = paper CodeLlama-34B (Table 2), 2026 `llama-3.3-70b-instruct`, 2026 `gpt-4o-mini`, and optionally best modern performer (Qwen).
+- **Data sources:** Paper scores from `neu-se/mutation-testing-data` / Tip et al. Table 2; thesis scores from `thesis/rq1/output/publication/model_summary.csv` and per-package appendix CSVs.
+- **Caption must state:** Directional comparison only; different models, providers, and equivalence methods; not a replication table.
+
+**Answer sentence template**  
+Relative to Tip et al. (2025), this study extends LLMorpheus to ten modern models under aligned configuration (maxTokens = 250). On the six shared benchmark packages, mutation scores show a **modest** shift (paper CodeLlama-34B median ≈ 76% vs modern models 74–89%) rather than the misleading ~30pp gap implied by 13-vs-6-package aggregates. Overlapping models (`gpt-4o-mini`, `llama-3.3-70b-instruct`) exhibit modest per-package score changes but **persistent T = 0 instability**. Predicted equivalence rates (17–24%) align directionally with the paper's 20.2% manual rate. This is **directional positioning**, not replication.
 
 ---
 
@@ -1083,6 +1126,7 @@ Re-evaluate LLMorpheus on ten modern LLMs under fixed settings on six JavaScript
 3. Equivalence-aware interpretation via UniXCoder (θ=0.80) and effective survivors.
 4. Cost analysis with Pareto frontier and equivalence-adjusted cost per survivor.
 5. Category comparison showing deployment type does not strongly predict outcomes.
+6. Directional positioning relative to Tip et al. (2025) on shared packages and overlapping models (Discussion §5.8) — clarifying valid vs invalid temporal comparisons without claiming replication.
 
 ## 6.4 Implications for practice
 
@@ -1121,5 +1165,5 @@ LLMorpheus remains viable with modern LLMs; practitioner value depends on aligni
 | Background Blocks 1–3 | `02-background.md` |
 | Methodology Blocks 1–11 | `03-methodology.md` |
 | Results RQ0–RQ5 | `04-results-rq0.md` … `04-results-rq5.md` (or single `04-results.md`) |
-| Discussion 5.0–5.7 | `05-discussion.md` |
+| Discussion 5.0–5.8 | `05-discussion.md` |
 | Conclusion 6.1–6.6 | `06-conclusion.md` |

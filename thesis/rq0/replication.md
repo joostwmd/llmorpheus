@@ -44,7 +44,7 @@ All models are compared under **identical** conditions. These are design choices
 | **Template** | `template-full` |
 | **System prompt** | `SystemPrompt-MutationTestingExpert` |
 | **Temperature** | `0.0` |
-| **maxTokens** | `200` |
+| **maxTokens** | `250` |
 | **maxNrPrompts** | `2000` |
 | **Stryker** | Custom `stryker-js` fork, `--concurrency 1`, precomputed mutators |
 
@@ -130,7 +130,7 @@ Expensive models (single rep):
 .github/schedule-expensive-runs.sh 1
 ```
 
-Workflow inputs: `thesis-six.json`, `template-full`, `SystemPrompt-MutationTestingExpert`, `temperature=0.0`, `maxTokensInCompletion=200`.
+Workflow inputs: `thesis-six.json`, `template-full`, `SystemPrompt-MutationTestingExpert`, `temperature=0.0`, `maxTokensInCompletion=250`.
 
 Repository secrets: `OPENROUTER_LLM_API_ENDPOINT`, `OPENROUTER_LLM_AUTH_HEADERS` (optional: `LLMORPHEUS_LLM_PROVIDER`).
 

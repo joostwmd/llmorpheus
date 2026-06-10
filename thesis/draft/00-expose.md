@@ -29,7 +29,7 @@ The original LLMorpheus study evaluated models available in 2024. Since then, th
 
 > **Modern LLMs differ meaningfully in LLMorpheus effectiveness, stability, equivalence rates, and cost; these differences are not fully explained by open-weight vs API-only deployment category.**
 
-This thesis evaluates that hypothesis through six research questions (RQ0–RQ5) on ten contemporary models under fixed configuration (FULL prompt template, T = 0, maxTokens = 200, reasoning disabled).
+This thesis evaluates that hypothesis through six research questions (RQ0–RQ5) on ten contemporary models under fixed configuration (FULL prompt template, T = 0, maxTokens = 250, reasoning disabled).
 
 ---
 
@@ -46,6 +46,13 @@ This thesis evaluates that hypothesis through six research questions (RQ0–RQ5)
 | **RQ4 pricing** | Pinned OpenRouter snapshot; cost per valid / survived / non-equivalent survivor |
 
 RQ0 validates the pipeline internally. This thesis does **not** claim external replication of the 2024 paper.
+
+**Relation to original paper (Tip et al., 2025):**
+
+- Directional comparison only — not a replication of the 2024 LLMorpheus numbers or package corpus.
+- Six-package thesis-six scope (not the paper's 13-package benchmark).
+- `maxTokens` aligned at **250** with the paper and GHA schedulers; existing artifacts are valid — no re-run needed.
+- Paper models (`gpt-4o-mini`, `llama-3.3-70b-instruct`) appear as baselines within this study, not as replication targets.
 
 ### Preliminary results by research question
 

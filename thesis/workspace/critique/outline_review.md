@@ -1,5 +1,7 @@
 # Outline critique
 
+> **Resolved (June 2026):** `maxTokens` documentation drift is fixed. All meta docs (`model_choices.md`, `experiment_runs.md`, `rq0/replication.md`, `thesis_context.md`, `00-expose.md`) now state **250**, matching `summary.json` → `metaInfo.maxTokens` on all 228 datasets and the GHA schedulers. No re-run required for maxTokens alignment.
+
 ## Verdict
 revise_before_writing
 
@@ -44,7 +46,7 @@ The canonical outline is structurally strong: RQ0–RQ5 map cleanly to chapters,
 
 | RQ | Status | Specifics |
 |----|--------|-----------|
-| **RQ0** | **aligned** (minor drift) | Outline matches `thesis_context.md` and `rq0/replication.md` intent. **Drift:** `rq0/replication.md` still lists `maxTokens = 250`; outline/Block 5 says **200**. |
+| **RQ0** | **aligned** | Outline matches `thesis_context.md` and `rq0/replication.md` intent. `maxTokens = 250` is consistent across meta docs and artifacts (drift resolved June 2026). |
 | **RQ1** | **misaligned** (spec stale; results provisional) | Outline 10 models, run1, Levenshtein, volume metrics — good. `rq1/spec.md` still describes **7 old models**, Gemini 2.5, 1 run, “implementation to be created.” Embedded Qwen 88.5% etc. may be from **invalidated** runs. |
 | **RQ2** | **misaligned** (spec stale; data gap) | Outline: 7 models × **5 reps**. `rq2/spec.md`: **BLOCKED**, 3 runs, old models, single-run only. `rq_overview.md`: **3 runs**. `experiment_runs.md`: rep2–5 **missing**; table shows 1/3 progress. |
 | **RQ3** | **aligned** (outline); **misaligned** (spec) | Outline classifier workflow, θ=0.80, 20.2% directional reference — excellent. `rq3/spec.md` uses old 7-model results (Gemini 2.5 rankings, 4,816 survivors) — stale. |
@@ -79,8 +81,8 @@ The canonical outline is structurally strong: RQ0–RQ5 map cleanly to chapters,
 ## Weak / overclaimed (outline-level)
 
 - **Claim:** Qwen 2.5 Coder 32B achieved highest median mutation score (88.5%) with fewest survivors (23.5) — stated as RQ1 answer template and Conclusion fact.
-  - **Problem:** `experiment_runs.md` invalidates all prior runs (mixed 250/8000 tokens, reasoning uncontrolled). Numbers may not survive standardized rerun at maxTokens=200.
-  - **Fix:** Downgrade to `[PROVISIONAL]` until post-rerun `volume_metrics.tex` verified; add config-hash footnote.
+  - **Problem:** `experiment_runs.md` previously noted mixed 250/8000 tokens in legacy runs. Current artifacts are standardized at maxTokens=250 (verified on all 228 datasets).
+  - **Fix:** Downgrade to `[PROVISIONAL]` only if other config dimensions (reasoning, model roster) change; maxTokens alignment no longer requires re-run.
 
 - **Claim:** RQ5 Mann–Whitney p ≈ 0.63 / 0.99 / 0.85 / 0.39 and “no significant category differences” in answer template, Discussion 5.5, Conclusion 6.2.
   - **Problem:** With n=3 vs n=6, non-significance is **low informational value**; embedding p-values in the outline invites writing them as findings before data lock. Spec/body may reflect old 7-model set.
@@ -127,7 +129,7 @@ The canonical outline is structurally strong: RQ0–RQ5 map cleanly to chapters,
 |-------|---------|--------------|----------|
 | Model count | 10 models incl. GPT-4o, Gemini 3.1 Flash Lite | `model_choices.md` “Models dropped” lists **GPT-4o** as dropped; also “8 models” in cost table | High |
 | Multi-run reps | **5 reps** (7 models) | `rq_overview.md` **3 runs**; `rq2/spec.md` **3 runs**; `experiment_runs.md` rep2–3 only (1/3) | High |
-| maxTokens | **200** (Block 5) | `rq0/replication.md` **250**; `experiment_runs.md` notes 250/8000 mixed in old runs | High |
+| maxTokens | **250** (Block 5 — update outline) | Meta docs and artifacts aligned at **250** (resolved June 2026) | Resolved |
 | Model roster | Gemini **3.1/3.5**, Qwen, Haiku, GPT-4o | `rq1/2/3/4/spec.md`: Gemini **2.5**, Llama **4 Maverick**, thinking variants | High |
 | RQ2 status | Full Results block | `rq2/spec.md`: **BLOCKED** insufficient data | High |
 | RQ3 question | “How likely are models to generate equivalent mutants?” | `rq3/spec.md`: “Which LLM generates the **fewest** equivalent mutants?” | Medium |
@@ -138,7 +140,7 @@ The canonical outline is structurally strong: RQ0–RQ5 map cleanly to chapters,
 
 ## Suggested outline edits (concrete, section/block references)
 
-1. **Results chapter intro (lines 764–790):** Add “Data lock” subsection: config hash (`maxTokens=200`, reasoning off), `modelRegistry.js` status, rep completeness checklist; flag all numeric templates below as provisional.
+1. **Results chapter intro (lines 764–790):** Add “Data lock” subsection: config hash (`maxTokens=250`, reasoning off), `modelRegistry.js` status, rep completeness checklist; flag all numeric templates below as provisional.
 
 2. **Block RQ1 answer template (line 847):** Replace hard numbers with placeholders; add bullet “Baseline comparison: gpt-4o-mini and llama-3.3-70b vs Tip et al. — qualitative/directional only (6 vs 13 packages).”
 

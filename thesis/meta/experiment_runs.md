@@ -3,7 +3,7 @@
 Canonical summary of completed thesis runs. See `thesis/shared/modelRegistry.js` for status.
 
 **Last updated:** June 2026  
-**Config:** template-full, T=0, maxTokens=200, reasoning disabled, thesis-six packages  
+**Config:** template-full, T=0, maxTokens=250, reasoning disabled, thesis-six packages  
 **Data locations:** `artifacts/`, `organized/` (repo root, gitignored)
 
 ## Run policy

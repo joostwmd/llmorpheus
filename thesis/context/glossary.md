@@ -23,3 +23,4 @@ Use these terms consistently across all agents and draft prose.
 | **Run policy** | `single` (one rep) or `multi` (five reps) per model in `modelRegistry.js` |
 | **Publication artifacts** | Main-paper outputs in `rqX/output/publication/` |
 | **Appendix artifacts** | Supplementary outputs in `rqX/output/appendix/` |
+| **Directional comparison** | Comparison to Tip et al. (2025) limited by setup differences; cited for context, not as replication |
