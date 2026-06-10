@@ -1,0 +1,16 @@
+scenario,metric,label,open_weight_n_models,open_weight_n_obs,api_only_n_models,api_only_n_obs,hybrid_n_models,hybrid_n_obs,median_open_weight,median_api_only,median_hybrid,U,p_value,cliffs_delta,delta_magnitude
+with_hybrid_category,mutationScore,Mutation score,3,18,6,36,1,6,81.60499999999999,80.205,81.435,350.5,0.6332956206491349,0.08179012345679013,negligible
+with_hybrid_category,nrSurvived,Survivors,3,18,6,36,1,6,42.0,40.0,42.5,323.0,0.9926747252771971,-0.0030864197530864196,negligible
+with_hybrid_category,equivRatePct,Equivalent rate,3,18,6,36,1,6,12.73865,16.566,19.99645,314.0,0.8612739019728609,-0.030864197530864196,negligible
+with_hybrid_category,costPerSurvivor,Cost per survivor,3,18,6,36,1,6,0.0003385203333333,0.0054550380405035005,0.0007092666349206,95.0,2.754873870041455e-05,-0.7067901234567902,large
+with_hybrid_category,costPerNonEquivSurvivor,Cost per non-equiv survivor,3,18,6,36,1,6,0.00045066788888885,0.0064983079741379,0.0012404119230769,98.0,3.506688986728592e-05,-0.6975308641975309,large
+deepseek_as_open_weight,mutationScore,Mutation score,4,24,6,36,0,0,81.435,80.205,,453.5,0.7513350274309163,0.04976851851851852,negligible
+deepseek_as_open_weight,nrSurvived,Survivors,4,24,6,36,0,0,42.0,40.0,,447.0,0.8266819500548044,0.034722222222222224,negligible
+deepseek_as_open_weight,equivRatePct,Equivalent rate,4,24,6,36,0,0,14.693449999999999,16.566,,430.0,0.9818982176265242,-0.004629629629629629,negligible
+deepseek_as_open_weight,costPerSurvivor,Cost per survivor,4,24,6,36,0,0,0.0005531861971427999,0.0054550380405035005,,129.0,5.006610734162676e-06,-0.7013888888888888,large
+deepseek_as_open_weight,costPerNonEquivSurvivor,Cost per non-equiv survivor,4,24,6,36,0,0,0.00066191154445225,0.0064983079741379,,131.0,5.7786089120377745e-06,-0.6967592592592593,large
+exclude_deepseek,mutationScore,Mutation score,3,18,6,36,0,0,81.60499999999999,80.205,,350.5,0.6332956206491349,0.08179012345679013,negligible
+exclude_deepseek,nrSurvived,Survivors,3,18,6,36,0,0,42.0,40.0,,323.0,0.9926747252771971,-0.0030864197530864196,negligible
+exclude_deepseek,equivRatePct,Equivalent rate,3,18,6,36,0,0,12.73865,16.566,,314.0,0.8612739019728609,-0.030864197530864196,negligible
+exclude_deepseek,costPerSurvivor,Cost per survivor,3,18,6,36,0,0,0.0003385203333333,0.0054550380405035005,,95.0,2.754873870041455e-05,-0.7067901234567902,large
+exclude_deepseek,costPerNonEquivSurvivor,Cost per non-equiv survivor,3,18,6,36,0,0,0.00045066788888885,0.0064983079741379,,98.0,3.506688986728592e-05,-0.6975308641975309,large

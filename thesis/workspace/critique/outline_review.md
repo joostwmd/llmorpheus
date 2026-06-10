@@ -1,193 +1,175 @@
-# Outline critique
+# Outline critique (post-upgrade, June 2026)
 
-> **Resolved (June 2026):** `maxTokens` documentation drift is fixed. All meta docs (`model_choices.md`, `experiment_runs.md`, `rq0/replication.md`, `thesis_context.md`, `00-expose.md`) now state **250**, matching `summary.json` → `metaInfo.maxTokens` on all 228 datasets and the GHA schedulers. No re-run required for maxTokens alignment.
+> **Scope:** Verify that the June 2026 outline upgrade resolved prior critique gaps, cross-check embedded numbers against `thesis/rqX/FINDINGS.md`, and gate the Writing agent.
 
 ## Verdict
-revise_before_writing
 
-## Executive summary
+**proceed_with_caveats**
 
-The canonical outline is structurally strong: RQ0–RQ5 map cleanly to chapters, scope exclusions are explicit, the variable run-policy asymmetry is mostly handled, and the classifier methodology (Block 9) is unusually thorough for a bachelor thesis. However, the Results/Discussion/Conclusion sections embed **specific empirical claims** (Qwen 88.5%, RQ5 p-values) while `thesis/meta/experiment_runs.md` states prior runs are **invalidated** and multi-run data may be incomplete or simulated. Several meta files (`rq_overview.md`, all `rqX/spec.md` except partial RQ5) still describe the **old 7-model / Gemini 2.5** design. Background is under-specified relative to the chapter map. Fix outline–data alignment and demote provisional numbers to placeholders before drafting.
+The outline upgrade resolves all eight targeted gaps from the prior review. Empirical claims in Results/Discussion/Conclusion now align with locked FINDINGS and publication CSVs (including the corrected RQ5 split verdict: null on effectiveness/equivalence, significant on cost). Remaining risks are secondary: literature synthesis stubs, per-RQ argument reviews not yet written, one stale handoff line in `rq4/FINDINGS.md`, and TeX/CSV artifact inconsistencies. None block drafting if Writing cites FINDINGS/CSVs only.
 
-## Structural strengths
+---
 
-- Clear RQ0–RQ5 spine from Introduction through Conclusion; each RQ has Methodology (Block 8) + Results block + Discussion subsection.
-- Scope discipline: no test generation, no reasoning comparison, no 40-bug replication, no external paper replication — repeated in multiple blocks.
-- Run-policy asymmetry (7× multi / 3× single) is documented with explicit RQ2 exclusions and RQ5 Jaccard exclusion.
-- Run1 as cross-model common denominator (Results chapter intro) is the right design choice for fair RQ1/RQ3/RQ4/RQ5 comparison.
-- Equivalence classifier Block 9 is detailed: gold provenance, OOF validation, dual-threshold policy (θ≈0.94 vs θ=0.80), asymmetric reliability, domain-shift threat.
-- Threats to validity (Methodology Block 11 + Discussion 5.6) cover construct, internal, external, and reliability concerns.
-- Glossary-aligned metric definitions (mutation score denominator, effective survivors, predicted equivalence rate).
-- Practitioner recommendations table (5.7) is appropriately conditional, not prescriptive.
-- Artifact/output conventions tie outline blocks to `thesis/rqX/output/publication/` filenames.
+## Prior-gap verification (user checklist)
 
-## Structural weaknesses / gaps
+| Gap | Prior state | Current state | Evidence |
+|-----|-------------|---------------|----------|
+| **Background Blocks 4–6** | Background stopped at Block 3 | **Fixed** | `outline.md` Background Blocks 4 (equivalent mutants), 5 (related LLM mutation work), 6 (study positioning vs Tip/Wang) — lines 408–522 |
+| **RQ5 cost p-value** | Cost p ≈ 0.39 bundled with null effectiveness | **Fixed** | Split verdict: effectiveness/equiv p = 0.633 / 0.993 / 0.861 (null); cost p = 2.75×10⁻⁵ / 3.51×10⁻⁵ (significant, Cliff's δ ≈ −0.70). Matches `rq5/FINDINGS.md` and `thesis/output/stats/rq5_category_tests.csv` |
+| **RQ2 placeholders** | `[LOW]`/`[HIGH]` or contingent language | **Fixed** | Full answer template: Jaccard 0.505–0.993, H = 35.18, p = 3.98×10⁻⁶, η² = 0.83, CV details. Matches `rq2/FINDINGS.md` |
+| **Data lock subsection** | Missing; numbers treated as provisional | **Fixed** | Results intro §“Data lock and source of truth” (lines 921–933): June 2026 lock, run1 vs multi-run rules, aggregation conventions |
+| **Hybrid sensitivity Table RQ5-C** | No artifact slot | **Fixed** | Table RQ5-C + `hybrid_sensitivity.csv` in RQ5 block; three scenarios documented in `rq5/FINDINGS.md` |
+| **Kruskal–Wallis caveat RQ1** | Risk of overclaiming Qwen leadership | **Fixed** | RQ1 answer template + Discussion §5.1: null omnibus (p = 0.995 / 0.977), package dominance, descriptive leaders ≠ statistical superiority |
+| **OpenRouter caveat Discussion 5.5** | Category framed as deployment without serving caveat | **Fixed** | §5.5 leads with OpenRouter serving caveat; self-host TCO not modeled |
+| **FINDINGS as source of truth** | `workspace/analysis/rqX_summary.md` handoff risk | **Fixed** | Explicit table: authoritative prose = `thesis/rqX/FINDINGS.md`; summaries agent-only |
 
-- **Background chapter incomplete.** Chapter map (Intro Block 6) promises equivalent mutants, related work, and LLM foundations; outline Background stops at 3 blocks (mutation testing, LLMs, LLMorpheus). No dedicated blocks for equivalent-mutant literature, LLM-based mutation testing related work, or Stryker/precomputed-mutant positioning.
-  - *Fix:* Add Background Blocks 4–6 (equivalent mutants; related LLM mutation work; study positioning vs Tip et al. 2025).
-- **Premature empirical results in planning doc.** RQ1 answer template (lines 847–847), RQ5 answer template (964–964), Conclusion table (1073–1077), and practitioner table (1052) bake in numbers/p-values as if final.
-  - *Fix:* Replace with `[PLACEHOLDER]` tokens tied to artifact regeneration gate; add explicit “provisional — regenerate after standardized rerun” banner in Results section header.
-- **Within-provider tier comparisons are orphaned.** Methodology Block 4 and RQ5 Block mention cheap vs premium pairs (OpenAI, Google, Anthropic) but no Results subsection, figures, or Discussion thread.
-  - *Fix:* Either add `Block RQ5b — Within-provider tier comparison` (appendix) or demote to a single Discussion paragraph with explicit non-RQ status.
-- **Hybrid (DeepSeek) sensitivity analysis lacks artifacts.** RQ5 goal mentions sensitivity analysis; no table/figure slot.
-  - *Fix:* Add Table RQ5-C “RQ5 with/without DeepSeek” or appendix rerun note.
-- **RQ4 aggregation ambiguity.** Block 8 says RQ4 metrics are “averaged across reps for multi-run models” while Results use run1 for cross-model comparison.
-  - *Fix:* State explicitly: **primary RQ4 cross-model table = run1**; rep-averaging only for optional stability-of-cost appendix.
-- **Levenshtein union rule ambiguous.** Results aggregation says “optionally deduplicate mutants across reps” without choosing default for RQ1 reporting.
-  - *Fix:* Lock RQ1 Levenshtein to **run1 per-mutant**; reserve union-dedup for RQ2 appendix only.
-- **RQ2 data readiness not reflected in outline.** `experiment_runs.md` shows rep2–5 missing/simulated; outline writes RQ2 as if complete (only `[LOW]`/`[HIGH]` placeholders remain).
-  - *Fix:* Add Results preface: “RQ2 contingent on live multi-run data”; gate RQ2 answer template on data checklist.
-- **No explicit RQ1 baseline comparison protocol.** Intro gap 1 asks how modern models compare to paper baselines, but RQ1 Results block has no baseline row, figure, or statistical test vs `gpt-4o-mini` / `llama-3.3-70b-instruct` only.
-  - *Fix:* Add appendix table or Discussion 5.1 bullet: directional comparison to Tip et al. numbers with different corpus caveat.
-- **Literature integration hooks missing.** Outline cites Tip, Inozemtseva, Zhao but no pointers to `thesis/workspace/literature/` or synthesis cross-refs for Discussion claims.
-  - *Fix:* Add “Literature anchor” bullets in Discussion blocks referencing expected synthesis files.
+### Additional prior gaps also resolved (not in user checklist)
 
-## RQ-by-RQ alignment
+| Gap | Status |
+|-----|--------|
+| Within-provider tier comparison orphaned | **Fixed** — Block Tier (§4.6), Methodology Block 8 tier bullets, Discussion §5.4 hook |
+| RQ4 run1 vs rep-averaging ambiguity | **Fixed** — Block 8 data lock: Table RQ4-A run1 only |
+| RQ1 Levenshtein union ambiguity | **Fixed** — run1 per-mutant medians locked; union reserved for RQ2 |
+| Baseline / Tip et al. comparison protocol | **Fixed** — Discussion §5.8, Intro gap baseline caveat, Table RQ1-B per-package peers |
+| RQ5 underpowered design | **Fixed** — RQ5 Goal design note; Cliff's δ primary in FINDINGS |
+| Contributions overclaim on category | **Fixed** — Block 5 split verdict language |
 
-| RQ | Status | Specifics |
-|----|--------|-----------|
-| **RQ0** | **aligned** | Outline matches `thesis_context.md` and `rq0/replication.md` intent. `maxTokens = 250` is consistent across meta docs and artifacts (drift resolved June 2026). |
-| **RQ1** | **misaligned** (spec stale; results provisional) | Outline 10 models, run1, Levenshtein, volume metrics — good. `rq1/spec.md` still describes **7 old models**, Gemini 2.5, 1 run, “implementation to be created.” Embedded Qwen 88.5% etc. may be from **invalidated** runs. |
-| **RQ2** | **misaligned** (spec stale; data gap) | Outline: 7 models × **5 reps**. `rq2/spec.md`: **BLOCKED**, 3 runs, old models, single-run only. `rq_overview.md`: **3 runs**. `experiment_runs.md`: rep2–5 **missing**; table shows 1/3 progress. |
-| **RQ3** | **aligned** (outline); **misaligned** (spec) | Outline classifier workflow, θ=0.80, 20.2% directional reference — excellent. `rq3/spec.md` uses old 7-model results (Gemini 2.5 rankings, 4,816 survivors) — stale. |
-| **RQ4** | **aligned** (outline); **misaligned** (spec) | Outline Pareto, cost/non-equiv, pinned pricing — good. `rq4/spec.md` still references gemini-2.5-flash in example tables; rep-averaging rule unclear vs run1. |
-| **RQ5** | **mostly aligned** | Outline Jaccard exclusion, Mann–Whitney, small-n caveat — good. `rq5/spec.md` header updated but body still lists Llama 4 Maverick / Gemini 2.5; includes Jaccard category code despite exclusion note. **Risk:** p-values in outline answer template may be from old data. |
+---
 
-## Rubric checklist (critique_rubric.md)
+## Remaining gaps (specific)
 
-| Rubric item | Outline posture | Notes |
-|-------------|-----------------|-------|
-| Category labels as causal (RQ5) | **HANDLES** | Null findings, overlapping distributions, “weak predictor” framing (RQ5 template, 5.5, 6.2). |
-| “Better model” without metric | **RISKS** | Practitioner table (5.7) names Qwen/GPT-4o-mini for “highest mutation score” without simultaneous validity/stability/equiv caveats in same row. Discussion 5.1 partially qualifies. |
-| Modern models outperform baselines | **RISKS** | Intro gap 1 poses baseline question; no controlled baseline comparison block. `rq_overview.md` still says “expected to outperform.” Outline does not claim outright but Conclusion repeats Qwen leadership without baseline test. |
-| Single-run vs multi-run fairness | **HANDLES** | Run1 common denominator; RQ2 scoped to 7 models; premium exclusion stated repeatedly. |
-| Raw survivors without equivalence | **HANDLES** | RQ3 + effective survivors; Discussion 5.1/5.3 link survivors to RQ3 reframing. |
-| High score from coarse edits (Levenshtein) | **HANDLES** | Levenshtein in RQ1; Discussion 5.1 “style proxy, not realism.” |
-| Cost per mutant ignores dup/invalid | **HANDLES** | RQ4 duplicate/invalid rates, cost per valid, cost/non-equiv. |
-| Effective survivors = ground truth | **HANDLES** | Repeated “predicted equivalent,” screening language, θ trade-off in Block 9. |
-| RQ2 stability on single-run models | **HANDLES** | Explicit exclusion of 3 premium models from RQ2. |
-| RQ5 includes Jaccard | **HANDLES** | Explicit exclusion in RQ5 block and thesis_context. |
-| T=0 variability understated | **HANDLES** | RQ2 dedicated; Background API drift; Discussion 5.2. |
-| Generalization beyond 6 packages | **HANDLES** | Scope bullets, Block 3 validity, 5.6 external threats. |
-| Other languages / prompts | **HANDLES** | Fixed configuration; deferred work listed. |
-| Pricing snapshot timeless | **HANDLES** | Pinned May 2026; Discussion 5.4, 6.4 recompute caveat. |
-| Classifier domain shift | **RISKS** | Block 9 mentions gold from 13 projects; threat listed but Discussion 5.3 could stress **modern-model mutant distribution shift** more prominently. |
-| Literature support for synthesis | **RISKS** | Outline cites papers but no workspace/literature hooks; Writing agent may overclaim without synthesis files. |
-| Overstate replication | **HANDLES** | Strong “not replication” language for RQ0, RQ3 20.2%, contributions. |
-| Prior work misrepresented | **HANDLES** | LLMorpheus scope accurately summarized in Background Block 3. |
-| “Use model X” without trade-offs | **RISKS** | Table 5.7 has caveats column but “Highest mutation score → Qwen” still risks overclaim if stability/equiv not co-reported. |
-| Self-hosting not evaluated | **HANDLES** | OpenRouter-only serving, 5.5 operational factors, 5.7 self-hosting caveat. |
+1. **Literature synthesis hooks still absent.** Discussion blocks cite Tip/Wang/Inozemtseva but do not point to `thesis/workspace/literature/rqX_notes.md` (all still `<!-- TODO -->`). Writing may lack synthesis-backed mechanism claims unless Literature agent runs first.
 
-## Weak / overclaimed (outline-level)
+2. **Per-RQ argument reviews not populated.** `thesis/workspace/critique/rq0–rq5_argument_review.md` remain TODO stubs. Outline gate is clear; per-RQ devil's-advocate passes are still outstanding before section drafting.
 
-- **Claim:** Qwen 2.5 Coder 32B achieved highest median mutation score (88.5%) with fewest survivors (23.5) — stated as RQ1 answer template and Conclusion fact.
-  - **Problem:** `experiment_runs.md` previously noted mixed 250/8000 tokens in legacy runs. Current artifacts are standardized at maxTokens=250 (verified on all 228 datasets).
-  - **Fix:** Downgrade to `[PROVISIONAL]` only if other config dimensions (reasoning, model roster) change; maxTokens alignment no longer requires re-run.
+3. **Stale cross-reference in RQ4 FINDINGS.** `rq4/FINDINGS.md` RQ5 handoff still says cost “directional in RQ5; *p* ≈ 0.39” — contradicts locked `rq5_category_tests.csv`. Outline is correct; fix FINDINGS handoff line before Writing copies from RQ4 file.
 
-- **Claim:** RQ5 Mann–Whitney p ≈ 0.63 / 0.99 / 0.85 / 0.39 and “no significant category differences” in answer template, Discussion 5.5, Conclusion 6.2.
-  - **Problem:** With n=3 vs n=6, non-significance is **low informational value**; embedding p-values in the outline invites writing them as findings before data lock. Spec/body may reflect old 7-model set.
-  - **Fix:** Report effect sizes (Cliff's δ) as primary; p-values as secondary; add “underpowered category test” upfront in RQ5 Results intro.
+4. **Publication artifact inconsistencies (RQ4).** `cost.tex` marks all models Pareto=yes; `rq4_pareto.tex` empty. Outline correctly prefers `model_cost_summary.csv`; Writing must not cite TeX Pareto column without CSV check.
 
-- **Claim:** “Pipeline completed successfully for all ten models” (RQ0 answer template).
-  - **Problem:** `experiment_runs.md` says GPT-4o and Gemini 3.1 Flash Lite **need to run**; rep1 reruns needed for all. Premature universal success claim.
-  - **Fix:** Conditional template: “All models in matrix with **status=ready** in `modelRegistry.js` under config hash X.”
+5. **Spec/meta drift (outline-external).** Prior review flagged `rqX/spec.md` and `rq_overview.md` stale vs 10-model matrix. Outline and FINDINGS are aligned; spec sync is still a documentation hygiene task, not an outline blocker.
 
-- **Claim:** Stability analysis with **5 reps × 7 models** (contributions, RQ2 block).
-  - **Problem:** `experiment_runs.md` Phase 3 table tracks **1/3** reps; `model_choices.md` warns run2–5 may be **simulated symlinks**. Outline assumes 5 reps exist.
-  - **Fix:** Align rep count across meta docs; outline should state actual target (3 vs 5) and minimum viable reps for Jaccard.
+6. **RQ3 dual-rate reporting.** Outline answer template emphasizes mean rates (17–24%) and portfolio-weighted 11.1%. Writing must explain both (package-composition confound) or reviewers will ask why “~one in five” coexists with 11.1% study-wide.
 
-- **Claim:** Open-weight vs API-only comparison informs “self-hostable vs proprietary deployment.”
-  - **Problem:** All models served via OpenRouter — category is **labeling paradigm**, not measured deployment mode.
-  - **Fix:** Strengthen caveat in RQ5 Goal and 5.5: study compares **model families associated with** open-weight/API access, not self-hosted inference.
+---
 
-- **Claim:** Tier comparisons (4o-mini/4o, Flash Lite/3.5 Flash, Haiku/Sonnet) support “within-vendor cost-effectiveness analysis.”
-  - **Problem:** No Results narrative; premium tiers are single-run while cheap tiers are multi-run — asymmetric for stability and cost averaging.
-  - **Fix:** Scope tier analysis to run1 cost-effectiveness only; one appendix figure or drop from contributions.
+## Strong claims (defensible)
 
-- **Claim:** RQ3 weighted study-wide equivalence rate `[X]%` compared to paper 20.2%.
-  - **Problem:** Classifier on modern survivors may systematically differ from manual labels; different package count (6 vs 13).
-  - **Fix:** Outline already says “directional” — elevate this constraint in RQ3 answer template to **prevent** replication framing.
+- **RQ0:** Pipeline ready for all 10 models; 228 package-level datasets; internal validity, not external replication.
+- **RQ1:** Comparable volumes; descriptive score spread (Qwen 88.5% vs Haiku 73.6%); **no significant omnibus model effect** on score/survivors; package effects dominate.
+- **RQ2:** Large stability spread at T = 0 (Jaccard 0.505–0.993); **significant** model effect on Jaccard (p = 3.98×10⁻⁶); score CV low but set overlap can be ~50%.
+- **RQ3:** Mean predicted equivalence 17–24% among survivors; directionally consistent with paper 20.2%; **no pairwise model difference** after Holm; effective survivors reframe rankings.
+- **RQ4:** Cost/non-equiv separates models; four Pareto-efficient models on score vs cost/non-equiv; cheap API tiers win nonEquivYield 3/3; tier upgrade marginal cost $0.039–$0.058 per extra non-equiv survivor.
+- **RQ5 (split verdict):** **Null** on mutation score, survivors, equivalence (|δ| ≤ 0.08); **significant** cost separation (~16× median, δ ≈ −0.70); hybrid sensitivity does not change verdict.
+- **Positioning:** Extends Tip et al.; directional comparison on six shared packages; invalid 13-vs-6 aggregate comparison explicitly blocked in §5.8.
 
-## Reviewer questions (prioritized, examiner-style)
+---
 
-1. **Data validity:** If May 2026 standardized config required rerunning all models, which results in this outline are from the **final** config hash? How do you prevent draft prose from citing invalidated runs?
-2. **Rep count:** Is the study **3 or 5** repetitions for multi-policy models? `rq_overview.md` and `rq2/spec.md` say 3; outline says 5. Which drives the thesis?
-3. **RQ2 evidentiary status:** If multi-run data are incomplete or simulated, is RQ2 a **full empirical contribution** or a **planned/future** analysis? Can the thesis stand if only 3 reps exist?
-4. **RQ5 statistical value:** With three open-weight models, what is the power of Mann–Whitney? Why is category comparison an RQ if the design cannot detect moderate effects?
-5. **OpenRouter vs open-weight:** How can you discuss self-hosting benefits when no model was self-hosted? What would change if Llama were run locally?
-6. **Baseline comparison:** You name `gpt-4o-mini` and `llama-3.3-70b-instruct` as paper baselines — where is the **quantitative** comparison to Tip et al. under comparable metrics, and how do you handle the 6-vs-13 package mismatch?
-7. **Classifier generalization:** Gold labels come from 13 paper projects and older models; survivors come from 6 packages and 2025–2026 LLMs. What validation did you perform on **thesis-six survivors** beyond OOF on gold?
-8. **Premium model exclusion:** GPT-4o, Gemini 3.5 Flash, and Sonnet appear in effectiveness rankings (RQ1/RQ4/RQ5) but not stability (RQ2). How should practitioners interpret a “best” premium model that lacks repeatability evidence?
-9. **Mutation score vs survivors:** You highlight Qwen’s high score and low survivors — does Levenshtein analysis show **subtler** or **coarser** edits for top scorers? Could high scores reflect easy-to-kill coarse mutants?
-10. **Pareto definition:** RQ4 Pareto uses mutation score vs cost — why not cost per **non-equivalent survivor** as the effectiveness axis, given RQ3’s construct?
-11. **CodeLlama exclusion:** How does dropping CodeLlama 34B affect claims about “modern re-evaluation” of the original study?
-12. **Tier pairs:** What is the hypothesis for cheap vs premium within the same vendor, and where in Results is it answered?
+## Weak / overclaimed
 
-## Internal inconsistencies (outline vs specs vs thesis_context)
+- **Claim:** “Qwen leads” / practitioner table “Highest mutation score → Qwen”
+  - **Problem:** Kruskal–Wallis p = 0.995; n = 6 packages per model; no Holm-significant pairwise pair.
+  - **Fix:** Always pair with “descriptive leader, not statistically confirmed superiority”; cite per-package heatmap.
 
-| Topic | Outline | Other source | Severity |
-|-------|---------|--------------|----------|
-| Model count | 10 models incl. GPT-4o, Gemini 3.1 Flash Lite | `model_choices.md` “Models dropped” lists **GPT-4o** as dropped; also “8 models” in cost table | High |
-| Multi-run reps | **5 reps** (7 models) | `rq_overview.md` **3 runs**; `rq2/spec.md` **3 runs**; `experiment_runs.md` rep2–3 only (1/3) | High |
-| maxTokens | **250** (Block 5 — update outline) | Meta docs and artifacts aligned at **250** (resolved June 2026) | Resolved |
-| Model roster | Gemini **3.1/3.5**, Qwen, Haiku, GPT-4o | `rq1/2/3/4/spec.md`: Gemini **2.5**, Llama **4 Maverick**, thinking variants | High |
-| RQ2 status | Full Results block | `rq2/spec.md`: **BLOCKED** insufficient data | High |
-| RQ3 question | “How likely are models to generate equivalent mutants?” | `rq3/spec.md`: “Which LLM generates the **fewest** equivalent mutants?” | Medium |
-| Data validity | Results numbers present | `experiment_runs.md`: **all previous runs invalidated** | Critical |
-| RQ4 aggregation | Average across reps (Block 8) | Results: run1 cross-model comparison | Medium |
-| API-only count | 6 API-only + 1 hybrid + 3 open-weight | `rq5/spec.md` table: 4 API + hybrids, old slugs | Medium |
-| RQ0 success | All 10 models pass | `experiment_runs.md`: several models **need rerun/missing** | High |
+- **Claim:** “Category predicts API cost” / open-weight ~16× cheaper
+  - **Problem:** All open-weight models served via OpenRouter; cost finding is **token-price economics**, not self-host TCO. Three open-weight models vs six API-only — cost significance is robust but category is coarse.
+  - **Fix:** Qualify as “open-weight **models in this OpenRouter study**”; GPT-4o-mini as API counterexample.
 
-## Suggested outline edits (concrete, section/block references)
+- **Claim:** “Four Pareto-efficient models”
+  - **Problem:** 2D frontier only (mutation score vs cost/non-equiv); omits stability, validity, equivalence. TeX artifacts disagree with CSV.
+  - **Fix:** Cite `model_cost_summary.csv` `paretoEfficient` column; note stability–cost tension (ρ = 0.964, n = 7).
 
-1. **Results chapter intro (lines 764–790):** Add “Data lock” subsection: config hash (`maxTokens=250`, reasoning off), `modelRegistry.js` status, rep completeness checklist; flag all numeric templates below as provisional.
+- **Claim:** RQ3 equivalence rates “consistent with” paper 20.2%
+  - **Problem:** Automated θ = 0.80 vs manual labels; 6 vs 13 packages; portfolio-weighted 11.1% ≠ paper headline without composition discussion.
+  - **Fix:** “Directionally aligned”; report mean (17–24%) and weighted (11.1%) with package table.
 
-2. **Block RQ1 answer template (line 847):** Replace hard numbers with placeholders; add bullet “Baseline comparison: gpt-4o-mini and llama-3.3-70b vs Tip et al. — qualitative/directional only (6 vs 13 packages).”
+- **Claim:** Tier premium “yields more non-equiv survivors”
+  - **Problem:** Portfolio +98–107 survivors but Wilcoxon on per-package counts not significant (except borderline OpenAI p = 0.0625); premium single-run asymmetry.
+  - **Fix:** “Descriptive portfolio gain”; emphasize cost/non-equiv and nonEquivYield, not survivor-count significance.
 
-3. **Block RQ2 (lines 859–884):** Add prerequisite callout: “Requires ≥3 live reps per multi-policy model; current inventory per `experiment_runs.md`.” Harmonize **3 vs 5** reps to one number repo-wide.
+- **Claim:** “Persistent T = 0 instability” for longitudinal peers
+  - **Problem:** Strong for GPT-4o-mini / Llama 3.3 70B in this matrix; premium peers lack RQ2 data.
+  - **Fix:** Scope instability claims to seven multi-run models; name peers explicitly.
 
-4. **Block RQ5 (lines 943–969):** Add Table RQ5-C hybrid sensitivity; move p-values out of answer template into “illustrative — verify from `category_tests.csv`”; add underpowered-design sentence in Goal.
+---
 
-5. **Methodology Block 8 RQ4 (lines 631–636):** Clarify “Table RQ4-A uses **run1** token logs; rep-averaging optional appendix only.”
+## Reviewer questions (prioritized)
 
-6. **Methodology Block 8 RQ1 Levenshtein (lines 608–609):** Lock default: “report median/IQR on **run1 mutants**; union across reps = appendix only.”
+1. With n = 6 packages per model, what power do Kruskal–Wallis and Mann–Whitney tests have to detect moderate model or category effects? How do you avoid interpreting null tests as proof of equivalence?
+2. All models—including open-weight—ran via OpenRouter. What can you claim about self-hosting vs API deployment beyond token list prices?
+3. The equivalence classifier was validated on 954 paper mutants (13 projects). What evidence supports applying it to 2025–2026 LLM survivors on thesis-six beyond OOF metrics?
+4. Premium API models appear in effectiveness and cost rankings but lack RQ2 stability data. How should practitioners weigh a high run1 score without repeatability evidence?
+5. Qwen has the highest mutation score but also high normalized Levenshtein (0.630). Could high scores reflect easier-to-kill edits rather than subtler faults?
+6. RQ5 uses 18 vs 36 package-level observations (3 vs 6 models). Why is category comparison an RQ if effectiveness tests are underpowered by design?
+7. Portfolio-weighted equivalence is 11.1% but per-model means are 17–24%. Which rate should practitioners use, and why do they diverge?
+8. CodeLlama-34B is unavailable. How does that limit claims about “modern re-evaluation” of the original LLMorpheus study?
+9. Pareto analysis uses mutation score as the quality axis—why not effective survivors or cost per non-equiv on both axes?
+10. Several publication TeX files disagree with CSV locks (`cost.tex` Pareto). Which artifact chain did you treat as authoritative?
 
-7. **Introduction Block 3 (line 72):** Add caveat to baseline gap: “Directional only — different package subset and CodeLlama unavailable.”
-
-8. **Background — new Block 4:** Equivalent mutants problem (manual labeling limits, EMPI literature pointer).
-
-9. **Background — new Block 5:** Related work: LLM mutation testing, precomputed mutants, contrast with operator-based tools.
-
-10. **Discussion 5.5 (lines 1028–1035):** Lead with “All models accessed via OpenRouter; category labels are correlational deployment paradigms, not causal.”
-
-11. **Contributions Block 5 (lines 209–210):** Qualify category insights: “exploratory, low power” or demote if RQ5 remains null.
-
-12. **Conclusion 6.2 table (lines 1070–1077):** Replace numeric cells with “see Results — data lock required.”
+---
 
 ## Suggested caveats for Writing (copy-paste ready)
 
-> This study re-evaluates LLMorpheus on modern LLMs under a fixed configuration; it does **not** replicate the original LLMorpheus paper's experimental numbers or package corpus.
+> Headline numbers are locked from `thesis/rqX/FINDINGS.md` and publication CSVs (June 2026). Do not cite `thesis/workspace/analysis/rqX_summary.md` in draft prose.
 
-> All models were accessed via OpenRouter. Open-weight vs API-only labels describe **deployment paradigms**, not measured self-hosted inference in this study.
+> This study extends LLMorpheus on modern LLMs; it does **not** replicate Tip et al. (2025) aggregates. Comparisons to the paper are **directional** and limited to shared packages where noted (§5.8).
 
-> Cross-model comparisons for RQ1, RQ3, RQ4, and RQ5 use **run1** data. Three premium API models (GPT-4o, Gemini 3.5 Flash, Claude Sonnet 4.5) were run once for cost feasibility and are **excluded** from RQ2 stability analysis.
+> Cross-model comparisons for RQ1, RQ3, RQ4, and RQ5 use **run1**. Three premium API models were run once and are **excluded** from RQ2 stability analysis.
 
-> Equivalence labels are **predicted** by a UniXCoder classifier (θ = 0.80), not ground-truth semantic equivalence. Behavioral-change predictions are more reliable than equivalent predictions.
+> All models were accessed via **OpenRouter**. Open-weight vs API-only labels describe deployment paradigms relevant to practitioners, not measured self-hosted inference or TCO.
 
-> The equivalence classifier was validated on 954 manually labeled mutants from 13 paper projects; application to thesis-six survivors may differ due to **domain shift**.
+> RQ1 descriptive leaders (e.g., Qwen 88.5% mutation score) coexist with **non-significant** Kruskal–Wallis omnibus tests (p = 0.995 / 0.977); **package identity explains more variance than model identity**.
 
-> Results are limited to six JavaScript packages (thesis-six); `delta` and seven other paper packages are excluded.
+> Equivalence labels are **predicted** (UniXCoder, θ = 0.80), not ground-truth proofs. Behavioral-change predictions are more reliable than equivalent predictions.
 
-> Cost figures use a pinned OpenRouter price snapshot (May 2026) and reflect **LLM API charges only**, not GitHub Actions compute or hypothetical self-hosting TCO.
+> RQ5 **split verdict:** Mann–Whitney finds **no significant** category differences on mutation score (p = 0.633), survivors (p = 0.993), or equivalence rate (p = 0.861), but **significant** differences on cost per survivor (p = 2.75×10⁻⁵) and cost per non-equiv survivor (p = 3.51×10⁻⁵). Non-significant quality tests do **not** prove category equivalence (n = 3 vs 6 models).
 
-> Category comparisons (RQ5) are **underpowered** (n = 3 open-weight vs n = 6 API-only) and should be interpreted as exploratory; non-significant tests do not prove equivalence of categories.
+> Cost figures use a pinned OpenRouter snapshot (May 2026) and reflect **LLM API charges only**, not GitHub Actions compute or self-hosting infrastructure.
 
-> Reported stability metrics (RQ2) apply only to models with complete multi-run data under the standardized configuration; simulated or duplicated reps must not be cited.
+> Pareto membership and tier economics: cite `model_cost_summary.csv` and `tier_comparison.csv`, not TeX columns that may be stale.
+
+---
+
+## Rubric checklist (critique_rubric.md)
+
+| Rubric item | Post-upgrade posture |
+|-------------|---------------------|
+| Category labels as causal (RQ5) | **HANDLES** — split verdict, correlational framing, underpowered caveat |
+| “Better model” without metric | **HANDLES** — metric-specific Discussion; practitioner table still needs co-caveats per row |
+| Modern models outperform baselines | **HANDLES** — §5.8 directional only; modest shift on shared six packages |
+| Single-run vs multi-run fairness | **HANDLES** — run1 common denominator; RQ2 scoped |
+| Raw survivors without equivalence | **HANDLES** — RQ3 effective survivors threaded through RQ4/RQ5 |
+| Levenshtein confound | **HANDLES** — style proxy language; Qwen high norm. Levenshtein noted |
+| Cost ignores dup/invalid | **HANDLES** — RQ4 waste metrics |
+| Effective survivors = ground truth | **HANDLES** — predicted/screening language throughout |
+| RQ2 on single-run models | **HANDLES** — explicit exclusion |
+| RQ5 includes Jaccard | **HANDLES** — excluded with rationale |
+| T=0 variability | **HANDLES** — RQ2 + Background API drift |
+| Six-package generalization | **HANDLES** — repeated scope limits |
+| Pricing timeless | **HANDLES** — pinned snapshot + recompute caveat |
+| Classifier domain shift | **RISKS** — Block 9 + §5.3; needs survivor-sample validation narrative in prose |
+| Literature support | **RISKS** — synthesis stubs empty |
+| Replication overclaim | **HANDLES** — strong not-replication language |
+| Practitioner “use model X” | **RISKS** — table 5.7 usable if each row carries stability/equiv/cost co-caveats |
+| Self-hosting not evaluated | **HANDLES** — OpenRouter caveat prominent |
+
+---
 
 ## Route back
 
-- [x] Outline edits
-- [x] Spec sync
-- [ ] Synthesis
-- [ ] Data
-- [ ] Literature
+- [x] Outline edits (June 2026 upgrade complete)
+- [ ] **Synthesis** — populate `workspace/literature/rqX_notes.md` before mechanism-heavy Discussion prose
+- [ ] **Data** — fix stale RQ4→RQ5 handoff in `rq4/FINDINGS.md`; regenerate or quarantine `cost.tex` / `rq4_pareto.tex` inconsistencies
+- [ ] **Literature** — Background Blocks 4–5 cite Wang et al. and equivalent-mutant detection; ensure `references/processed/` slugs match draft citations
+- [ ] **Critique (per-RQ)** — run argument-mode reviews (`rq0–rq5_argument_review.md`) before Writing drafts each Results subsection
+
+---
+
+## Writing gate
+
+| Condition | Status |
+|-----------|--------|
+| Outline verdict | **proceed_with_caveats** |
+| FINDINGS locked for RQ0–RQ5 | **Yes** |
+| Eight targeted outline gaps | **All resolved** |
+| Blockers for draft start | **None** if Writing reads FINDINGS + cites CSVs only |
+| Recommended before Discussion | Synthesis + per-RQ argument critiques |

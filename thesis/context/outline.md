@@ -69,7 +69,8 @@ State why the original LLMorpheus evaluation is no longer sufficient for today�
 
 - **Research gap 1: modern model comparison (effectiveness and mutant characteristics)**  
   The original study compares several models from that era and analyzes temperature and prompt-template effects, but it does not provide guidance on how newer models behave within the LLMorpheus pipeline.  
-  Open question: Which modern models produce the most useful mutants today—in terms of mutation-testing outcomes, validity rates, and edit subtlety—and how do they compare to original baselines under a fixed configuration?
+  Open question: Which modern models produce the most useful mutants today—in terms of mutation-testing outcomes, validity rates, and edit subtlety—and how do they compare to original baselines under a fixed configuration?  
+  **Baseline caveat:** Comparisons to Tip et al. (2025) are **directional only** — CodeLlama-34B (paper primary model) is unavailable on OpenRouter (404); this study uses **six** packages vs the paper's **thirteen**; overlapping models (`gpt-4o-mini`, `llama-3.3-70b-instruct`) are longitudinal peers, not replication targets.
 
 - **Research gap 2: stability across runs as a separate evaluation dimension (RQ2)**  
   Even at T = 0, some models show meaningful run-to-run variability (Tip et al., 2025). Stability matters for CI adoption and repeatable benchmarking.  
@@ -210,7 +211,7 @@ Summarize concrete outcomes that make the added value beyond the original LLMorp
   Paired cheap-vs-premium analysis for three API providers (OpenAI, Google, Anthropic) plus optional Meta Llama appendix pair (8B vs 70B); upgrade economics via marginal cost per extra non-equivalent survivor; run1 only — not a separate research question.
 
 - **Category-level insights for practitioner model choice (RQ5)**  
-  Analysis of open-weight vs API-only (and hybrid sensitivity) on RQ1–RQ4 metrics, supporting deployment decisions beyond single-model rankings.
+  Exploratory analysis of open-weight vs API-only (and hybrid sensitivity) on RQ1–RQ4 metrics: **no significant category differences** on effectiveness or equivalence; **significant cost separation** (open-weight ~16× cheaper per survivor at the observation median). Deployment category alone is not a strong predictor of mutation-testing quality, but is a strong predictor of API cost.
 
 - **Reproducible pipeline and artifacts (RQ0)**  
   Documented experimental constants, model registry, and artifact layout enabling audit and extension.
@@ -238,7 +239,7 @@ Provide a short roadmap of remaining chapters so the reader knows where each res
   Motivation, problem statement, research gaps, RQ0–RQ5 overview, contributions, scope reductions, chapter map.
 
 - **Chapter 2 — Background and Related Work**  
-  Mutation testing fundamentals; LLM foundations (transformers, open-weight vs API-only, API drift threats); LLMorpheus technique and tool; equivalent mutants as an interpretation challenge; related work positioning.
+  Mutation testing fundamentals (Block 1); LLM foundations (Block 2); LLMorpheus technique and tool (Block 3); equivalent mutants problem and detection limits (Block 4); related work on LLM mutation testing (Block 5); study positioning vs Tip et al. and Wang et al. (Block 6).
 
 - **Chapter 3 — Methodology / Experimental Setup (RQ0)**  
   Pipeline validation checklist; model selection (10 models, categories, run policies); benchmark package selection (thesis-six); fixed configuration; repetition protocol; metrics definitions; equivalence-classifier validation and application workflow; threats to validity at design level.
@@ -401,6 +402,123 @@ Describe the LLMorpheus technique and tool at a systems level: placeholder-guide
 
 - Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
 - (Contextual tool reference) StrykerJS mutation testing framework, modified for precomputed mutants per LLMorpheus documentation.
+
+---
+
+## Block 4
+
+**Title**  
+Equivalent Mutants: Problem, Impact, and Detection Limits
+
+**Goal**  
+Explain why equivalent mutants confound mutation-testing interpretation, what detection approaches exist, and what limits apply when scaling equivalence screening to modern multi-model studies.
+
+**Content (detailed bullets)**
+
+- **Definition and problem**  
+  An equivalent mutant preserves program behavior relative to the original; tests cannot kill it regardless of suite strength. Equivalent mutants inflate survivor counts, depress mutation scores, and waste analysis effort without revealing test weaknesses (Tip et al., 2025).
+
+- **Prevalence in LLMorpheus context**  
+  Tip et al. (2025) manually examined surviving mutants and found **20.2%** equivalent among survivors across 13 packages — a substantial share that must be accounted for when comparing models on raw survivor counts.
+
+- **Detection approaches**  
+  - *Manual examination:* High precision but does not scale to broad modern-model comparisons with repeated runs.  
+  - *LLM-based detection:* Recent work explores LLMs for equivalent-mutant detection (`llms-for-equivalent-mutant-detection`); promising but introduces judge variability and cost.  
+  - *Learned classifiers:* Code-embedding models (e.g., UniXCoder) trained on labeled mutant pairs can screen survivors at scale with documented precision/recall trade-offs.
+
+- **Detection limits relevant to this thesis**  
+  - Automated labels are **predicted equivalence**, not ground-truth proofs.  
+  - Classifier precision on equivalent calls is lower than on behavioral-change calls (~78% vs ~99% at operational threshold).  
+  - Equivalence rates are **package-dependent** — small packages can show 40–47% predicted equivalence while high-volume packages show <2%.  
+  - Manual gold labels from the paper corpus (954 mutants, 13 projects) may not fully generalize to LLM-generated mutants from modern models on the thesis-six subset.
+
+- **Bridge to RQ3**  
+  This thesis applies a validated UniXCoder ensemble at θ = 0.80 to surviving mutants, reporting **predicted equivalence rates** and **effective survivors** (predicted behavioral change) so RQ1 survivor comparisons and RQ4 cost metrics are equivalence-aware.
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- (Equivalent mutant detection) `thesis/references/processed/llms-for-equivalent-mutant-detection/paper.md` — see `paper.md` for full citation
+
+---
+
+## Block 5
+
+**Title**  
+Related Work: LLM-Based Mutation Testing Beyond Operator Sets
+
+**Goal**  
+Position LLMorpheus within the broader landscape of LLM-driven mutation testing and contrast operator-based vs LLM-generated approaches.
+
+**Content (detailed bullets)**
+
+- **Operator-based mutation testing (baseline)**  
+  Traditional tools (StrykerJS, PIT, etc.) apply fixed syntactic operators. Strengths: deterministic, well-understood, reproducible. Weaknesses: limited fault diversity, operator-set engineering cost, difficulty expressing realistic bug patterns.
+
+- **LLM-driven mutant generation (emerging line)**  
+  Multiple studies explore using LLMs to propose mutants or guide mutation analysis. Wang et al. (2025) conduct a **comprehensive study on LLMs for mutation testing**, evaluating multiple models and approaches across benchmarks — broader in scope than a single-tool pipeline study but complementary for understanding the modern LLM mutation-testing landscape.
+
+- **LLMorpheus-specific contribution (Tip et al., 2025)**  
+  Placeholder-guided prompting with StrykerJS integration; filters invalid/duplicate candidates; evaluates cost, temperature, prompt templates, and manual equivalence examination. Establishes that LLM mutants can complement operator-based mutation but leaves open questions about modern models, stability, scaled equivalence screening, and practitioner cost decisions.
+
+- **Contrast: operator-based vs LLM-generated**  
+  | Dimension | Operator-based | LLM-generated (LLMorpheus) |
+  |-----------|----------------|----------------------------|
+  | Fault diversity | Fixed operator set | LLM-proposed replacements |
+  | Determinism | High | Variable even at T = 0 |
+  | Cost model | Compute-bound | Token/API cost + compute |
+  | Equivalence risk | Lower (simpler edits) | Higher (more semantic edits) |
+  | Scalability of analysis | Mature tooling | Emerging; depends on API access |
+
+- **Gap this thesis fills vs Wang et al. (2025) and Tip et al. (2025)**  
+  Neither prior study provides a practitioner-oriented, fixed-configuration comparison of **ten modern LLMs** on stability (RQ2), equivalence-adjusted cost (RQ3 + RQ4), and deployment-category synthesis (RQ5) within the LLMorpheus pipeline specifically.
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Wang, B., Chen, M., Deng, M., Lin, Y., Harman, M., Papadakis, M., & Zhang, J. M. (2025). A comprehensive study on large language models for mutation testing. `thesis/references/processed/comprehensive-study-on-llms-for-mutation-test/paper.md`
+
+---
+
+## Block 6
+
+**Title**  
+Study Positioning: This Thesis vs Tip et al. (2025) and Wang et al. (2025)
+
+**Goal**  
+State explicitly what this study reuses, extends, and does not claim — positioning relative to the LLMorpheus paper and the broader LLM mutation-testing literature.
+
+**Content (detailed bullets)**
+
+- **Relationship to Tip et al. (2025) — extends, does not replicate**  
+  - **Reuses:** LLMorpheus tool, `template-full` prompt, T = 0, maxTokens = 250, StrykerJS precomputed-mutant workflow, gold equivalence labels for classifier training.  
+  - **Extends:** 10 modern models (2025–2026); RQ2 stability (5 reps, 7 models); RQ3 automated equivalence at scale; RQ4 cost/Pareto; RQ5 deployment categories; within-vendor tier comparison.  
+  - **Does not claim:** External replication of paper aggregates; CodeLlama-34B re-run (OpenRouter 404); 40-bug resemblance study; identical provider/serving conditions.
+
+- **Setup alignment vs divergence (summary table)**
+
+  | Factor | Tip et al. (2025) | This study | Impact |
+  |--------|-------------------|------------|--------|
+  | maxTokens | 250 | **250** | Aligned |
+  | Packages | 13 | **6** (thesis-six) | **Main confound** for aggregate comparison |
+  | Models | 5 (CodeLlama-34B primary) | **10** modern; 2 overlap | CodeLlama unavailable |
+  | Equivalence | Manual (20.2%) | UniXCoder θ = 0.80 | Directional only |
+  | Provider | Mixed | OpenRouter only | Serving difference |
+
+- **Relationship to Wang et al. (2025)**  
+  Wang et al. provide a broad LLM-for-mutation-testing survey/experiment across models and methods. This thesis is **narrower and deeper** on the LLMorpheus pipeline: fixed configuration, repeated runs for stability, equivalence-adjusted metrics, and practitioner cost framing. Results are complementary, not competing — Wang et al. inform the landscape; this study informs LLMorpheus-specific adoption decisions.
+
+- **Valid vs invalid comparisons (preview of Discussion §5.8)**  
+  - **Invalid:** Paper 13-package aggregate (~53–56%) vs thesis 6-package medians (~74–89%).  
+  - **Valid:** Per-package scores on six shared packages; longitudinal peers (`gpt-4o-mini`, `llama-3.3-70b-instruct`); predicted equivalence 17–24% vs paper 20.2% manual (directional).
+
+- **Longitudinal peers, not replication targets**  
+  `gpt-4o-mini` and `llama-3.3-70b-instruct` appear in both studies; compared here as peers within a new experimental matrix (OpenRouter serving, six packages, automated equivalence).
+
+**Sources / references (APA 7)**
+
+- Tip, F., Bell, J., & Schäfer, M. (2025). LLMorpheus: Mutation testing using large language models. *IEEE Transactions on Software Engineering*. https://arxiv.org/abs/2404.09952
+- Wang, B., Chen, M., Deng, M., Lin, Y., Harman, M., Papadakis, M., & Zhang, J. M. (2025). A comprehensive study on large language models for mutation testing. `thesis/references/processed/comprehensive-study-on-llms-for-mutation-test/paper.md`
 
 ---
 
@@ -612,7 +730,7 @@ Define what is computed for each research question, which pipeline components ar
   - **Input:** `mutants.json`, `summary.json`, `StrykerInfo.json` per model × package × run.
   - **Volume metrics:** #prompts, #candidates, #syntactically valid/invalid, #identical, #duplicate, #valid mutants, duplicate rate.
   - **Testing outcomes:** Mutation score, #killed, #survived, #timed-out.
-  - **Levenshtein edit distance** (thesis addition): Absolute distance (diagnostic) and normalized distance d_norm(a,b) = d(a,b) / max(|a|,|b|) between original fragment and replacement; report median/IQR per model × package, both per-run and over the deduplicated union of unique mutants across runs.
+  - **Levenshtein edit distance** (thesis addition): Absolute distance (diagnostic) and normalized distance d_norm(a,b) = d(a,b) / max(|a|,|b|) between original fragment and replacement; report median/IQR per model × package. **Data lock:** RQ1 Levenshtein medians use **run1 per-mutant** values from `model_summary.csv` (not union-of-reps deduplication for cross-model comparison).
   - **Aggregation:** Per package first, then median/IQR across six packages per model.
   - **Outputs:** `thesis/rq1/output/publication/` (main tables/figures); appendix CSVs with per-package breakdowns.
 
@@ -636,9 +754,10 @@ Define what is computed for each research question, which pipeline components ar
 
 - **RQ4 — Cost-effectiveness:**
   - **Input:** Token logs (`summary.json`: prompt/completion tokens), wall-clock runtime, pinned OpenRouter price snapshot (`.github/thesis-model-pricing.json`), valid/survived/unique/non-equivalent counts from RQ1–RQ3.
-  - **Metrics per model:** Total tokens (in/out), total cost (€), runtime, cost per valid mutant, cost per survived mutant, cost per unique survived mutant (union-based where multi-run), **cost per non-equivalent survivor** (RQ3-adjusted), duplicate rate, invalid rate.
-  - **Pareto analysis:** Identify models on the cost–effectiveness frontier (mutation score vs cost; not dominated on both dimensions).
-  - **Aggregation:** Summed across six packages per model per run; averaged across reps for multi-run models.
+  - **Data lock:** **Table RQ4-A** (`model_cost_summary.csv`) uses **run1 only** for all cross-model and portfolio metrics — not averaged across reps.
+  - **Metrics per model:** Total tokens (in/out), total cost (€), runtime, cost per valid mutant, cost per survived mutant, cost per unique survived mutant, **cost per non-equivalent survivor** (RQ3-adjusted), duplicate rate, invalid rate.
+  - **Pareto analysis:** Identify models on the cost–effectiveness frontier (**mutation score vs cost per non-equiv survivor**; `paretoEfficient` column in `model_cost_summary.csv`). Supplementary bar chart (`cost_per_nonequiv_bar.pdf`) uses cost/non-equiv on the Y-axis for interpretation.
+  - **Aggregation:** Portfolio sums across six packages per model on run1.
   - **Outputs:** `thesis/rq4/output/publication/`.
   - **Supplementary — within-provider tier comparison (extends RQ4, not RQ6):**
     - **Tier pairs:** `API_TIER_PAIRS` and `OPEN_WEIGHT_TIER_PAIR` in `thesis/shared/modelRegistry.js` — 3 API pairs (cheap multi-run vs premium single-run) + optional Meta Llama appendix pair (8B vs 70B, both multi-run).
@@ -797,7 +916,21 @@ A run is one complete execution of the pipeline for a given model across the six
 1. **Per-package first:** Compute metrics per model × package × run.
 2. **Per-model aggregation:** Summarize across the six packages (sum for counts; median/IQR for rates).
 3. **Cross-run stability (RQ2):** Report mean ± SD or median (IQR) of pairwise Jaccard overlap; CV for mutation score, survivor count, and edit distance across five reps.
-4. **Union of unique mutants:** For edit-distance analyses, optionally deduplicate mutants across reps. Caption each figure/table with the aggregation rule used.
+4. **Union of unique mutants:** For RQ2 stability only; RQ1 cross-model Levenshtein uses run1 per-mutant medians. Caption each figure/table with the aggregation rule used.
+
+### Data lock and source of truth
+
+All headline numbers in this chapter are locked from per-RQ publication CSVs (June 2026). **Authoritative prose and tables:** `thesis/rqX/FINDINGS.md` for each RQ — not `thesis/workspace/analysis/rqX_summary.md` (agent handoff only). Before drafting Results prose, read the relevant FINDINGS file and cite exact numbers from its CSVs only.
+
+| RQ | Source of truth |
+|----|-----------------|
+| RQ0 | `thesis/rq0/FINDINGS.md` |
+| RQ1 | `thesis/rq1/FINDINGS.md` |
+| RQ2 | `thesis/rq2/FINDINGS.md` |
+| RQ3 | `thesis/rq3/FINDINGS.md` |
+| RQ4 | `thesis/rq4/FINDINGS.md` |
+| RQ5 | `thesis/rq5/FINDINGS.md` |
+| Tier (§4.6) | `thesis/rq4/FINDINGS.md` (tier section) |
 
 ---
 
@@ -817,8 +950,10 @@ Workflow completion rate; non-zero mutant count per run; artifact completeness (
 - Table RQ0-B — Experimental constants (Methods cross-ref)  
 - Optional Figure RQ0-1 — Mutant count per model (sanity bar chart)
 
+**Source:** `thesis/rq0/FINDINGS.md`
+
 **Answer sentence template**  
-Answer to RQ0: The pipeline completed successfully for all ten models across all six packages, producing non-empty and parseable artifacts that downstream analysis scripts consumed without error; experimental constants were held fixed across RQ1–RQ5 (Table RQ0-A/B). We therefore treat observed differences between models as attributable to LLM-driven mutant generation rather than toolchain failure.
+Answer to RQ0: RQ0 confirms that the LLMorpheus → Stryker → artifact → analysis pipeline runs correctly for all ten models in the study matrix under a fixed configuration (template-full, T = 0, maxTokens = 250, reasoning disabled). All 10 models completed successful runs, yielding **228** package-level datasets (210 multi-run + 18 single-run) that downstream RQ1–RQ5 scripts consume without missing-input errors. RQ0 establishes internal validity for the comparative study; it does not claim external replication of Tip et al. (2025). CodeLlama-34B was excluded because OpenRouter returns 404; the thesis uses the thesis-six package subset (six JavaScript packages) rather than the paper's thirteen.
 
 **Pipeline diagram (plain text)**
 ```
@@ -849,13 +984,16 @@ Volume (#prompts, #candidates, #valid, validity rate); effectiveness (mutation s
 
 **Figures / tables**  
 - Table RQ1-A — `volume_metrics.tex`  
+- Table RQ1-B — `per_package_breakdown.tex` (appendix; per-package scores including longitudinal peers GPT-4o-mini and Llama 3.3 70B)  
 - Figure RQ1-1 — `mutation_score_box.pdf`  
 - Figure RQ1-2 — `validity_stack.pdf`  
 - Figure RQ1-3 — `score_vs_survivors.pdf`  
 - Appendix: `edit_distance_ridge.pdf`, `per_package_heatmap.pdf`, `pairwise.csv`
 
+**Source:** `thesis/rq1/FINDINGS.md`
+
 **Answer sentence template**  
-Answer to RQ1: On run1 data across six packages, models differ substantially in volume and quality (Table RQ1-A; Figure RQ1-2). **Qwen 2.5 Coder 32B** achieved the highest median mutation score (**88.5%**), while **Qwen** (**23.5**) and **GPT-4o-mini** (**30.5**) produced the fewest median survivors — suggesting that high mutation score and low survivor count can co-occur when mutants are easier for tests to kill (Figures RQ1-1, RQ1-3). Validity rates ranged from ~61% (Claude Haiku 4.5) to ~83% (Claude Sonnet 4.5, DeepSeek, Qwen).
+Answer to RQ1: All ten models generate comparable candidate volumes (median **301–354** per package), but differ in validity (**61–83%**), mutation score (**74–89%**), survivor counts (**24–48**), and edit subtlety (Table RQ1-A; Figures RQ1-1–RQ1-3). Descriptively, **Qwen 2.5 Coder 32B** achieves the highest median mutation score (**88.5%**) and fewest survivors (**24**); **Claude Haiku 4.5** has the lowest validity (**60.7%**) and mutation score (**73.6%**). Kruskal–Wallis tests find **no significant model effect** on mutation score (H = 1.69, **p = 0.995**) or survivors (H = 2.63, **p = 0.977**); **package-level differences dominate** cross-model variation. Absolute Levenshtein distances show a non-significant trend (H = 13.71, **p = 0.133**): Llama 3.1 8B produces the largest edits (median **8** chars, normalized **0.60**) while Claude Sonnet produces the smallest (median **5** chars, normalized **0.45**). Longitudinal peers from Tip et al. (2025)—GPT-4o-mini (**83.5%** score, **30** survivors) and Llama 3.3 70B (**79.3%**, **44** survivors)—remain competitive within this study but are not treated as replication targets.
 
 **Pipeline diagram (plain text)**
 ```
@@ -884,8 +1022,10 @@ Pairwise Jaccard similarity; SD and CV of mutation score, #survived, median Leve
 - Figure RQ2-2 — `mutant_variability_stacked.pdf`  
 - Appendix: `cv_grouped_bar.pdf`, `forest_plot.pdf`, `within_model_jaccard_heatmap.pdf`
 
+**Source:** `thesis/rq2/FINDINGS.md`
+
 **Answer sentence template**  
-Answer to RQ2: Among the seven multi-run models (5 reps, T=0), cross-run consistency varied: mean Jaccard overlap ranged from [LOW] to [HIGH], and CV of mutation score ranged from [LOW] to [HIGH] (Table RQ2-A; Figures RQ2-1–RQ2-2). Stability rankings did not mirror run1 effectiveness rankings from RQ1.
+Answer to RQ2: Cross-run consistency varies widely even at T = 0: median Jaccard overlap ranges from **0.505** (Llama 3.3 70B) to **0.993** (Claude Haiku 4.5) across seven multi-run models and six packages (five replications each; n = 210 datasets) (Table RQ2-A; Figures RQ2-1–RQ2-2). Claude Haiku 4.5 and Qwen 2.5 Coder 32B are highly reproducible (Jaccard **0.993** and **0.903**); Llama 3.3 70B, Llama 3.1 8B, DeepSeek, and GPT-4o-mini overlap only **50–57%** of mutants across runs. Kruskal–Wallis confirms a significant model effect on Jaccard overlap (H = 35.18, **p = 3.98 × 10⁻⁶**, η² = 0.83). Mutation-score CV remains below **1.5%** for all models, but survivor-count CV reaches **8.4%** for GPT-4o-mini—aggregate scores can appear stable while underlying mutant sets differ substantially. Longitudinal peers from Tip et al. (2025)—GPT-4o-mini (Jaccard **0.574**) and Llama 3.3 70B (**0.505**)—exhibit persistent T = 0 instability despite competitive single-run mutation scores.
 
 **Pipeline diagram (plain text)**
 ```
@@ -913,8 +1053,10 @@ Estimate the share of surviving mutants that are predicted equivalent vs behavio
 - Figure RQ3-3 — `llm_means_errorbar.pdf`  
 - Appendix: `llm_package_heatmap.pdf`, `statistical_tests.tex`
 
+**Source:** `thesis/rq3/FINDINGS.md`
+
 **Answer sentence template**  
-Answer to RQ3: Predicted equivalence rates among survivors differed across models on run1 data (Table RQ3-A; Figures RQ3-1–RQ3-3). The weighted study-wide rate was **[X]%**, compared directionally with **20.2%** from manual labeling in the original LLMorpheus paper — not a replication claim. Applying the equivalence lens reduced raw survivor counts substantially for models with high predicted equivalence rates.
+Answer to RQ3: Predicted equivalence rates among survivors on run1 data ranged from **17.1%** (Llama 3.1 8B) to **24.0%** (DeepSeek Chat v3.1) by per-model mean across six packages (Table RQ3-A; Figures RQ3-1–RQ3-3). The portfolio-weighted rate was **11.1%** (883 / 7,962 survivors). This is directionally consistent with **20.2%** from manual labeling in Tip et al. (2025) — not a replication claim. No pairwise model difference was statistically significant after Holm correction. Effective survivors (predicted behavioral change) ranged from **520** to **837**, reframing models with high raw survivor counts.
 
 **Pipeline diagram (plain text)**
 ```
@@ -935,14 +1077,16 @@ Report token usage, total cost (pinned OpenRouter snapshot), runtime, and qualit
 Total tokens; total API cost; cost per valid/survived/non-equiv survivor; duplicate and invalid rates; Pareto membership.
 
 **Figures / tables**  
-- Table RQ4-A — `cost.tex`  
-- Table RQ4-B — `pareto.tex`  
-- Figure RQ4-1 — `pareto_frontier.pdf`  
-- Figure RQ4-2 — `cost_per_nonequiv_bar.pdf`  
+- Table RQ4-A — `model_cost_summary.csv` / `cost.tex` (**run1 only**)  
+- Table RQ4-B — Pareto-efficient models from `model_cost_summary.csv` (`paretoEfficient = 1`; prefer CSV over `pareto.tex` / `cost.tex` Pareto column)  
+- Figure RQ4-1 — `pareto_frontier.pdf` (mutation score vs cost/non-equiv)  
+- Figure RQ4-2 — `cost_per_nonequiv_bar.pdf` (supplementary cost/non-equiv axis)  
 - Figure RQ4-3 — `cost_composition.pdf`
 
+**Source:** `thesis/rq4/FINDINGS.md`
+
 **Answer sentence template**  
-Answer to RQ4: Total LLM API cost per run1 pass ranged from **[LOW €]** (Llama 3.1 8B) to **[HIGH €]** (Claude Sonnet 4.5 / Gemini 3.5 Flash). **Cost per non-equivalent survivor** separated models more clearly than raw cost per survivor (Figure RQ4-2). Pareto analysis identified frontier models balancing effectiveness and cost (Figure RQ4-1; Table RQ4-B).
+Answer to RQ4: Total LLM API cost per six-package run1 pass ranged from **$0.035** (Llama 3.1 8B) to **$8.93** (Claude Sonnet 4.5). **Cost per non-equivalent survivor** separated models more clearly than raw cost per survivor (Figure RQ4-2): from **$0.0000495** (Llama 8B) to **$0.0143** (Sonnet). Pareto analysis on **mutation score vs cost/non-equiv** identified **four** frontier models — Llama 3.1 8B, Llama 3.3 70B, GPT-4o-mini, and Qwen 2.5 Coder 32B (Figure RQ4-1; `model_cost_summary.csv`).
 
 **Pipeline diagram (plain text)**
 ```
@@ -957,10 +1101,10 @@ summary.json (tokens) + pricing snapshot + RQ1/RQ3 counts --> cost metrics + Par
 RQ5: How do open-weight vs API-only models compare?
 
 **Goal**  
-Compare deployment categories on run1 effectiveness, equivalence, and cost. **Exclude cross-run Jaccard** from category comparison (see RQ2). DeepSeek (hybrid): sensitivity analysis.
+Compare deployment categories on run1 effectiveness, equivalence, and cost. **Exclude cross-run Jaccard** from category comparison (see RQ2). DeepSeek (hybrid): sensitivity analysis. **Design note:** Underpowered for effectiveness (3 open-weight vs 6 API-only models; 18 vs 36 package-level observations) — category null results on quality metrics do not prove equivalence of categories.
 
 **Metrics**  
-Mutation score, #survived, predicted equivalence rate, cost per non-equiv survivor; Mann–Whitney U + Cliff's delta.
+Mutation score, #survived, predicted equivalence rate, cost per survivor, cost per non-equiv survivor; Mann–Whitney U + Cliff's δ (authoritative: `thesis/output/stats/rq5_category_tests.csv`).
 
 **Category assignment**  
 Open-weight (n=3): Llama 3.1 8B, Llama 3.3 70B, Qwen 2.5 Coder 32B. API-only (n=6): remaining API models. Hybrid (n=1): DeepSeek.
@@ -968,11 +1112,14 @@ Open-weight (n=3): Llama 3.1 8B, Llama 3.3 70B, Qwen 2.5 Coder 32B. API-only (n=
 **Figures / tables**  
 - Table RQ5-A — `category_summary.tex`  
 - Table RQ5-B — `pairwise_effect.tex`  
+- Table RQ5-C — `hybrid_sensitivity.csv` (DeepSeek reclassification scenarios)  
 - Figure RQ5-1 — `category_violins.pdf`  
 - Figure RQ5-2 — `effect_size_forest.pdf`
 
+**Source:** `thesis/rq5/FINDINGS.md`
+
 **Answer sentence template**  
-Answer to RQ5: Open-weight and API-only models showed **overlapping** distributions on effectiveness and equivalence: Mann–Whitney tests found no significant differences in mutation score (**p ≈ 0.63**), survivors (**p ≈ 0.99**), or equivalence rate (**p ≈ 0.85**). Cost per survivor differed directionally (**p ≈ 0.39**; open-weight cheaper) but did not reach α = 0.05 with n=3 vs n=6. **Deployment category alone is not a strong predictor** of mutation-testing outcomes under this setup.
+Answer to RQ5: Open-weight and API-only models showed overlapping distributions on effectiveness and equivalence: Mann–Whitney tests found no significant differences in mutation score (**p = 0.633**), survivors (**p = 0.993**), or equivalence rate (**p = 0.861**). Cost per survivor (**p = 2.75 × 10⁻⁵**) and cost per non-equivalent survivor (**p = 3.51 × 10⁻⁵**) differed significantly, with open-weight observations ~**16×** cheaper at the median (Cliff's δ ≈ **−0.70**, large). Deployment category alone is not a strong predictor of mutation-testing quality under this setup, but is a strong predictor of API cost. Reclassifying DeepSeek Chat v3.1 as open-weight or excluding it entirely did not change the null effectiveness/equivalence finding or the significant cost separation (Table RQ5-C; `hybrid_sensitivity.csv`).
 
 **Pipeline diagram (plain text)**
 ```
@@ -1004,8 +1151,10 @@ Quantify whether upgrading from a vendor's cheap SKU to its premium SKU yields s
 - Appendix CSVs — `tier_paired_deltas.csv`, `tier_wilcoxon.csv`, `tier_comparison.csv`  
 - Appendix figure — `tier_cost_efficiency_appendix.pdf` (Meta Llama 8B vs 70B)
 
+**Source:** `thesis/rq4/FINDINGS.md` (tier section)
+
 **Answer sentence template**  
-Supplementary tier comparison (extends RQ4): Across three API provider pairs on run1 data, premium SKUs cost **[PREMIUM_MULT]×** more than cheap tiers on average but yielded **[DELTA_NON_EQUIV]** additional non-equivalent survivors per portfolio pass, at a marginal cost of **[MARGINAL_COST €]** per extra non-equiv survivor (Table Tier-A; Figure Tier-1). nonEquivYield favored the cheap tier for **[N_CHEAP_FAVORED]/3** API pairs. Meta Llama appendix (8B vs 70B, both multi-run): marginal upgrade cost **[LLAMA_MARGINAL €]** per extra non-equiv survivor — reported separately because both tiers have five reps (no API premium single-run asymmetry).
+Supplementary tier comparison (extends RQ4): Across three API provider pairs on run1 data, premium SKUs cost **2.5–14.5×** more per non-equivalent survivor than cheap tiers (Table Tier-A; Figure Tier-1). Premium portfolios yielded **+98 to +107** additional non-equiv survivors, at a marginal cost of **$0.039–$0.058** per extra survivor. **nonEquivYield favored the cheap tier for 3/3 API pairs.** Wilcoxon tests confirmed cheap tiers are significantly cheaper on cost/unique and cost/non-equiv (**p = 0.03125**, n = 6 packages); survivor-count advantages for premium tiers were not significant. Meta Llama appendix (8B vs 70B, both multi-run): marginal upgrade cost **≈ $0.00437** per extra non-equiv survivor — reported separately because both tiers have five reps (no API premium single-run asymmetry).
 
 **Scope caveats**  
 - **run1 only**; API premium models single-run → no stability claims in tier analysis.  
@@ -1036,12 +1185,13 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 
 ## 5.1 RQ1 — Mutant volume and quality
 
+- **Package dominance over model identity:** Kruskal–Wallis finds no significant model effect on mutation score (p = 0.995) or survivors (p = 0.977) with n = 6 packages per model. Descriptive leaders (Qwen 88.5% vs Haiku 73.6%) coexist with non-significant omnibus tests — **package identity explains more variance than model identity**. Cross-model rankings must be interpreted per-package, not from aggregates alone.
 - **Score vs survivors trade-off:** Mutation score and raw survivor count optimize different goals — Qwen leads on score (88.5%) with fewest survivors (23.5), yielding fewer effective gap candidates after RQ3 screening; Haiku trades lower score for more survivors and more potential gap-finding candidates. Practitioners should pick the metric aligned with their objective (test-suite stress vs inspection workload).
 - Effectiveness vs volume decoupling (Qwen: high score, low survivors).
 - Validity composition wastes budget independently of final scores (Haiku ~61% validity).
 - Survivors as mixed signal — baseline for RQ3 reframing.
-- Levenshtein as style proxy, not realism.
-- Cross-package ranking stability (per-package heatmap).
+- Levenshtein as style proxy, not realism (omnibus trend p = 0.133; Llama 3.1 8B largest edits).
+- Cross-package ranking stability (per-package heatmap; Complex.js ~55–64% vs zip-a-folder ~95–97%).
 
 **Conditional recommendation:** If maximizing mutation score, prioritize strong run1 performers after checking validity; if maximizing inspection candidates, low survivors may be undesirable even with high scores.
 
@@ -1083,12 +1233,14 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 
 ## 5.5 RQ5 — Open-weight vs API-only
 
-- Null category effect on effectiveness (p ≈ 0.63 score, p ≈ 0.99 survivors, p ≈ 0.85 equiv).
-- Cost trend without definitive proof (p ≈ 0.39; small n).
+- **OpenRouter serving caveat (lead):** All models — including open-weight — were accessed via OpenRouter API in this study. Category labels reflect deployment paradigm relevant to practitioners, not identical serving conditions. Self-hosted TCO (GPU, ops) is not modeled; cost findings apply to API-token economics only.
+- **Split verdict — effectiveness/equivalence null:** Mann–Whitney finds no significant category differences on mutation score (p = 0.633), survivors (p = 0.993), or equivalence rate (p = 0.861); Cliff's δ magnitudes negligible (|δ| ≤ 0.08). Underpowered design (3 vs 6 models) — null does not prove category equivalence on quality.
+- **Split verdict — cost significant:** Cost per survivor (p = 2.75 × 10⁻⁵) and cost per non-equiv survivor (p = 3.51 × 10⁻⁵) differ significantly; open-weight observations ~16× cheaper at the median (Cliff's δ ≈ −0.70, large). GPT-4o-mini bridges categories at $0.00051/non-equiv despite API-only label.
 - Why Jaccard excluded from category comparison (unequal reps).
-- DeepSeek hybrid sensitivity; operational factors beyond metrics (privacy, pinning, lock-in).
+- DeepSeek hybrid sensitivity (Table RQ5-C); reclassifying DeepSeek does not change split verdict.
+- Operational factors beyond metrics (privacy, pinning, lock-in).
 
-**Conditional recommendation:** Do not choose by category alone on effectiveness; open-weight deserves cost-focused pilots; API premium rational for SLA/flagship needs, not because category predicts better mutants.
+**Conditional recommendation:** Do not choose by category alone on effectiveness; rank individual models by RQ1–RQ4 profile. Open-weight (or cost-competitive API tiers like GPT-4o-mini) deserve cost-focused pilots; API premium rational for SLA/flagship needs, not because category predicts better mutants.
 
 ---
 
@@ -1111,7 +1263,8 @@ Interpret Chapter 4 findings in terms of practical meaning and plausible mechani
 | Repeatable CI metrics | High Jaccard / low CV (RQ2) | Premium models lack stability data |
 | Lowest API spend | Llama 3.1 8B, Llama 3.3 70B, Qwen | Self-hosting infra cost not measured |
 | Cost per meaningful survivor | Pareto + cost/non-equiv (RQ4) | Depends on RQ3 threshold |
-| Category policy only | Supported for cost, not effectiveness | Pick individual models (RQ5) |
+| Lowest API spend (category) | Open-weight medians (~16× cheaper per survivor) | OpenRouter only; self-host TCO not measured |
+| Effectiveness by category | **Not supported** — null tests on score/survivors/equiv | Pick individual models (RQ5); Qwen/GPT-4o-mini outperform category medians |
 
 **Adoption workflow:** RQ0 validation → run1 pilot (RQ1) → 3–5 reps on finalist (RQ2) → equivalence screening (RQ3) → Pareto selection (RQ4).
 
@@ -1170,7 +1323,7 @@ Re-evaluate LLMorpheus on ten modern LLMs under fixed settings on six JavaScript
 | **RQ2** | Seven multi-run models showed varying Jaccard overlap and CV at T=0; stability ≠ run1 effectiveness. |
 | **RQ3** | Predicted equivalence rates vary by model; effective survivors reframe raw survival; compare to paper 20.2% cautiously. |
 | **RQ4** | Cost-efficiency diverges from raw price; Pareto and cost/non-equiv survivor separate value from spend. |
-| **RQ5** | No significant category differences on effectiveness or equivalence; cost favors open-weight directionally (p ≈ 0.39); category is a weak predictor. |
+| **RQ5** | No significant category differences on effectiveness or equivalence (p = 0.633 / 0.993 / 0.861); cost per survivor and cost per non-equiv survivor differ significantly (p ≈ 2.8 × 10⁻⁵; Cliff's δ ≈ −0.70). Category predicts API cost, not mutation-testing quality. |
 
 ## 6.3 Main contributions
 
@@ -1178,7 +1331,7 @@ Re-evaluate LLMorpheus on ten modern LLMs under fixed settings on six JavaScript
 2. Stability analysis (5 reps, 7 models) — Jaccard and CV at T=0.
 3. Equivalence-aware interpretation via UniXCoder (θ=0.80) and effective survivors.
 4. Cost analysis with Pareto frontier and equivalence-adjusted cost per survivor.
-5. Category comparison showing deployment type does not strongly predict outcomes.
+5. Category comparison: null on effectiveness/equivalence; significant cost separation favoring open-weight API pricing.
 6. Directional positioning relative to Tip et al. (2025) on shared packages and overlapping models (Discussion §5.8) — clarifying valid vs invalid temporal comparisons without claiming replication.
 
 ## 6.4 Implications for practice
@@ -1215,7 +1368,7 @@ LLMorpheus remains viable with modern LLMs; practitioner value depends on aligni
 | Outline section | Target draft file (`thesis/draft/`) |
 |-----------------|-------------------------------------|
 | Introduction Blocks 1–6 | `01-introduction.md` |
-| Background Blocks 1–3 | `02-background.md` |
+| Background Blocks 1–6 | `02-background.md` |
 | Methodology Blocks 1–11 | `03-methodology.md` |
 | Results RQ0–RQ5 | `04-results-rq0.md` … `04-results-rq5.md` (or single `04-results.md`) |
 | Results supplementary tier comparison (§4.6) | `04-results-tier-comparison.md` |

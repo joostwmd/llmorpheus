@@ -1,26 +1,26 @@
 # RQ0 — Analysis summary
 
+**Source of truth:** `thesis/rq0/FINDINGS.md`
+
 ## Question
 Is the experimental pipeline ready?
 
 ## Answer (short)
-Yes. All 10 models in the study matrix completed end-to-end runs on the thesis-six package subset; artifacts are non-empty, parseable, and consumed successfully by the `thesis` analysis pipelines for RQ1–RQ5.
+Yes. All 10 models completed end-to-end runs; **228** package-level datasets are non-empty, parseable, and consumed by RQ1–RQ5 without missing-input errors. Config locked at maxTokens=**250**, T=0, reasoning off.
 
 ## Key evidence
-| Signal | Status |
-|--------|--------|
-| Models with successful runs | 10 / 10 (`experiment_runs.md`, all `ready`) |
-| Package-level datasets | 228 (210 multi-run + 18 single-run) |
-| Cross-model comparison scope | 10 models × 6 packages × run1 = 60 datasets |
-| RQ2 stability scope | 7 multi-run models × 6 packages × 5 reps = 210 datasets |
-| Downstream analysis | `npm run all` / per-RQ scripts produce tables and figures without missing-input errors |
+| Signal | Value |
+|--------|-------|
+| Models ready | 10/10 (`modelRegistry.js`) |
+| Datasets | 228 (210 multi-run + 18 single-run) |
+| RQ2 scope | 7 models × 6 pkg × 5 reps = 210 |
+| Cross-model (RQ1) | 10 × 6 = 60 (run1) |
+| Excluded | CodeLlama-34B (OpenRouter 404) |
 
 ## Caveats
-- RQ0 validates **internal pipeline readiness**, not external replication of Tip et al. (2025).
-- CodeLlama 34B excluded (OpenRouter 404); thesis uses six packages, not the paper's 13.
-- Checklist item "logs show >0 mutants per package" should be spot-checked before final submission.
+- Internal validity only — **not** external replication of Tip et al. (2025).
+- Six packages (thesis-six), not paper's 13.
+- Spot-check logs for >0 mutants before final submission.
 
 ## Sources
-- `thesis/rq0/replication.md`
-- `thesis/meta/experiment_runs.md`
-- `thesis/meta/model_choices.md`
+- `thesis/rq0/FINDINGS.md` · `thesis/rq0/replication.md` · `thesis/meta/experiment_runs.md`
